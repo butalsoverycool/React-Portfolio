@@ -13,7 +13,7 @@ export default class NewsView extends Component {
 
     render() {
         return (
-            <div className="NewsPage">
+            <div className="NewsView view">
                 <Title text="News" />
             </div>
         );

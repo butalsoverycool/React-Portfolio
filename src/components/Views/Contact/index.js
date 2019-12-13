@@ -13,7 +13,7 @@ export default class ContactView extends Component {
 
     render() {
         return (
-            <div className="ContactPage">
+            <div className="ContactView view">
                 <Title text="Contact" />
             </div>
         );

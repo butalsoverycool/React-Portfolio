@@ -6,12 +6,24 @@ import NavLink from '../NavLink/index';
 // style 
 import './index.scss';
 
-const Navigation = () => (
+const Navigation = (props) => (
     <div className="Navigation">
-        <NavLink destination='home' />
-        <NavLink destination='story' />
-        <NavLink destination='news' />
-        <NavLink destination='contact' />
+        <NavLink
+            name='home'
+            activeView={props.activeView}
+        />
+        <NavLink
+            name='story'
+            activeView={props.activeView}
+        />
+        <NavLink
+            name='news'
+            activeView={props.activeView}
+        />
+        <NavLink
+            name='contact'
+            activeView={props.activeView}
+        />
     </div >
 );
 

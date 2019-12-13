@@ -14,7 +14,7 @@ export default class StoryView extends Component {
     render() {
         return (
             <div>
-                <div className="StoryPage">
+                <div className="StoryView view">
                     <Title text="Story" />
                 </div>
             </div>
