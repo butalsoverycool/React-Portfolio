@@ -1,0 +1,16 @@
+@mixin App() {
+    width: 100vw;
+    height: 100vh;
+}
+
+.App {
+    @include App();
+}
+
+.MenuBtn {
+    width: 300px;
+    height: 100px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}

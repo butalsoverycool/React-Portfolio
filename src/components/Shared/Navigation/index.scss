@@ -1,0 +1,12 @@
+@mixin Navigation-templ() {
+    width: inherit;
+    height: 100px;
+    margin: auto;
+    padding: 10px;
+    text-align: center;
+}
+
+.Navigation {
+    @include Navigation-templ();
+}
+

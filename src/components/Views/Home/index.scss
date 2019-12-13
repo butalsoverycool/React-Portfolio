@@ -1,0 +1,9 @@
+@mixin HomePage() {
+    width: inherit;
+    height: inherit;
+}
+
+.HomePage {
+    @include HomePage();
+}
+

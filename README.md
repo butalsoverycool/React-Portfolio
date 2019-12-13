@@ -1,4 +1,14 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Portfolio Kim Nkoubou
+...
+
+
+
+##
+## DEV - GUIDE
+##
+
+his project was first bootstrapped with [Create React App](https://github.com/facebook/create-react-app),
+then folder-structured manually.
 
 ## Available Scripts
 

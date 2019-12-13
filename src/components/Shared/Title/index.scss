@@ -1,0 +1,14 @@
+@mixin Title() {
+    z-index: 2;
+    position: absolute;
+    width: 20vw;
+    left: 40vw;
+    top: 45vh;
+    color: purple;
+    font-size: 3em;
+    text-align: center;
+}
+
+.Title {
+    @include Title();
+}
