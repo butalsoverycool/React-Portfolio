@@ -19,6 +19,8 @@ import Navigation from '../Shared/Navigation';
 
 // style
 import './index.scss';
+import './animation.scss';
+
 
 export default class App extends Component {
   constructor(props) {
@@ -28,9 +30,15 @@ export default class App extends Component {
 
     this.state = {
       logged_in: false,
-      activeView: null
+      activeView: null,
+      isMounted: false
     };
     console.log('app-state:', this.state);
+
+  }
+
+  toggle = () => {
+    this.setState(state => ({ isMounted: !state.isMounted }))
   }
 
   componentDidMount() {
@@ -45,6 +53,8 @@ export default class App extends Component {
     }, () => console.log('Active view:', name));
   }
 
+
+
   render() {
     return (
       <div className="App">
@@ -53,22 +63,25 @@ export default class App extends Component {
 
           <Route
             path={ROUTES.HOME}
-            component={HomeView}
+            render={props => <HomeView {...props} nextView={document.querySelector('.NavLink.story')} />}
           />
           <Route
             path={ROUTES.STORY}
-            component={StoryView}
+            render={props => <StoryView {...props} nextView={document.querySelector('.NavLink.news')} />}
           />
           <Route
             path={ROUTES.NEWS}
-            component={NewsView}
+            render={props => <NewsView {...props} nextView={document.querySelector('.NavLink.contact')} />}
           />
           <Route
             path={ROUTES.CONTACT}
-            component={ContactView}
+            render={props => <ContactView {...props} nextView={document.querySelector('.NavLink.home')} />}
           />
         </Router>
       </div>
     );
   }
 }
+
+
+

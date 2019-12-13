@@ -14,3 +14,12 @@
     bottom: 0;
     right: 0;
 }
+
+.App {
+    $viewVh: 100vh;
+    min-height: $viewVh * 1.1;
+}
+
+.view {
+    height: inherit;
+}
