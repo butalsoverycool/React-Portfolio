@@ -6,6 +6,8 @@
 .HomeView {
     @include HomePage();
     transition-duration: 1s;
+
+    background: url(../../../media/blue_smoke.mov);
 }
 
 
