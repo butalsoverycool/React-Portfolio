@@ -5,7 +5,11 @@ export const addClass = (classList, nameToAdd) => {
     let updated = classList.push(nameToAdd);
 }
 
+export const reachedTop = elem => document.documentElement.scrollTop <= 0;// <= window.innerHeight;
+
 export const reachedBottom = elem => elem.getBoundingClientRect().bottom <= window.innerHeight;
+
+
 
 export const scrollingDown = (elem) => {
     // scroll direction

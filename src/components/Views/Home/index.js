@@ -15,16 +15,23 @@ export default class HomeView extends Component {
         super(props);
         this.elem = React.createRef();
 
-        this.scrollHandler = () => {
-            // if at bottom...
-            if (FUNCS.reachedBottom(this.elem.current)) {
-                // remove listener and go to next view
-                document.removeEventListener('scroll', this.scrollHandler);
-                document.querySelector('.NavLink.story').click();
-            }
+        this.scrollHandler = this.scrollHandler.bind(this);
+
+        window.scrollTo(0, 100);
+    }
+
+    scrollHandler() {
+        // if at bottom...
+        if (FUNCS.reachedBottom(this.elem.current)) {
+            // remove listener and go to next view
+            document.removeEventListener('scroll', this.scrollHandler);
+            document.querySelector('.NavLink.story').click();
         }
 
-        window.scrollTo(0, 0);
+        else if (FUNCS.reachedTop(this.elem.current)) {
+            document.removeEventListener('scroll', this.scrollHandler);
+            document.querySelector('.NavLink.contact').click();
+        }
     }
 
     componentDidMount() {

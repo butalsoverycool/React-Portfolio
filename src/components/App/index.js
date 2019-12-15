@@ -31,18 +31,9 @@ export default class App extends Component {
     this.state = {
       logged_in: false,
       activeView: null,
-      isMounted: false
     };
+
     console.log('app-state:', this.state);
-
-  }
-
-  toggle = () => {
-    this.setState(state => ({ isMounted: !state.isMounted }))
-  }
-
-  componentDidMount() {
-
   }
 
   setActiveView(name) {
@@ -53,29 +44,53 @@ export default class App extends Component {
     }, () => console.log('Active view:', name));
   }
 
-
-
   render() {
     return (
       <div className="App">
         <Router>
-          <Navigation activeView={this.setActiveView} />
+          <Navigation
+            activeView={this.state.activeView}
+            setActiveView={this.setActiveView}
+          />
 
           <Route
             path={ROUTES.HOME}
-            render={props => <HomeView {...props} nextView={document.querySelector('.NavLink.story')} />}
+            render={props =>
+              <HomeView
+                {...props}
+                nextView={document.querySelector('.NavLink.story')}
+              />
+            }
           />
+
           <Route
             path={ROUTES.STORY}
-            render={props => <StoryView {...props} nextView={document.querySelector('.NavLink.news')} />}
+            render={props =>
+              <StoryView
+                {...props}
+                nextView={document.querySelector('.NavLink.news')}
+              />
+            }
           />
+
           <Route
             path={ROUTES.NEWS}
-            render={props => <NewsView {...props} nextView={document.querySelector('.NavLink.contact')} />}
+            render={props =>
+              <NewsView
+                {...props}
+                nextView={document.querySelector('.NavLink.contact')}
+              />
+            }
           />
+
           <Route
             path={ROUTES.CONTACT}
-            render={props => <ContactView {...props} nextView={document.querySelector('.NavLink.home')} />}
+            render={props =>
+              <ContactView
+                {...props}
+                nextView={document.querySelector('.NavLink.home')}
+              />
+            }
           />
         </Router>
       </div>
