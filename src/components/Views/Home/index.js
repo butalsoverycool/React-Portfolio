@@ -20,6 +20,9 @@ export default class HomeView extends Component {
         window.scrollTo(0, 100);
     }
 
+    // få denna komponent att fatta om den renderades pga reached botten lr top lr klick
+    // detta för att scrollTo ska kunna anpassas
+
     scrollHandler() {
         // if at bottom...
         if (FUNCS.reachedBottom(this.elem.current)) {
@@ -42,13 +45,11 @@ export default class HomeView extends Component {
         document.removeEventListener('scroll', this.scrollHandler);
     }
 
-
-
     render() {
         return (
-            <div className='HomeView view fadeIn' ref={this.elem}>
+            <main className='HomeView view fadeIn' ref={this.elem}>
                 <Title text="Home" />
-            </div>
+            </main>
         );
     }
 }

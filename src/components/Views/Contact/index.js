@@ -44,9 +44,9 @@ export default class ContactView extends Component {
 
     render() {
         return (
-            <div className="ContactView view fadeIn" ref={this.elem}>
+            <main className="ContactView view fadeIn" ref={this.elem}>
                 <Title text="Contact" />
-            </div>
+            </main>
         );
     }
 }

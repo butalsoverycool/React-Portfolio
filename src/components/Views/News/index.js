@@ -44,9 +44,9 @@ export default class NewsView extends Component {
 
     render() {
         return (
-            <div className="NewsView view fadeIn" ref={this.elem}>
+            <main className="NewsView view fadeIn" ref={this.elem}>
                 <Title text="News" />
-            </div>
+            </main>
         );
     }
 }

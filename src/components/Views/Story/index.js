@@ -44,9 +44,9 @@ export default class StoryView extends Component {
 
     render() {
         return (
-            <div className="StoryView view fadeIn" ref={this.elem}>
+            <main className="StoryView view fadeIn" ref={this.elem}>
                 <Title text="Story" />
-            </div>
+            </main>
         )
     }
 }
