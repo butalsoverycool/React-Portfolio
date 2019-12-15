@@ -46,7 +46,6 @@ export default class NavLink extends Component {
     // active: true, update both app- and local state 
     clickHandler = () => {
         this.props.setActiveView(this.props.name);
-        this.setState({ isActive: true })
     }
 
     render() {
