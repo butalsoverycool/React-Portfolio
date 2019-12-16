@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 
-// style
-import './index.scss';
-
 // shared
 import Title from '../../Shared/Title/index';
 
 // funcs
 import * as FUNCS from '../../../logic/functions';
+
+// style
+import styled, { keyframes } from 'styled-components';
+import { View_styled } from '../index';
 
 export default class NewsView extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ export default class NewsView extends Component {
 
         this.scrollHandler = this.scrollHandler.bind(this);
 
-        window.scrollTo(0, 100);
+        window.scrollTo(0, this.props.scrollPos);
     }
 
     scrollHandler() {
@@ -25,12 +26,12 @@ export default class NewsView extends Component {
         if (FUNCS.reachedBottom(this.elem.current)) {
             // remove listener and go to next view
             document.removeEventListener('scroll', this.scrollHandler);
-            document.querySelector('.NavLink.contact').click();
+            this.props.nextNavLink.click();
         }
 
         else if (FUNCS.reachedTop(this.elem.current)) {
             document.removeEventListener('scroll', this.scrollHandler);
-            document.querySelector('.NavLink.story').click();
+            this.props.prevNavLink.click();
         }
     }
 
@@ -44,9 +45,9 @@ export default class NewsView extends Component {
 
     render() {
         return (
-            <main className="NewsView view fadeIn" ref={this.elem}>
+            <View_styled className="NewsView" fadeIn ref={this.elem}>
                 <Title text="News" />
-            </main>
+            </View_styled>
         );
     }
 }

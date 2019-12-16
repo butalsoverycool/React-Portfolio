@@ -9,31 +9,55 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 
 // views
+
+
+// children
+import Navigation from '../Shared/Navigation';
+
+import View from '../Views/index';
 import HomeView from '../Views/Home/index';
 import StoryView from '../Views/Story/index';
 import NewsView from '../Views/News/index';
 import ContactView from '../Views/Contact/index';
 
-// children
-import Navigation from '../Shared/Navigation';
-
 // style
-import './index.scss';
-import './animation.scss';
+//import './keyframes.scss';
 
+import styled, { Keyframes } from 'styled-components';
+
+const App_styled = styled.div`
+  width: 100vw;
+  height: 100vh;
+  min-height: 110vh;
+`;
 
 export default class App extends Component {
   constructor(props) {
     super(props);
 
     this.setActiveView = this.setActiveView.bind(this);
+    this.setScrollPos = this.setScrollPos.bind(this);
 
     this.state = {
       logged_in: false,
       activeView: null,
+      scrollPos: 100
     };
 
     console.log('app-state:', this.state);
+
+  }
+
+  checkStartView() {
+    let path = window.location.pathname.substr(1);
+
+    if (path !== '') {
+      this.setActiveView(path);
+    }
+  }
+
+  componentDidMount() {
+    this.checkStartView();
   }
 
   setActiveView(name) {
@@ -44,9 +68,15 @@ export default class App extends Component {
     }, () => console.log('Active view:', name));
   }
 
+  setScrollPos(val) {
+    this.setState({
+      scrollPos: val
+    });
+  }
+
   render() {
     return (
-      <div className="App">
+      <App_styled className="App">
         <Router>
           <Navigation
             activeView={this.state.activeView}
@@ -56,9 +86,13 @@ export default class App extends Component {
           <Route
             path={ROUTES.HOME}
             render={props =>
-              <HomeView
+              <View
                 {...props}
-                nextView={document.querySelector('.NavLink.story')}
+                prevView='contact'
+                view={HomeView}
+                nextView='story'
+                scrollPos={this.state.scrollPos}
+                setScrollPos={this.setScrollPos}
               />
             }
           />
@@ -66,9 +100,13 @@ export default class App extends Component {
           <Route
             path={ROUTES.STORY}
             render={props =>
-              <StoryView
+              <View
                 {...props}
-                nextView={document.querySelector('.NavLink.news')}
+                prevView='home'
+                view={StoryView}
+                nextView='news'
+                scrollPos={this.state.scrollPos}
+                setScrollPos={this.setScrollPos}
               />
             }
           />
@@ -76,9 +114,13 @@ export default class App extends Component {
           <Route
             path={ROUTES.NEWS}
             render={props =>
-              <NewsView
+              <View
                 {...props}
-                nextView={document.querySelector('.NavLink.contact')}
+                prevView='story'
+                view={NewsView}
+                nextView='contact'
+                scrollPos={this.state.scrollPos}
+                setScrollPos={this.setScrollPos}
               />
             }
           />
@@ -86,14 +128,18 @@ export default class App extends Component {
           <Route
             path={ROUTES.CONTACT}
             render={props =>
-              <ContactView
+              <View
                 {...props}
-                nextView={document.querySelector('.NavLink.home')}
+                prevView='news'
+                view={ContactView}
+                nextView='home'
+                scrollPos={this.state.scrollPos}
+                setScrollPos={this.setScrollPos}
               />
             }
           />
         </Router>
-      </div>
+      </App_styled>
     );
   }
 }

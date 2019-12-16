@@ -21,3 +21,18 @@ export const scrollingDown = (elem) => {
     lastScrollTop = current <= 0 ? 0 : current; // For Mobile or negative scrolling
     return down;
 }
+
+
+export const scrollHandler = () => {
+    // if at bottom...
+    if (reachedBottom(this.elem.current)) {
+        // remove listener and go to next view
+        document.removeEventListener('scroll', this.scrollHandler);
+        this.props.nextNavLink.click();
+    }
+
+    else if (reachedTop(this.elem.current)) {
+        document.removeEventListener('scroll', this.scrollHandler);
+        this.props.prevNavLink.click();
+    }
+}

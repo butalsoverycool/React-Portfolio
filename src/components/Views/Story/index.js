@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 
-// style
-import './index.scss';
-
 // shared
 import Title from '../../Shared/Title/index';
 
 // funcs
 import * as FUNCS from '../../../logic/functions';
+
+// style
+import styled, { keyframes } from 'styled-components';
+import { View_styled } from '../index';
 
 export default class StoryView extends Component {
     constructor(props) {
@@ -17,7 +18,8 @@ export default class StoryView extends Component {
 
         this.scrollHandler = this.scrollHandler.bind(this);
 
-        window.scrollTo(0, 100);
+        window.scrollTo(0, this.props.scrollPos);
+        console.log('scrolled to', this.props.scrollPos + 'px');
     }
 
     scrollHandler() {
@@ -25,12 +27,12 @@ export default class StoryView extends Component {
         if (FUNCS.reachedBottom(this.elem.current)) {
             // remove listener and go to next view
             document.removeEventListener('scroll', this.scrollHandler);
-            document.querySelector('.NavLink.news').click();
+            this.props.nextNavLink.click();
         }
 
         else if (FUNCS.reachedTop(this.elem.current)) {
             document.removeEventListener('scroll', this.scrollHandler);
-            document.querySelector('.NavLink.home').click();
+            this.props.prevNavLink.click();
         }
     }
 
@@ -44,9 +46,9 @@ export default class StoryView extends Component {
 
     render() {
         return (
-            <main className="StoryView view fadeIn" ref={this.elem}>
+            <View_styled className="StoryView" fadeIn ref={this.elem}>
                 <Title text="Story" />
-            </main>
+            </View_styled>
         )
     }
 }

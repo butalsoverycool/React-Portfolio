@@ -1,14 +1,15 @@
 // react
 import React, { Component } from 'react';
 
-// style
-import './index.scss';
-
 // shared
 import Title from '../../Shared/Title/index';
 
 // funcs
 import * as FUNCS from '../../../logic/functions';
+
+// style
+import styled, { keyframes } from 'styled-components';
+import { View_styled } from '../index';
 
 export default class HomeView extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ export default class HomeView extends Component {
 
         this.scrollHandler = this.scrollHandler.bind(this);
 
-        window.scrollTo(0, 100);
+        window.scrollTo(0, this.props.scrollPos);
     }
 
     // få denna komponent att fatta om den renderades pga reached botten lr top lr klick
@@ -26,14 +27,16 @@ export default class HomeView extends Component {
     scrollHandler() {
         // if at bottom...
         if (FUNCS.reachedBottom(this.elem.current)) {
-            // remove listener and go to next view
+            // remove listener and go to next view, with scrollpos
             document.removeEventListener('scroll', this.scrollHandler);
-            document.querySelector('.NavLink.story').click();
+            this.props.setScrollPos(0);
+            this.props.nextNavLink.click();
         }
 
         else if (FUNCS.reachedTop(this.elem.current)) {
             document.removeEventListener('scroll', this.scrollHandler);
-            document.querySelector('.NavLink.contact').click();
+            this.props.setScrollPos(200);
+            this.props.prevNavLink.click();
         }
     }
 
@@ -47,9 +50,9 @@ export default class HomeView extends Component {
 
     render() {
         return (
-            <main className='HomeView view fadeIn' ref={this.elem}>
+            <View_styled className='HomeView' fadeIn ref={this.elem}>
                 <Title text="Home" />
-            </main>
+            </View_styled>
         );
     }
 }

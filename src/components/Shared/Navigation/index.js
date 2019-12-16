@@ -4,15 +4,22 @@ import React from 'react';
 import NavLink from '../NavLink/index';
 
 // style 
-import './index.scss';
+import styled from 'styled-components';
 
-
+const Navigation_styled = styled.nav`
+    width: inherit;
+    height: 100px;
+    margin: auto;
+    margin-top: 100px;
+    padding: 10px 0;
+    text-align: center;
+`;
 
 const Navigation = (props) => {
     const isActiveLink = (name) => name === props.activeView;
 
     return (
-        <div className="Navigation">
+        <Navigation_styled className="Nav">
             <NavLink
                 name='home'
                 isActive={isActiveLink('home')}
@@ -33,7 +40,7 @@ const Navigation = (props) => {
                 isActive={isActiveLink('contact')}
                 setActiveView={props.setActiveView}
             />
-        </div >
+        </Navigation_styled >
     );
 }
 
