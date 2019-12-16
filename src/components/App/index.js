@@ -13,7 +13,6 @@ import * as ROUTES from '../../constants/routes';
 
 // children
 import Navigation from '../Shared/Navigation';
-
 import View from '../Views/index';
 import HomeView from '../Views/Home/index';
 import StoryView from '../Views/Story/index';
@@ -21,8 +20,6 @@ import NewsView from '../Views/News/index';
 import ContactView from '../Views/Contact/index';
 
 // style
-//import './keyframes.scss';
-
 import styled, { Keyframes } from 'styled-components';
 
 const App_styled = styled.div`
@@ -30,6 +27,74 @@ const App_styled = styled.div`
   height: 100vh;
   min-height: 110vh;
 `;
+
+
+class IntroVideo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      orientation: 'portrait'
+    };
+
+    this.setOrientation = this.setOrientation.bind(this);
+    this.getStyle = this.getStyle.bind(this);
+    this.Video_styled = this.getStyle(this.state.orientation);
+  }
+
+  componentDidMount() {
+    this.setOrientation();
+    window.addEventListener('resize', this.setOrientation);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.setOrientation)
+  }
+
+  setOrientation() {
+    if (window.innerHeight < window.innerWidth * .57) {
+      if (this.state.orientation === 'landscape') { return; }
+      this.setState({
+        orientation: 'landscape'
+      }, () => {
+        this.Video_styled = this.getStyle(this.state.orientation);
+      });
+
+    } else {
+      if (this.state.orientation === 'portrait') { return; }
+      this.setState({
+        orientation: 'portrait'
+      }, () => {
+        this.Video_styled = this.getStyle(this.state.orientation);
+      });
+    }
+  }
+
+  getStyle(orientation) {
+    return styled.video`
+      width: ${orientation === 'landscape' ? 'auto' : '100vw'};
+      height: ${orientation === 'landscape' ? '100vh' : 'auto'};
+      float: left;
+      top: 0;
+      padding: none;
+      position: fixed;
+      z - index: 5;
+      `;
+  }
+
+  render() {
+    return (
+      <div>
+        <this.Video_styled
+          orientation={this.state.orientation}
+          className="video-container video-container-overlay"
+          autoPlay={true}
+          loop muted={this.props.muted || true}>
+          <source src={this.props.src} type="video/mp4" />
+        </this.Video_styled>
+      </div>
+    );
+  }
+}
 
 export default class App extends Component {
   constructor(props) {
@@ -77,6 +142,8 @@ export default class App extends Component {
   render() {
     return (
       <App_styled className="App">
+        <IntroVideo src='https://s3.amazonaws.com/codecademy-content/courses/React/react_video-fast.mp4' />
+
         <Router>
           <Navigation
             activeView={this.state.activeView}
