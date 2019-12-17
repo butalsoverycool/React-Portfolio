@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 // routing
 import { Link } from 'react-router-dom';
-import * as ROUTES from '../../../constants/routes';
+import * as ROUTES from '../constants/routes';
 
 // style
 import styled from 'styled-components';

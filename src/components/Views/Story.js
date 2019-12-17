@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
 // shared
-import Title from '../../Shared/Title/index';
+import Title from '../Title.js';
 
 // funcs
-import * as FUNCS from '../../../logic/functions';
+import * as FUNCS from '../../logic/functions';
 
 // style
 import styled, { keyframes } from 'styled-components';
-import { View_styled } from '../index';
+import { View_styled } from './index';
 
 export default class StoryView extends Component {
     constructor(props) {

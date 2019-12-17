@@ -8,16 +8,17 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 // url/route-list
 import * as ROUTES from '../../constants/routes';
 
-// views
-
+// global funcs
+import * as FUNCS from '../../logic/functions';
 
 // children
-import Navigation from '../Shared/Navigation';
+import Navigation from '../Navigation.js';
 import View from '../Views/index';
-import HomeView from '../Views/Home/index';
-import StoryView from '../Views/Story/index';
-import NewsView from '../Views/News/index';
-import ContactView from '../Views/Contact/index';
+import HomeView from '../Views/Home.js';
+import StoryView from '../Views/Story.js';
+import NewsView from '../Views/News.js';
+import ContactView from '../Views/Contact.js';
+import IntroVideo from '../IntroVideo.js';
 
 // style
 import styled, { Keyframes } from 'styled-components';
@@ -28,121 +29,69 @@ const App_styled = styled.div`
   min-height: 110vh;
 `;
 
-
-class IntroVideo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      orientation: 'portrait'
-    };
-
-    this.setOrientation = this.setOrientation.bind(this);
-    this.getStyle = this.getStyle.bind(this);
-    this.Video_styled = this.getStyle(this.state.orientation);
-  }
-
-  componentDidMount() {
-    this.setOrientation();
-    window.addEventListener('resize', this.setOrientation);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.setOrientation)
-  }
-
-  setOrientation() {
-    if (window.innerHeight < window.innerWidth * .57) {
-      if (this.state.orientation === 'landscape') { return; }
-      this.setState({
-        orientation: 'landscape'
-      }, () => {
-        this.Video_styled = this.getStyle(this.state.orientation);
-      });
-
-    } else {
-      if (this.state.orientation === 'portrait') { return; }
-      this.setState({
-        orientation: 'portrait'
-      }, () => {
-        this.Video_styled = this.getStyle(this.state.orientation);
-      });
-    }
-  }
-
-  getStyle(orientation) {
-    return styled.video`
-      width: ${orientation === 'landscape' ? 'auto' : '100vw'};
-      height: ${orientation === 'landscape' ? '100vh' : 'auto'};
-      float: left;
-      top: 0;
-      padding: none;
-      position: fixed;
-      z - index: 5;
-      `;
-  }
-
-  render() {
-    return (
-      <div>
-        <this.Video_styled
-          orientation={this.state.orientation}
-          className="video-container video-container-overlay"
-          autoPlay={true}
-          loop muted={this.props.muted || true}>
-          <source src={this.props.src} type="video/mp4" />
-        </this.Video_styled>
-      </div>
-    );
-  }
-}
-
 export default class App extends Component {
   constructor(props) {
     super(props);
 
     this.setActiveView = this.setActiveView.bind(this);
     this.setScrollPos = this.setScrollPos.bind(this);
+    this.setOrientation = this.setOrientation.bind(this);
 
     this.state = {
       logged_in: false,
       activeView: null,
-      scrollPos: 100
+      scrollPos: 100,
+      isPortrait: false
     };
-
-    console.log('app-state:', this.state);
-
-  }
-
-  checkStartView() {
-    let path = window.location.pathname.substr(1);
-
-    if (path !== '') {
-      this.setActiveView(path);
-    }
   }
 
   componentDidMount() {
-    this.checkStartView();
+    this.setActiveView();
+
+    this.setOrientation();
+    window.addEventListener('resize', this.setOrientation);
   }
 
-  setActiveView(name) {
-    if (!name) { return; }
+  // clean up ears
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.setOrientation);
+  }
+
+  // set/update current view
+  setActiveView() {
+    const name = FUNCS.getCurrentView();
 
     this.setState({
       activeView: name
     }, () => console.log('Active view:', name));
   }
 
+  // get scrollPos
   setScrollPos(val) {
     this.setState({
       scrollPos: val
     });
   }
 
+  // get current orientation
+  isPortrait() {
+    return window.innerHeight > window.innerWidth * .57;
+  }
+
+  // set/update orientation in state to auto-rerendering
+  setOrientation() {
+    this.setState({
+      isPortrait: this.isPortrait()
+    });
+  }
+
   render() {
     return (
       <App_styled className="App">
-        <IntroVideo src='https://s3.amazonaws.com/codecademy-content/courses/React/react_video-fast.mp4' />
+        <IntroVideo
+          src='https://s3.amazonaws.com/codecademy-content/courses/React/react_video-fast.mp4'
+          isPortrait={this.state.isPortrait}
+        />
 
         <Router>
           <Navigation

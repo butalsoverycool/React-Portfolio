@@ -1,12 +1,13 @@
 import React from 'react';
 
 // shared
-import NavLink from '../NavLink/index';
+import NavLink from './NavLink';
 
 // style 
 import styled from 'styled-components';
 
 const Navigation_styled = styled.nav`
+    position: relative;
     width: inherit;
     height: 100px;
     margin: auto;
