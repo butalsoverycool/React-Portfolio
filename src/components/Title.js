@@ -5,10 +5,10 @@ import styled from 'styled-components';
 
 const Title_styled = styled.header`
     z-index: 2;
-    position: absolute;
+    position: relative;
     width: 20vw;
     left: 40vw;
-    top: 45vh;
+    top: 0;
     color: purple;
     font-size: 3em;
     text-align: center;

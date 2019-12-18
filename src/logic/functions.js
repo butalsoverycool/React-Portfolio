@@ -41,3 +41,6 @@ export const getCurrentView = () =>
     window.location.pathname.substr(1) !== ''
         ? window.location.pathname.substr(1)
         : 'landing';
+
+
+export const getLinkElem = (view) => document.querySelector(`.NavLink.${view}`);

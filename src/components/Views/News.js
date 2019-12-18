@@ -8,7 +8,7 @@ import * as FUNCS from '../../logic/functions';
 
 // style
 import styled, { keyframes } from 'styled-components';
-import { View_styled } from './index';
+import { View_styled, content, ContentContainer } from './index';
 
 export default class NewsView extends Component {
     constructor(props) {
@@ -17,20 +17,19 @@ export default class NewsView extends Component {
         this.elem = React.createRef();
 
         this.scrollHandler = this.scrollHandler.bind(this);
-
-        window.scrollTo(0, this.props.scrollPos);
     }
 
     scrollHandler() {
         // if at bottom...
         if (FUNCS.reachedBottom(this.elem.current)) {
-            // remove listener and go to next view
-            document.removeEventListener('scroll', this.scrollHandler);
+            console.log('reached bottom')
+            this.props.setScrollPos(10);
             this.props.nextNavLink.click();
         }
 
         else if (FUNCS.reachedTop(this.elem.current)) {
-            document.removeEventListener('scroll', this.scrollHandler);
+            console.log('reached top')
+            this.props.setScrollPos(400);
             this.props.prevNavLink.click();
         }
     }
@@ -45,9 +44,15 @@ export default class NewsView extends Component {
 
     render() {
         return (
-            <View_styled className="NewsView" fadeIn ref={this.elem}>
-                <Title text="News" />
-            </View_styled>
+            <React.Fragment>
+                <View_styled className="NewsView view" fadeIn ref={this.elem}>
+                    <Title text="News" />
+
+                    <ContentContainer className='content default'>
+                        {content}
+                    </ContentContainer>
+                </View_styled>
+            </React.Fragment>
         );
     }
 }

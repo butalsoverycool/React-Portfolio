@@ -8,7 +8,7 @@ import * as FUNCS from '../../logic/functions';
 
 // style
 import styled, { keyframes } from 'styled-components';
-import { View_styled } from './index';
+import { View_styled, content, ContentContainer } from './index';
 
 export default class StoryView extends Component {
     constructor(props) {
@@ -17,21 +17,20 @@ export default class StoryView extends Component {
         this.elem = React.createRef();
 
         this.scrollHandler = this.scrollHandler.bind(this);
-
-        window.scrollTo(0, this.props.scrollPos);
-        console.log('scrolled to', this.props.scrollPos + 'px');
     }
 
     scrollHandler() {
         // if at bottom...
         if (FUNCS.reachedBottom(this.elem.current)) {
-            // remove listener and go to next view
-            document.removeEventListener('scroll', this.scrollHandler);
+            console.log('reached bottom')
+            this.props.setScrollPos(10);
             this.props.nextNavLink.click();
         }
 
         else if (FUNCS.reachedTop(this.elem.current)) {
-            document.removeEventListener('scroll', this.scrollHandler);
+            console.log('reached top')
+            this.props.setScrollPos(400);
+            console.log(this.props.prevNavLink);
             this.props.prevNavLink.click();
         }
     }
@@ -46,9 +45,15 @@ export default class StoryView extends Component {
 
     render() {
         return (
-            <View_styled className="StoryView" fadeIn ref={this.elem}>
-                <Title text="Story" />
-            </View_styled>
+            <React.Fragment>
+                <View_styled className="StoryView view" fadeIn ref={this.elem}>
+                    <Title text="Story" />
+
+                    <ContentContainer className='content default'>
+                        {content}
+                    </ContentContainer>
+                </View_styled>
+            </React.Fragment>
         )
     }
 }

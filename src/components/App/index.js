@@ -13,7 +13,7 @@ import * as FUNCS from '../../logic/functions';
 
 // children
 import Navigation from '../Navigation.js';
-import View from '../Views/index';
+//import View from '../Views/index';
 import HomeView from '../Views/Home.js';
 import StoryView from '../Views/Story.js';
 import NewsView from '../Views/News.js';
@@ -23,53 +23,93 @@ import IntroVideo from '../IntroVideo.js';
 // style
 import styled, { Keyframes } from 'styled-components';
 
+
 const App_styled = styled.div`
   width: 100vw;
-  height: 100vh;
-  min-height: 110vh;
+  height: auto;
+  min-height: ${props => (props.winH + 400) + 'px'};
+  padding: 100px 0;
 `;
 
 export default class App extends Component {
   constructor(props) {
     super(props);
 
-    this.setActiveView = this.setActiveView.bind(this);
-    this.setScrollPos = this.setScrollPos.bind(this);
-    this.setOrientation = this.setOrientation.bind(this);
+    this.elem = React.createRef();
 
     this.state = {
       logged_in: false,
       activeView: null,
-      scrollPos: 100,
+      scrollPos: 0,
+      winSize: {
+        w: window.innerWidth,
+        h: window.innerHeight
+      },
       isPortrait: false
     };
+
+    //this.scrollHandler = this.scrollHandler.bind(this);
+    this.resizeHandler = this.resizeHandler.bind(this);
+    this.setWinSize = this.setWinSize.bind(this);
+    this.setActiveView = this.setActiveView.bind(this);
+    this.setScrollPos = this.setScrollPos.bind(this);
+    this.scrollToPos = this.scrollToPos.bind(this);
+    this.setOrientation = this.setOrientation.bind(this);
   }
 
   componentDidMount() {
     this.setActiveView();
 
+    this.setWinSize();
+
+    this.setScrollPos(100);
+
     this.setOrientation();
-    window.addEventListener('resize', this.setOrientation);
+
+    window.addEventListener('scroll', this.scrollHandler);
+    window.addEventListener('resize', this.resizeHandler);
   }
+
 
   // clean up ears
   componentWillUnmount() {
-    window.removeEventListener('resize', this.setOrientation);
+    window.removeEventListener('resize', this.resizeHandler);
+    window.removeEventListener('scroll', this.scrollHandler);
   }
+
+  componentDidUpdate() {
+    this.scrollToPos();
+  }
+
 
   // set/update current view
-  setActiveView() {
-    const name = FUNCS.getCurrentView();
+  setActiveView(name = false) {
+    const active = name ? name : FUNCS.getCurrentView();
 
     this.setState({
-      activeView: name
-    }, () => console.log('Active view:', name));
+      activeView: active
+    }, () => console.log('Updated active view in app:', name));
   }
 
-  // get scrollPos
+  // get start scroll pos
   setScrollPos(val) {
     this.setState({
       scrollPos: val
+    });
+  }
+
+  scrollToPos() {
+    window.scrollTo(0, this.state.scrollPos);
+    console.log('scrolled to', this.state.scrollPos)
+  }
+
+
+  setWinSize() {
+    this.setState({
+      winSize: {
+        w: window.innerWidth,
+        h: window.innerHeight
+      }
     });
   }
 
@@ -85,13 +125,25 @@ export default class App extends Component {
     });
   }
 
+  resizeHandler() {
+    this.setOrientation();
+    this.setWinSize();
+  }
+
+  /* scrollHandler() {
+
+    //console.log('reached TOPPPP', FUNCS.reachedTop(document.querySelector('.view')));
+    //console.log('reached BOTTOM', FUNCS.reachedBottom(document.querySelector('.view')));
+
+  } */
+
   render() {
     return (
-      <App_styled className="App">
-        <IntroVideo
+      <App_styled className="App" ref={this.elem} winH={this.state.winSize.h}>
+        {/* <IntroVideo
           src='https://s3.amazonaws.com/codecademy-content/courses/React/react_video-fast.mp4'
           isPortrait={this.state.isPortrait}
-        />
+        /> */}
 
         <Router>
           <Navigation
@@ -102,11 +154,10 @@ export default class App extends Component {
           <Route
             path={ROUTES.HOME}
             render={props =>
-              <View
+              <HomeView
                 {...props}
-                prevView='contact'
-                view={HomeView}
-                nextView='story'
+                prevNavLink={FUNCS.getLinkElem('contact')}
+                nextNavLink={FUNCS.getLinkElem('story')}
                 scrollPos={this.state.scrollPos}
                 setScrollPos={this.setScrollPos}
               />
@@ -116,11 +167,10 @@ export default class App extends Component {
           <Route
             path={ROUTES.STORY}
             render={props =>
-              <View
+              <StoryView
                 {...props}
-                prevView='home'
-                view={StoryView}
-                nextView='news'
+                prevNavLink={FUNCS.getLinkElem('home')}
+                nextNavLink={FUNCS.getLinkElem('news')}
                 scrollPos={this.state.scrollPos}
                 setScrollPos={this.setScrollPos}
               />
@@ -130,11 +180,10 @@ export default class App extends Component {
           <Route
             path={ROUTES.NEWS}
             render={props =>
-              <View
+              <NewsView
                 {...props}
-                prevView='story'
-                view={NewsView}
-                nextView='contact'
+                prevNavLink={FUNCS.getLinkElem('story')}
+                nextNavLink={FUNCS.getLinkElem('contact')}
                 scrollPos={this.state.scrollPos}
                 setScrollPos={this.setScrollPos}
               />
@@ -144,11 +193,10 @@ export default class App extends Component {
           <Route
             path={ROUTES.CONTACT}
             render={props =>
-              <View
+              <ContactView
                 {...props}
-                prevView='news'
-                view={ContactView}
-                nextView='home'
+                prevNavLink={FUNCS.getLinkElem('news')}
+                nextNavLink={FUNCS.getLinkElem('home')}
                 scrollPos={this.state.scrollPos}
                 setScrollPos={this.setScrollPos}
               />

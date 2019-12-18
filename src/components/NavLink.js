@@ -7,6 +7,10 @@ import * as ROUTES from '../constants/routes';
 // style
 import styled from 'styled-components';
 
+const LinkContainer_styled = styled.div`
+    text-align: center;
+`;
+
 const Link_styled = styled(Link)`
     display: block;
     width: 100px;
@@ -15,11 +19,10 @@ const Link_styled = styled(Link)`
     font-size: 1em;
     font-style: italic;
     text-decoration: none;
-    background: ${props => props.active === 'true' ? '#DDD' : 'whitesmoke'};
+    background: ${props => props.active === 'true' ? '#CCC' : 'whitesmoke'};
     color: #222;
     border-radius: 10px;
     box-shadow: 1px 0px 5px grey;
-    float: left;
     cursor: pointer;
 `;
 
@@ -34,12 +37,18 @@ export default class NavLink extends Component {
         }
     }
 
+    componentDidMount() {
+        this.setState({
+            isActive: this.props.isActive
+        });
+    }
+
     // if isActive-prop was updated, update local state
     componentDidUpdate(nextProps) {
         if (this.props.isActive !== this.state.isActive) {
             this.setState({
                 isActive: this.props.isActive
-            });
+            }, () => console.log('updated props', this.props));
         }
     }
 
@@ -51,14 +60,16 @@ export default class NavLink extends Component {
     render() {
         return (
             <React.Fragment>
-                <Link_styled
-                    active={String(this.state.isActive)}
-                    to={ROUTES[this.props.name.toUpperCase()]}
-                    className={`NavLink ${this.props.name} ${this.state.isActive ? 'active' : ''}`}
-                    onClick={this.clickHandler}
-                >
-                    {this.props.content || this.props.name}
-                </Link_styled>
+                <LinkContainer_styled className={`LinkContainer ${this.props.name} ${this.state.isActive ? 'active' : ''}`}>
+                    <Link_styled
+                        active={String(this.state.isActive)}
+                        to={ROUTES[this.props.name.toUpperCase()]}
+                        className={`NavLink ${this.props.name} ${this.state.isActive ? 'active' : ''}`}
+                        onClick={this.clickHandler}
+                    >
+                        {this.props.content || this.props.name}
+                    </Link_styled>
+                </LinkContainer_styled>
             </React.Fragment>
         );
     }

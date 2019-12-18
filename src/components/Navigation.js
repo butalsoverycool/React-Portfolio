@@ -7,11 +7,15 @@ import NavLink from './NavLink';
 import styled from 'styled-components';
 
 const Navigation_styled = styled.nav`
-    position: relative;
+    position: fixed;
+    z-index: 1;
+    display: flex;
+    justify-content: space-evenly;
+    left: 0;
+    top: 0;
     width: inherit;
     height: 100px;
-    margin: auto;
-    margin-top: 100px;
+    margin: 0;
     padding: 10px 0;
     text-align: center;
 `;
