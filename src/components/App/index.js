@@ -55,7 +55,7 @@ const App = () => {
 
   // ACTIVE SECTION
   const [activeSection, setActiveSection] = React.useState(1);
-  const prevSection = () => {   
+  const prevSection = () => {
     // prev or last
     const destination = activeSection > 1 ? activeSection - 1 : sectionNum;
     setActiveSection(destination);
@@ -63,32 +63,40 @@ const App = () => {
 
   const nextSection = () => {
     // next or first
-    const destination =  activeSection < sectionNum ? activeSection + 1 : 1;
+    const destination = activeSection < sectionNum ? activeSection + 1 : 1;
     setActiveSection(destination);
   }
 
   React.useEffect(() => {
-    console.log('active section in state:' , activeSection)
+    console.log('active section in state:', activeSection)
     jumpToSection(activeSection);
   }, [activeSection]);
 
+  // on resize, update reset jump/distance
   window.onresize = () => {
     jumpToSection(activeSection);
+  }
+
+  // prevent regular scroll (for now...)
+  window.onscroll = (e) => {
+    e.preventDefault(); // ????
+
+    window.scrollTo(0, 0);
   }
 
 
 
   // JUMP TO SECTION
   const jumpToSection = (destination) => {
-    const startingPoint = destination -1; // zero is first
+    const startingPoint = destination - 1; // zero is first
     const mirrored = startingPoint - startingPoint * 2; // flip minus <--> plus
     const distance = mirrored * window.innerHeight; // each section has full height
-  
+
     // translate y with 3d
     document.body.style.transform = 'translate3d(0px, ' + distance + 'px, 0px)';
     console.log('3D-translated Y to:', distance + 'px');
   }
-  
+
 
 
   // THEME
@@ -105,11 +113,11 @@ const App = () => {
 
 
   return (
-    <Context.Provider 
+    <Context.Provider
       value={{
-        theme, 
-        updateTheme, 
-        prevSection, 
+        theme,
+        updateTheme,
+        prevSection,
         nextSection
       }}>
       <App_styled className="App">
