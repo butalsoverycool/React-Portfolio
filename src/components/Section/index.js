@@ -1,12 +1,14 @@
-import React, { useContext} from 'react';
-import styled from  'styled-components';
-import {Context} from '../App';
+import React, { useContext } from 'react';
+import styled from 'styled-components';
+import { Context } from '../App';
 
 const SectionStyled = styled.section`
-    width: 100vw;
-    height: 100vh;
+    width: inherit;
+    height: inherit;
     display: flex;
     justify-content: space-evenly;
+    flex-direction: row;
+    flex-wrap: wrap;
     background-color: ${props => props.theme.container.bg};
     color: ${props => props.theme.container.color};
 `;
@@ -15,7 +17,7 @@ SectionStyled.defaultProps = {
     theme: {
         container: {
             bg: 'purple',
-            color: 'white' 
+            color: 'white'
         }
     }
 }
@@ -24,9 +26,9 @@ const Section = (props) => {
     const context = useContext(Context);
     return (
         <>
-        <SectionStyled theme={props.theme || context.theme} className="Section">
-            {props.children}
-        </SectionStyled>
+            <SectionStyled theme={props.theme || context.theme} className="Section">
+                {props.children}
+            </SectionStyled>
         </>
     );
 }

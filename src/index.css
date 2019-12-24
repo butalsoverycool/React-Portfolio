@@ -16,3 +16,52 @@ code {
 * {
   transition-duration: .5s;
 }
+
+.App {
+  width: 100vw;
+  height: 100vh;
+  overflow: scroll;
+}
+
+.sectCont {
+  transform: translate3d(0px, 0px, 0px);
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+}
+
+.sect2 {
+  transform: translate3d(0px, -20vh, 0px);
+}
+
+.sect3 {
+  transform: translate3d(0px, -40vh, 0px);
+}
+
+.sectCont.close {
+  transform: translate3d(0px, 20vh, 0px);
+  width: 70vw;
+  height: 20vh;
+}
+
+@keyframes tjoho {
+  0%{
+    transform: scale(100%);
+  }50%{
+    transform: scale(50%);
+  }100%{
+    transform: scale(100%);
+  }
+}
+
+.Block:hover > .NavBtn {
+  
+} 
+
+.Block:hover > .NavBtn.top {
+  transform: translate3d(0,20px,0) scale(3);
+}
+
+.Block:hover > .NavBtn.bottom {
+  transform: translate3d(0,-20px,0) scale(3);
+}

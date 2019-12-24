@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import {Context} from '../App';
+import { Context } from '../App';
 import styled from 'styled-components';
 
 const ButtonStyled = styled.button`
+    flex: 1 0 31%;
     width: 100px;
     height: 80px;
     margin: 10px;
