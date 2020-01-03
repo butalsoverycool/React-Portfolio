@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { Context } from '../App';
+import { Context } from '../App/index(old)';
 
 const TitleStyled = styled.header`
   color: ${props => props.theme.header.color};
@@ -8,15 +8,15 @@ const TitleStyled = styled.header`
 `;
 
 const Title = (props) => {
-    const context = useContext(Context);
+  const context = useContext(Context);
 
-   return (
-     <TitleStyled theme={context.theme}>
-       <h1>
-       {props.children}
-       </h1>
-     </TitleStyled>
-   );
+  return (
+    <TitleStyled theme={context.theme}>
+      <h1>
+        {props.children}
+      </h1>
+    </TitleStyled>
+  );
 }
 
 export default Title;

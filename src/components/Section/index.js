@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { Context } from '../App';
+import { Context } from '../App/index(old)';
 
 const SectionStyled = styled.section`
     width: inherit;
