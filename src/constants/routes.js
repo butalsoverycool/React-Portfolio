@@ -1,5 +1,5 @@
-export const LANDING = '/';
-export const HOME = '/home';
+export const HOME = '/';
+export const WORK = '/work';
 export const STORY = '/story';
-export const NEWS = '/news';
+export const MUSIC = '/music';
 export const CONTACT = '/contact';

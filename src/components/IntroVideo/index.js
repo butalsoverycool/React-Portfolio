@@ -1,11 +1,11 @@
 // react
-import React, { Component } from 'react';
-import ReactDOMServer from 'react-dom/server';
+import React from 'react';
+//import ReactDOMServer from 'react-dom/server';
 
 // style
 import styled from 'styled-components';
 
-const IntroVideo_styled = styled.video`
+const IntroVideoStyled = styled.video`
     width: ${props => props.isPortrait ? 'auto' : '100vw'};
     height: ${props => props.isPortrait ? '100vh' : 'auto'};
     float: left;
@@ -23,13 +23,13 @@ export default class IntroVideo extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <IntroVideo_styled
+                <IntroVideoStyled
                     isPortrait={this.props.isPortrait}
                     className="video-container video-container-overlay"
                     autoPlay={true}
                     loop muted={this.props.muted || true}>
                     <source src={this.props.src} type="video/mp4" />
-                </IntroVideo_styled>
+                </IntroVideoStyled>
             </React.Fragment>
         );
     }

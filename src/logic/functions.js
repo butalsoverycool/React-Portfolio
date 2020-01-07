@@ -38,6 +38,9 @@ export const scrollHandler = () => {
 }
 
 export const getCurrentView = () =>
-    window.location.pathname.substr(1) !== ''
-        ? window.location.pathname.substr(1)
-        : 'landing';
+    window.location.pathname.substring(1) !== ''
+        ? window.location.pathname.substring(1)
+        : 'home';
+
+
+export const getLinkElem = (view) => document.querySelector(`.NavLink.${view}`);
