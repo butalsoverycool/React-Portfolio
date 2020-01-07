@@ -1,0 +1,81 @@
+/* body {
+     width: 100%;
+     margin: 0;
+     overflow: hidden;
+ } */
+#canvasContainer {
+    width: 100vw;
+    
+    background: lightgrey;
+}
+
+ #mainTitle {
+     display: block;
+     width: 100vw;
+     margin: 0;
+     left:0;
+     top: 0;
+     text-align: center;
+     position: absolute;
+     z-index: 1;
+ }
+
+ #backToNav {
+     width: 100px;
+     height: 50px;
+     border-radius: 10px;
+     position: absolute;
+     z-index: 1;
+     right: 10px;
+     top: 10px;
+     opacity: 0;
+     visibility: hidden;
+ }
+
+ section {
+    width: 100vw;
+    height: 0px;
+    overflow-x: hidden;
+    position: relative;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    visibility: hidden;
+    background: red;
+ }
+ 
+ .HiddenNav {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+        }
+
+        .HiddenNav .Board {
+            background: red;
+            flex-wrap: wrap;
+            margin: auto 24vw;
+            opacity: 0;
+            margin-top: 30vh;
+            position: absolute;
+            z-index: 1;
+            flex-direction: row;
+            width: 649px;
+            height: 100vh;
+            transform: rotateX(58deg) rotateZ(-45deg);
+            /* left: 66px; */
+            top: -32vh;
+        }
+
+        .HiddenNav .Board .Card {
+            width: 50%;
+            float: left;
+            height: 37vh;
+        }
+
+        canvas {
+            display: block;
+            margin: auto;
+            position: relative;
+        }
+
+        

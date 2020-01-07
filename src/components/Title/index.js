@@ -1,22 +1,25 @@
-import React, { useContext } from 'react';
+import React from 'react';
+
+// style
 import styled from 'styled-components';
-import { Context } from '../App/index(old)';
+
+
 
 const TitleStyled = styled.header`
-  color: ${props => props.theme.header.color};
-  font-size: 2em;
+    z-index: 2;
+    position: relative;
+    top: 0;
+    color: black;
+    font-size: ${props => props.type === 'main' ? '5em' : '3em'};
+    text-align: center;
 `;
 
 const Title = (props) => {
-  const context = useContext(Context);
-
-  return (
-    <TitleStyled theme={context.theme}>
-      <h1>
-        {props.children}
-      </h1>
-    </TitleStyled>
-  );
+    return (
+        <React.Fragment>
+            <TitleStyled className="Title" type={props.type}>{props.title}</TitleStyled>
+        </React.Fragment>
+    );
 }
 
 export default Title;
