@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 
 // threejs/gsap
-import * as THREE from 'three';
-import { TweenMax, Power2, TimelineLite, TweenLite, Elastic } from "gsap";
+/* import * as THREE from 'three';
+import { TweenMax, Power2, TimelineLite, TweenLite, Elastic } from "gsap"; */
+
 //import { Tween, Timeline } from 'react-gsap';
 //import gsap, { TweenMax, Utils } from "gsap";
 
@@ -72,19 +73,6 @@ const Navigation = (props) => {
                     isActive={isActive('contact')}
                 />
             </HiddenNav>
-            {/* <div id="canvasContainer">
-                <div id='canvasOverlay'>
-                    <div class='btnContainer'>
-                        <button id="navNews" class="navBtn" data-nav-key="0" data-active="false">Flip left</button>
-                        <button id="navStory" class="navBtn" data-nav-key="2" data-active="false">Flip bottom</button>
-                        <button id="navWork" class="navBtn" data-nav-key="1" data-active="false">Flip top</button>
-                        <button id="navContact" class="navBtn" data-nav-key="3" data-active="false">Flip right</button>
-                    </div>
-                </div>
-            </div> */}
-
-
-
         </NavContainer >
     );
 }

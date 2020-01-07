@@ -28,12 +28,10 @@ import ContactView from '../Views/Contact/index';
 import styled from 'styled-components';
 
 
-const App_styled = styled.div.attrs(props => ({
-  'data-active-view': String(props.activeView)
-}))`
+const Container = styled.div`
   width: 100vw;
-  height: auto;
-  /* min-height: ${props => (props.winH + 400) + 'px'}; */
+  height: 100vh;
+  overflow-x: hidden;
 `;
 
 
@@ -43,19 +41,17 @@ const App = () => {
 
   return (
     /*  <StateProvider> */
-    <App_styled className="App" winH={state.winSize.h} activeView={state.activeView}>
-      {/* <IntroVideo
-            src='https://s3.amazonaws.com/codecademy-content/courses/React/react_video-fast.mp4'
-            isPortrait={this.state.isPortrait}
-          />   */}
+    <Container
+      data-active-view={String(state.activeView)}
+      className="App"
+      winH={state.winSize.h}
+    >
 
       < Router >
-        <Navigation
-          activeView={state.activeView}
-        /* setActiveView={setActiveView} */
-        />
-
         <Title title='Kim Nkoubou' type='main' />
+        <Navigation activeView={state.activeView} />
+
+
 
 
         <Route
@@ -114,7 +110,7 @@ const App = () => {
           }
         />
       </Router>
-    </App_styled>
+    </Container>
     /* </StateProvider> */
   );
   //}

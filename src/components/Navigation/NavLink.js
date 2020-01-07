@@ -13,8 +13,8 @@ import styled from 'styled-components';
 const Card = styled.div`
     text-align: center;
     width: 50%;
+    height: 50%;
     float: left;
-    height: 37vh;
 `;
 
 const LinkBtn = styled(Link)`

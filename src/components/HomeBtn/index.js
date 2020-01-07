@@ -17,9 +17,6 @@ const StyledBtn = styled(Link)`
   padding: 10px;
 `;
 
-const goHome = () => {
-    console.log('going home...');
-}
 
 const HomeBtn = props => {
     // global state/updater

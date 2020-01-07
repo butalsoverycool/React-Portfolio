@@ -54,7 +54,7 @@
             background: red;
             flex-wrap: wrap;
             margin: auto 24vw;
-            opacity: 0;
+            opacity: 0.3;
             margin-top: 30vh;
             position: absolute;
             z-index: 1;

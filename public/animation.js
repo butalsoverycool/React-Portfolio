@@ -8,9 +8,7 @@
 
 //document.onclick = (e) => console.log('position', e.offsetX, e.offsetY);
 
-window.onload = () => {
-    setTimeout(animInit, 500);
-}
+
 
 const animInit = () => {
     console.log('threejs init...');
@@ -20,20 +18,22 @@ const animInit = () => {
         _width = window.innerWidth,
         _height = window.innerHeight,
         PI = Math.PI,
-        card_SIZE = 200, /* width, height */
+        card_SIZE = 200,//setCardsize(), /* width, height */
         MAIN_COLOR = 0xffffff,
         SECONDARY_COLOR = 0x000,// 0x888888,
         navAnim = [],
         navCards = [],
-        renderer = new THREE.WebGLRenderer({ antialias: false }),
-        camera = new THREE.PerspectiveCamera(45, _width / _height, 0.1, 10000),
+        renderer = new THREE.WebGLRenderer(),
+        camera = new THREE.PerspectiveCamera(45, _width / _height, 1, 10000),
         scene = new THREE.Scene(),
         group = new THREE.Object3D(),
         debug = false;
 
-    let TOTAL_navCards = GRID * GRID,
-        WALL_SIZE = GRID * card_SIZE;
-    let HALF_WALL_SIZE = WALL_SIZE / 2;
+    /* function updateCam() {
+        camera.setViewOffset(_width, _height, _width * 0, -_height / 100, _width, _height);
+    } */
+
+    //updateCam();
 
     let rangeConfig = {
         randomInRange: (min, max) => {
@@ -103,10 +103,52 @@ const animInit = () => {
     if (!Detector.webgl) Detector.addGetWebGLMessage();
 
 
+    function setCardsize() {
+        let res = window.innerWidth / 3;
+        // if ladnscape
+        if (window.innerWidth > window.innerHeight && res > 200) {
+            res = 200;
+        }
+        return 200;// res;
+    }
+
+    let TOTAL_navCards = GRID * GRID,
+        WALL_SIZE = GRID * card_SIZE;
+    let HALF_WALL_SIZE = WALL_SIZE / 2;
+
+    // cam position
+    const camXYZ = () => {
+        let w = window.innerWidth,
+            h = window.innerHeight,
+            x = 0,
+            y = 300,
+            z = 1000;
+
+        // portrait
+        if (h > w) {
+            switch (true) {
+                case w < 350: // very narrow
+                    y = 550;
+                    z = 1800;
+                    break;
+                case w < 420: // narrow
+                    y = 420;
+                    z = 1500;
+                    break;
+                default:
+                    z = 1200;
+            }
+        }
+        // landscape
+        else {
+            y = 250;
+        }
+        return { x, y, z };
+    }
 
 
     // shoot scene
-    setupCamera(0, 0, 800);
+    setupCamera(camXYZ().x, camXYZ().y, camXYZ().z);
     setupBox(group);
     setupFloor(group);
     setupNavCards(group);
@@ -128,9 +170,13 @@ const animInit = () => {
 
         _width = window.innerWidth;
         _height = window.innerHeight;
+
+        //card_SIZE = setCardsize();
+        setupCamera(camXYZ().x, camXYZ().y, camXYZ().z);
         renderer.setSize(_width, _height);
         camera.aspect = _width / _height;
         camera.updateProjectionMatrix();
+
     }
 
     // cam
@@ -502,30 +548,29 @@ duration,
 {
 opacity: 0,
 /* visibility: 'hidden', *//*
-                                                                                                                                                                                                            );
-                                                                                                                                                                                                            
-                                                                                                                                                                                                            const nav = document.querySelector('#canvasContainer canvas');
-                                                                                                                                                                                                            TweenMax.to(
-                                                                                                                                                                                                            document.querySelector('#canvasContainer canvas'),
-                                                                                                                                                                                                            duration,
-                                                                                                                                                                                                            {
-                                                                                                                                                                                                            ease: SlowMo.easeOut,
-                                                                                                                                                                                                            y: 0,
-                                                                                                                                                                                                            opacity: 1
-                                                                                                                                                                                                            }
-                                                                                                                                                                                                            );
-                                                                                                                                                                                                            
-                                                                                                                                                                                                            navAnim.forEach((anim, nth) => {
-                                                                                                                                                                                                            TweenMax.to(
-                                                                                                                                                                                                            anim,
-                                                                                                                                                                                                            duration,
-                                                                                                                                                                                                            {
-                                                                                                                                                                                                            y: navCards[nth].memo.positionY
-                                                                                                                                                                                                            }
-                                                                                                                                                                                                            )
-                                                                                                                                                                                                            })
-                                                                                                                                                                                                            }); */
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                        );
+                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                        const nav = document.querySelector('#canvasContainer canvas');
+                                                                                                                                                                                                                                                                                                                                                                                                                                        TweenMax.to(
+                                                                                                                                                                                                                                                                                                                                                                                                                                        document.querySelector('#canvasContainer canvas'),
+                                                                                                                                                                                                                                                                                                                                                                                                                                        duration,
+                                                                                                                                                                                                                                                                                                                                                                                                                                        {
+                                                                                                                                                                                                                                                                                                                                                                                                                                        ease: SlowMo.easeOut,
+                                                                                                                                                                                                                                                                                                                                                                                                                                        y: 0,
+                                                                                                                                                                                                                                                                                                                                                                                                                                        opacity: 1
+                                                                                                                                                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                                                                                                                                                        );
+                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                        navAnim.forEach((anim, nth) => {
+                                                                                                                                                                                                                                                                                                                                                                                                                                        TweenMax.to(
+                                                                                                                                                                                                                                                                                                                                                                                                                                        anim,
+                                                                                                                                                                                                                                                                                                                                                                                                                                        duration,
+                                                                                                                                                                                                                                                                                                                                                                                                                                        {
+                                                                                                                                                                                                                                                                                                                                                                                                                                        y: navCards[nth].memo.positionY
+                                                                                                                                                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                                                                                                                                                        )
+                                                                                                                                                                                                                                                                                                                                                                                                                                        })
+                                                                                                                                                                                                                                                                                                                                                                                                                                        }); */
 
 
 
@@ -647,4 +692,11 @@ opacity: 0,
 
 
 
-} // run on load
+}
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+    //console.log('doc fully loaded and parsed');
+    animInit();
+});
