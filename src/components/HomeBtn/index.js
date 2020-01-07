@@ -17,6 +17,7 @@ const StyledBtn = styled(Link)`
   padding: 10px;
   text-decoration: none;
   color: black;
+  box-shadow: -5px 5px 20px black;
 `;
 
 

@@ -22,30 +22,28 @@ const BoardContainer = styled.div`
     width: inherit;
     display: flex;
     justify-content: center;
-    
-        ${responsive('max-height').short`
+    ${responsive('max-height').short`
+        position: relative;
+        top: unset;
+        bottom: 1vh;
+    `}
+    ${responsive('orientation').portrait`
+        ${responsive('max-width').narrow`
             position: relative;
             top: unset;
-            bottom: 1vh;
-        `}
-        ${responsive('orientation').portrait`
-            ${responsive('max-width').narrow`
+            bottom: 4vh;
+            ${responsive('max-height').short`
                 position: relative;
                 top: unset;
-                bottom: 4vh;
-                ${responsive('max-height').short`
-                    position: relative;
-                    top: unset;
-                    bottom: 3vh;
-                `}
-                ${responsive('max-height').veryShort`
-                    position: relative;
-                    top: unset;
-                    bottom: -2vh;
-                `}
+                bottom: 3vh;
+            `}
+            ${responsive('max-height').veryShort`
+                position: relative;
+                top: unset;
+                bottom: -2vh;
             `}
         `}
-    
+    `}
 `;
 
 const Board = styled.div`

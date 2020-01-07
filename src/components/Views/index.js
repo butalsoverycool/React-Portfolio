@@ -4,6 +4,8 @@ import styled, { keyframes } from 'styled-components';
 
 import HomeBtn from '../HomeBtn/index';
 
+import responsive from '../../Responsive/index';
+
 const LorIps =
     `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
 incididunt ut labore et dolore magna aliqua. Sem integer vitae justo eget magna 
@@ -69,6 +71,11 @@ export const ContentContainer = styled.div`
     padding: 10px;
     height: auto;
     margin: auto;
+    ${responsive('max-width').narrowSongCard`
+        width: 100vw;
+        padding: 0;
+        margin: 0;
+    `}
 `;
 
 const fadeIn = keyframes`

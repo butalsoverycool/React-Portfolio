@@ -1,13 +1,18 @@
 import styled, { css } from 'styled-components';
 
+const customBreakPoint = (valAndUnit) => valAndUnit || '300px';
+
 const breakPoints = {
     narrow: '420px',
     veryNarrow: '350px',
     short: '700px',
     veryShort: '650px',
     portrait: 'portrait',
-    landscape: 'landscape'
+    landscape: 'landscape',
+    narrowSongCard: '320px'
 }
+
+
 
 // media queries helper for styled components
 const responsive = (condition) => {
