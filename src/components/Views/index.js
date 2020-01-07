@@ -2,11 +2,9 @@ import React from 'react';
 
 import styled, { keyframes } from 'styled-components';
 
-import Title from '../Title/index';
-
 import HomeBtn from '../HomeBtn/index';
 
-export const Content =
+const LorIps =
     `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
 incididunt ut labore et dolore magna aliqua. Sem integer vitae justo eget magna 
 fermentum iaculis eu. Tellus orci ac auctor augue mauris augue neque gravida. 
@@ -50,8 +48,25 @@ risus viverra adipiscing at in.Ante metus dictum at tempor commodo ullamcorper a
 vestibulum.Leo duis ut diam quam nulla porttitor.Vestibulum lorem sed risus ultricies 
 tristique.Rhoncus dolor purus non enim.`
 
+const Paragraph = styled.p`
+    font-size: 1em;
+    text-align: left;
+    line-height: 2em;
+    padding: 10px 0px;
+`;
+
+export const Content = () => {
+    return (
+        <Paragraph>
+            {LorIps}
+        </Paragraph>
+    );
+}
+
 export const ContentContainer = styled.div`
     width: 95%;
+    max-width: 650px;
+    padding: 10px;
     height: auto;
     margin: auto;
 `;
@@ -79,16 +94,9 @@ const View = (props) => {
     return (
         <React.Fragment>
             <View_styled>
-                <Title title={props.title} />
                 {props.children}
                 <HomeBtn />
             </View_styled>
-            {/* <props.view
-                    {...props}
-                    prevNavLink={document.querySelector(`.NavLink.${props.prevView}`)}
-                    nextNavLink={document.querySelector(`.NavLink.${props.nextView}`)}
-                    content={viewContent || false}
-                /> */}
         </React.Fragment>
     );
 }

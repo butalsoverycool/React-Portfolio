@@ -13,8 +13,10 @@ const StyledBtn = styled(Link)`
   left: 10px;
   bottom: 10px; 
   background: #FFF;
-  font-size: 1.5em;
+  font-size: 2em;
   padding: 10px;
+  text-decoration: none;
+  color: black;
 `;
 
 
@@ -33,7 +35,7 @@ const HomeBtn = props => {
             to={ROUTES.HOME}
             onClick={handleClick}
         >
-            {props.txt || 'Home'}
+            {props.txt || 'home'}
         </StyledBtn>
     );
 }

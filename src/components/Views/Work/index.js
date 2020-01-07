@@ -18,7 +18,11 @@ const WorkView = props => {
     return (
         <React.Fragment>
             <View className='WorkView view' fadeIn title={props.name}>
-                <CaseCards />
+                <ContentContainer className='content default'>
+                    <Title title='work' align='left' />
+                    <CaseCards />
+                </ContentContainer>
+
             </View>
         </React.Fragment>
     );

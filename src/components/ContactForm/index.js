@@ -2,11 +2,17 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-const Form = styled.form``;
+const Form = styled.form`
+    width: 100%;
+    max-width: 450px;
+    margin: auto;
+    font-size: 1.5em;
+`;
 
-const Fieldset = styled.fieldset`
-    border: none;
-    margin: 10px;
+const Fieldset = styled.div`
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
 `;
 
 const Label = styled.label`
@@ -14,11 +20,23 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-    border: none;
+    font-size: 1.1em;
+    padding: 5px;
+    border: solid black 2px;
     border-radius: 10px;
+    outline: none;
+`;
+
+const Textarea = styled.textarea`
+    font-size: 1.1em;
+    padding: 5px;
+    border: solid black 2px;
+    border-radius: 10px;
+    outline: none;
 `;
 
 const ContactForm = (props) => {
+
     return (
         <Form className="ContactForm">
             <Fieldset>
@@ -27,7 +45,7 @@ const ContactForm = (props) => {
             </Fieldset>
             <Fieldset>
                 <Label htmlFor="msg">Message</Label>
-                <Input type="text" id="msg" />
+                <Textarea type="text" id="msg" rows={5} />
             </Fieldset>
         </Form>
     );

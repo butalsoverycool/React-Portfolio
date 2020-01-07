@@ -10,7 +10,7 @@ export const caseData = [
         title: 'green-leaf.se',
         img: 'https://green-leaf.se/wp-content/uploads/2019/04/tree2.0-icon.png',
         content: 'A social web-game to save the planet',
-        link: 'green-leaf.se'
+        link: 'https://green-leaf.se'
     }
 ];
 

@@ -11,13 +11,14 @@ const TitleStyled = styled.header`
     top: 0;
     color: black;
     font-size: ${props => props.type === 'main' ? '5em' : '3em'};
-    text-align: center;
+    text-align: ${props => props.align || 'center'};
+    padding: 10px 0px;
 `;
 
 const Title = (props) => {
     return (
         <React.Fragment>
-            <TitleStyled className="Title" type={props.type}>{props.title}</TitleStyled>
+            <TitleStyled className="Title" type={props.type} align={props.align}>{props.title}</TitleStyled>
         </React.Fragment>
     );
 }
