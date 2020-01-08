@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 // routing
 import { Link } from 'react-router-dom';
@@ -7,6 +7,18 @@ import * as ROUTES from '../../constants/routes';
 
 // Context
 import { StateContext } from '../StateContext/index';
+
+
+const fadeIn = keyframes`
+    0%{
+        opacity: 0;
+    }100%{
+        opacity: 1;
+    }
+`;
+
+
+
 
 const StyledBtn = styled(Link)`
   position: fixed;
@@ -18,6 +30,8 @@ const StyledBtn = styled(Link)`
   text-decoration: none;
   color: black;
   box-shadow: -5px 5px 20px black;
+  opacity: 0;
+  animation: ${fadeIn} 2s normal linear forwards 1;
 `;
 
 
@@ -27,7 +41,8 @@ const HomeBtn = props => {
 
     // set active view in state
     const handleClick = () => {
-        dispatch({ type: 'activeView', payload: '' })
+        dispatch({ type: 'activeView', payload: '/' })
+
     }
 
     return (

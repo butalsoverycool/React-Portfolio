@@ -26,6 +26,13 @@ import ContactView from '../Views/Contact/index';
 
 // style
 import styled from 'styled-components';
+import '../Animation/index.css';
+
+
+// transition
+import { CSSTransition } from 'react-transition-group';
+//import { Transition } from 'react-transition-group';
+
 
 
 const Container = styled.div`
@@ -33,6 +40,7 @@ const Container = styled.div`
   height: 100vh;
   overflow-x: hidden;
 `;
+
 
 
 const App = () => {
@@ -49,21 +57,104 @@ const App = () => {
 
       < Router >
         <Title title='Kim Nkoubou' type='main' />
+
+
+
+
+        {/* <Route exact path={ROUTES.HOME}>
+          {({ match }) => (
+            <CSSTransition
+              in={match != null}
+              timeout={1000}
+              classNames="NavCont page"
+            
+            >
+              <div className="NavCont page"> */}
         <Navigation activeView={state.activeView} />
+        {/* </div>
+            </CSSTransition>
+          )}
+        </Route> */}
+
+
+        <Route /*key={path}*/ exact path={ROUTES.WORK}>
+          {({ match }) => (
+            <CSSTransition
+              in={match != null}
+              timeout={1000}
+              classNames="Work page"
+              unmountOnExit
+            >
+              <div className="Work page">
+                <WorkView
+                  name={'work'}
+                /* {...props} */
+                />
+              </div>
+            </CSSTransition>
+          )}
+        </Route>
+
+        <Route /*key={path}*/ exact path={ROUTES.STORY}>
+          {({ match }) => (
+            <CSSTransition
+              in={match != null}
+              timeout={1000}
+              classNames="Story page"
+              unmountOnExit
+            >
+              <div className="Story page">
+                <StoryView
+                  name={'story'}
+                /* {...props} */
+                />
+              </div>
+            </CSSTransition>
+          )}
+        </Route>
+        <Route /*key={path}*/ exact path={ROUTES.MUSIC}>
+          {({ match }) => (
+            <CSSTransition
+              in={match != null}
+              timeout={1000}
+              classNames="Music page"
+              unmountOnExit
+            >
+              <div className="Music page">
+                <MusicView
+                  name={'music'}
+                /* {...props} */
+                />
+              </div>
+            </CSSTransition>
+          )}
+        </Route>
+        <Route /*key={path}*/ exact path={ROUTES.CONTACT}>
+          {({ match }) => (
+            <CSSTransition
+              in={match != null}
+              timeout={1000}
+              classNames="Contact page"
+              unmountOnExit
+            >
+              <div className="Contact page">
+                <ContactView
+                  name={'contact'}
+                /* {...props} */
+                />
+              </div>
+            </CSSTransition>
+          )}
+        </Route>
 
 
 
-
-        <Route
+        {/* <Route
           path={ROUTES.WORK}
           render={props =>
             <WorkView
               name={'work'}
               {...props}
-            /* prevNavLink={FUNCS.getLinkElem('contact')}
-            nextNavLink={FUNCS.getLinkElem('story')}
-            scrollPos={this.state.scrollPos}
-            setScrollPos={this.setScrollPos} */
             />
           }
         />
@@ -74,10 +165,6 @@ const App = () => {
             <StoryView
               name={'story'}
               {...props}
-            /* prevNavLink={FUNCS.getLinkElem('home')}
-            nextNavLink={FUNCS.getLinkElem('news')}
-            scrollPos={this.state.scrollPos}
-            setScrollPos={this.setScrollPos} */
             />
           }
         />
@@ -88,10 +175,6 @@ const App = () => {
             <MusicView
               name={'music'}
               {...props}
-            /* prevNavLink={FUNCS.getLinkElem('story')}
-            nextNavLink={FUNCS.getLinkElem('contact')}
-            scrollPos={this.state.scrollPos}
-            setScrollPos={this.setScrollPos} */
             />
           }
         />
@@ -102,13 +185,11 @@ const App = () => {
             <ContactView
               name={'contact'}
               {...props}
-            /* prevNavLink={FUNCS.getLinkElem('news')}
-            nextNavLink={FUNCS.getLinkElem('home')}
-            scrollPos={this.state.scrollPos}
-            setScrollPos={this.setScrollPos} */
             />
           }
-        />
+        /> */}
+
+
       </Router>
     </Container>
     /* </StateProvider> */

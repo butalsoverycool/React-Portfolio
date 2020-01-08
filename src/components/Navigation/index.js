@@ -31,18 +31,22 @@ import NavLink from './NavLink';
     text-align: center;
 `; */
 
+/**
+ *
+ * display: ${props => props.activeView === '' || props.activeView === '/' ? 'block' : 'none'}
+ */
+
 const NavContainer = styled.div`
     width: inherit;
     height: 100vh;
-    position: fixed;
+    position: absolute;
     left: 0;
     bottom: 0;
-    display: ${props => props.activeView === '' ? 'block' : 'none'}
+    display: ${props => props.activeView === '' || props.activeView === '/' ? 'block' : 'none'}
 `;
 
-
-
 const Navigation = (props) => {
+    console.log(props.activeView)
     // global state/updater
     const { state, dispatch } = useContext(StateContext);
 

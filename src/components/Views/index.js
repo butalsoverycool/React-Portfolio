@@ -78,20 +78,21 @@ export const ContentContainer = styled.div`
     `}
 `;
 
-const fadeIn = keyframes`
+/* const fadeIn = keyframes`
     0%{
         opacity: 0;
     }100%{
         opacity: 1;
     }
-`;
+`; 
+
+animation: ${fadeIn} 1s normal linear forwards 1; 
+*/
 
 // export to apply on all views
 const View_styled = styled.main`
     width: 100vw;
     height: 100vh;
-    opacity: 0;
-    animation: ${fadeIn} 1s normal linear forwards 1;
     position: relative;
     left: 0;
     top: 0;

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import responsive from '../../Responsive/index';
 
 const HiddenNavStyled = styled.div`
-        width: inherit;
+        width: 100vw;
         height: inherit;
         position: absolute;
         left: 0; top: 0;
