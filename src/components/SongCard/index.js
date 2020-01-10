@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import responsive from '../../Responsive/index';
+import responsive from '../../AtMedia/index';
 
 export const songs = [
     {

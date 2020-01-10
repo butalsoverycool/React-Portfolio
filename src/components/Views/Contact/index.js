@@ -8,18 +8,22 @@ import * as FUNCS from '../../../logic/functions';
 
 // style
 import styled, { keyframes } from 'styled-components';
-import View, { Content, ContentContainer } from '../index';
+import ViewTemplate, { ContentContainer } from '../ViewTemplate';
 
 // children
 import ContactForm from '../../ContactForm';
 
 const ContactView = props => {
+
     return (
-        <React.Fragment>
-            <View className="ContactView view" title={props.name}>
-                <ContactForm />
-            </View>
-        </React.Fragment>
+        <>
+            <ViewTemplate className='Contact view'>
+                <ContentContainer>
+                    <Title title='music' align='left' />
+                    <ContactForm />
+                </ContentContainer>
+            </ViewTemplate>
+        </>
     );
 }
 

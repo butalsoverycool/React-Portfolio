@@ -14,10 +14,37 @@ animInit = () => {
     navExists = true;
     console.log('threejs init...');
 
+    const nav = document.querySelector('.Nav');
+
+
     // globals
+    const _size = () => {
+        let landscape = window.innerWidth > window.innerHeight;
+        let winW = window.innerWidth,
+            winH = window.innerHeight,
+            navH = nav.clientHeight;
+
+        w = landscape
+            ? winH
+            : winW;
+
+        h = navH;
+
+        return { w, h };
+    }
+    // landscape: w: winH, h: winH / 2
+    // portrait: w: winW, h: winW / 2
+
+
+    // width: (100vw)
+    // height: 50vw;
+    // portrait: max-height: 300px;
+    // landscape: max-height: 50vh;
+
     let GRID = 2, /* cols, rows */
-        _width = window.innerWidth,
-        _height = window.innerHeight,
+        _width = _size().w,//window.innerWidth,
+        _height = _size().h,
+        /* _height = window.innerHeight, */
         PI = Math.PI,
         card_SIZE = 200,//setCardsize(), /* width, height */
         MAIN_COLOR = 0xffffff,
@@ -25,7 +52,7 @@ animInit = () => {
         navAnim = [],
         navCards = [],
         renderer = new THREE.WebGLRenderer(),
-        camera = new THREE.PerspectiveCamera(45, _width / _height, 1, 10000),
+        camera = new THREE.PerspectiveCamera(30, 3/* _height */, 1, 10000),
         scene = new THREE.Scene(),
         group = new THREE.Object3D(),
         debug = false;
@@ -144,6 +171,8 @@ animInit = () => {
         else {
             y = 250;
         }
+        z = 500;
+        y = 0;
         return { x, y, z };
     }
 
@@ -169,14 +198,17 @@ animInit = () => {
     function resizeHandler() {
         //updateOverlayPos();
 
-        _width = window.innerWidth;
-        _height = window.innerHeight;
+        navH = nav.clientHeight;
+        console.log('navH', navH);
+
+        //_width = window.innerWidth;
+        //_height = window.innerHeight;
 
         //card_SIZE = setCardsize();
         setupCamera(camXYZ().x, camXYZ().y, camXYZ().z);
-        renderer.setSize(_width, _height);
-        camera.aspect = _width / _height;
-        camera.updateProjectionMatrix();
+        renderer.setSize(_size().w, _size().h);
+        camera.aspect = _size().w / _size().h;
+        //camera.updateProjectionMatrix();
 
     }
 
@@ -329,77 +361,136 @@ animInit = () => {
         let texture = [];
         let imgs = [];
 
-        const Imgsrc = [
+        const imgSources = [
             'media/Music_bg.png',
             'media/Work_bg.png',
             'media/Story_bg.png',
             'media/Contact_bg.png'
         ];
 
+        /////
 
-        for (let nth = 0; nth < Imgsrc.length; nth++) {
-            imgs.push(document.createElement('img'));
-            imgs[nth].src = Imgsrc[nth];
-            texture.push(new THREE.Texture(imgs[nth]));
-            texture[nth].needsUpdate = true;
-            material.push(new THREE.MeshBasicMaterial({ map: texture[nth] }));
+
+        // instantiate a loader
+
+
+        // load-counter
+        let awaitingLoad = imgSources.length;
+
+        // load a image resource
+        imgSources.forEach(src => {
+            const loader = new THREE.ImageLoader();
+            loader.load(
+                // resource URL
+                src,
+
+                // onLoad callback
+                function (img) {
+                    imgs.push(img);
+                    awaitingLoad--;
+                    console.log('image', img, 'loaded', awaitingLoad, 'loadings to go...', 'imgs length:', imgs.length);
+                    if (awaitingLoad === 0) {
+                        console.log('all imgs were loaded!');
+                        applyTexture();
+                    }
+
+                    // use the image, e.g. draw part of it on a canvas
+                    /* var canvas = document.createElement('canvas');
+                    var context = canvas.getContext('2d');
+                    context.drawImage(image, 100, 100); */
+                },
+
+                // onProgress callback currently not supported
+                undefined,
+
+                // onError callback
+                function () {
+                    console.error('An error happened when loading img:', src);
+                }
+            );
+        });
+
+        console.log('(after loading)', awaitingLoad, 'imgs left to load.');
+        /////
+
+        function applyTexture() {
+            console.log('(doing texture...)');
+            let awaiting = imgSources.length;
+            for (let nth = 0; nth < imgSources.length; nth++) {
+                //imgs.push(document.createElement('img'));
+                //imgs[nth].src = imgSources[nth];
+                texture.push(new THREE.Texture(imgs[nth]));
+                texture[nth].needsUpdate = true;
+                material.push(new THREE.MeshBasicMaterial({ map: texture[nth] }));
+                console.log('created texture/material for img', nth, 'material:', material);
+                awaiting--;
+                if (awaiting === 0) {
+                    applyGeometry();
+                }
+            }
         }
 
 
 
 
-        for (let i = 0; i < TOTAL_navCards; i++) {
-            //material[i] = new THREE.MeshBasicMaterial({ map: textures[i] });
-            navCards[i] = new THREE.Mesh(geometry, material[i]);
+        function applyGeometry() {
+            console.log('(doing geometry...)');
+            let awaiting = imgSources.length;
+            for (let i = 0; i < TOTAL_navCards; i++) {
+                //material[i] = new THREE.MeshBasicMaterial({ map: textures[i] });
+                navCards[i] = new THREE.Mesh(geometry, material[i]);
 
-            //backsides.push(new THREE.Mesh(geometry, backsideMaterial[i]));
+                //backsides.push(new THREE.Mesh(geometry, backsideMaterial[i]));
 
-            if (i % GRID === 0) {
-                col = 1;
-                row++;
-            } else col++;
+                if (i % GRID === 0) {
+                    col = 1;
+                    row++;
+                } else col++;
 
-            x = -(GRID * card_SIZE / 2 - card_SIZE * col + card_SIZE / 2);
-            y = -(GRID * card_SIZE / 2 - card_SIZE * row + card_SIZE / 2);
-            z = 0;
+                x = -(GRID * card_SIZE / 2 - card_SIZE * col + card_SIZE / 2);
+                y = -(GRID * card_SIZE / 2 - card_SIZE * row + card_SIZE / 2);
+                z = 0;
 
-            navCards[i].FaceColors;
+                navCards[i].FaceColors;
 
-            // pos of flip-roofs
-            navCards[i].position.set(x, y, 0); // 0 = on floor
-            navCards[i].rotation.z = i === 1 || i === 2 ? Math.PI / 2 : 0 // set text orientation
-
-
-            navCards[i].memo = {};
-
-            navCards[i].memo.positionX = x;
-            navCards[i].memo.positionY = y;
-            navCards[i].memo.positionZ = z;
-
-            navCards[i].memo.rotationZ = navCards[i].rotation.z;
-
-            navCards[i].memo.loopAnim = true;
+                // pos of flip-roofs
+                navCards[i].position.set(x, y, 0); // 0 = on floor
+                navCards[i].rotation.z = i === 1 || i === 2 ? Math.PI / 2 : 0 // set text orientation
 
 
+                navCards[i].memo = {};
 
+                navCards[i].memo.positionX = x;
+                navCards[i].memo.positionY = y;
+                navCards[i].memo.positionZ = z;
 
+                navCards[i].memo.rotationZ = navCards[i].rotation.z;
 
-            //backsides[i].position.set(x, y, -10);
+                navCards[i].memo.loopAnim = true;
+
+                awaiting--;
+                if (awaiting === 0) {
+                    applyShadow();
+                }
+            }
         }
 
         //navCards.forEach(function (card, index = 0) {
-        for (let nth = 0; nth < navCards.length; nth++) {
-            //let index = navCards.indexOf(card);
-            //var flipAnim = navAnim[index];
+        function applyShadow() {
+            console.log('(doing shadow...)');
+            for (let nth = 0; nth < navCards.length; nth++) {
+                //let index = navCards.indexOf(card);
+                //var flipAnim = navAnim[index];
 
-            navCards[nth].castShadow = true;
-            navCards[nth].receiveShadow = true;
+                navCards[nth].castShadow = true;
+                navCards[nth].receiveShadow = true;
 
-            if (debug) {
-                navCards[nth].rotation.x = 0;//Math.random() * 10;
-            } else {
-                animateNavCard(parent, navCards[nth], nth);
+                if (debug) {
+                    navCards[nth].rotation.x = 0;//Math.random() * 10;
+                } else {
+                    animateNavCard(parent, navCards[nth], nth);
 
+                }
             }
         }
     } // setupNavCards
@@ -549,29 +640,29 @@ duration,
 {
 opacity: 0,
 /* visibility: 'hidden', *//*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            const nav = document.querySelector('#canvasContainer canvas');
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            TweenMax.to(
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            document.querySelector('#canvasContainer canvas'),
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            duration,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ease: SlowMo.easeOut,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            y: 0,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            opacity: 1
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            navAnim.forEach((anim, nth) => {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            TweenMax.to(
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            anim,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            duration,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            y: navCards[nth].memo.positionY
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            )
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            })
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }); */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                );
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                const nav = document.querySelector('#canvasContainer canvas');
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                TweenMax.to(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                document.querySelector('#canvasContainer canvas'),
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                duration,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ease: SlowMo.easeOut,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                y: 0,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                opacity: 1
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                );
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                navAnim.forEach((anim, nth) => {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                TweenMax.to(
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                anim,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                duration,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                y: navCards[nth].memo.positionY
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                )
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                })
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }); */
 
 
 

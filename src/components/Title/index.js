@@ -1,9 +1,5 @@
 import React from 'react';
-
-// style
 import styled from 'styled-components';
-
-
 
 const TitleStyled = styled.header`
     z-index: 2;

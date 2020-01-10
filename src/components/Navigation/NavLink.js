@@ -9,6 +9,7 @@ import * as ROUTES from '../../constants/routes';
 
 // style
 import styled from 'styled-components';
+import responsive from '../../AtMedia/index';
 
 const Card = styled.div`
     text-align: center;
@@ -22,8 +23,10 @@ const LinkBtn = styled(Link)`
     width: 100%;
     height: 100%;
     margin: 0;
-    line-height: 100px;
-    font-size: 1em;
+    font-size: 6vw;
+    ${responsive('orientation').landscape`
+        font-size: 5vh;
+    `};
     font-style: italic;
     text-decoration: none;
     background: ${props => props.active === 'true' ? '#CCC' : 'whitesmoke'};

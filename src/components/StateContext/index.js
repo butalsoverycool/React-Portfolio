@@ -1,7 +1,8 @@
 import React from 'react';
 
+// State updater
 const stateReducer = (state, action) => {
-    // newstate default
+    // default = prev state
     let newState = {};
     for (let prop in state) {
         newState[prop] = prop;
@@ -9,39 +10,41 @@ const stateReducer = (state, action) => {
 
     // update state according to given action type/payload
     switch (action.type) {
-        case 'loggedIn':
-            newState.logged_in = action.payload || !state.logged_in;
-            return newState;
         case 'activeView':
             newState.activeView = action.payload;
-            console.log('state', newState);
+            console.log(`Updated state (${action.type}): ${action.payload}`);
+
+            // also update displayNav
+            if (newState.activeView === ''
+                || newState.activeView === '/') {
+                newState.displayNav = true;
+            } else {
+                newState.displayNav = false;
+            }
+
+            console.log(`Also updated state (displayNav): ${newState.displayNav}`);
+
             return newState;
-        case 'scrollPos':
-            newState.scrollPos = action.payload;
-            return newState;
-        case 'winSize':
-            newState.winSize.x = action.payload.x || state.winSize.x;
-            newState.winSize.y = action.payload.y || state.winSize.y;
-            return newState;
-        case 'isPortrait':
-            newState.isPortrait = action.payload || !state.isPortrait;
+
+        case 'displayNav':
+            newState.displayNav = action.payload;
+            console.log(`Updated state (${action.type}): ${newState.displayNav}`);
+
+            // also activate fadeNav
+            newState.fadeAwayNav = true;
+            console.log(`Also updated state (fadeAwayNav): ${newState.fadeAwayNav}`);
+
             return newState;
         default:
-            console.log('Action type undefined. Keeping current state.');
+            console.log('Action type undefined. Keeping prev state.');
             return newState;
-        //throw new Error('App state\'s action type was not defined. (App/index.js:71)');
     }
 }
 
 const initialState = {
-    logged_in: false,
     activeView: window.location.pathname.substring(1),
-    scrollPos: 0,
-    winSize: {
-        w: window.innerWidth,
-        h: window.innerHeight
-    },
-    isPortrait: false
+    displayNav: window.location.pathname === '' || window.location.pathname === '/',
+    fadeAwayNav: false
 };
 
 const StateContext = React.createContext(initialState);
@@ -50,6 +53,7 @@ const StateProvider = props => {
     const [state, dispatch] = React.useReducer(stateReducer, initialState);
 
     return (
+        // sending the state and its updater-func with the provider-component wrapping App
         <StateContext.Provider value={{ state, dispatch }}>
             {props.children}
         </StateContext.Provider>

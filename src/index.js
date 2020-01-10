@@ -7,7 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import { StateProvider } from './components/StateContext/index';
 
 ReactDOM.render(
-    <StateProvider>
+    <StateProvider> {/* glooooobal state */}
         <App />
     </StateProvider>,
     document.getElementById('root')

@@ -9,9 +9,9 @@ import * as FUNCS from '../../../logic/functions';
 
 // style
 import styled, { keyframes } from 'styled-components';
-import View, { Content, ContentContainer } from '../index';
+import ViewTemplate, { Content, ContentContainer } from '../ViewTemplate';
 
-const FlexContainer = styled.div`
+const SongListContainer = styled.div`
     width: 100%; 
     display: flex;
     justify-content: stretch;
@@ -26,16 +26,16 @@ const SongList = () =>
 const MusicView = props => {
 
     return (
-        <React.Fragment>
-            <View className="MusicView view" fadeIn title={props.name}>
+        <>
+            <ViewTemplate className='Music view'>
                 <ContentContainer className='content default'>
                     <Title title='music' align='left' />
-                    <FlexContainer>
+                    <SongListContainer>
                         <SongList />
-                    </FlexContainer>
+                    </SongListContainer>
                 </ContentContainer>
-            </View>
-        </React.Fragment>
+            </ViewTemplate>
+        </>
     );
 }
 

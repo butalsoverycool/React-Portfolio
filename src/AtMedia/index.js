@@ -9,6 +9,8 @@ const breakPoints = {
     veryShort: '650px',
     portrait: 'portrait',
     landscape: 'landscape',
+    navH: '950px',
+    navW: '680px',
     narrowSongCard: '320px'
 }
 
