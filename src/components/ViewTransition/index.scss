@@ -4,19 +4,30 @@ $_right: translate3d(50vw, 0px, 0px);
 $_bottom: translate3d(0px, 50vh, 0px); 
 $_middle: translate3d(0px, 0px, 0px); 
 $_scaleDown: scale(.8);
+$_scaleDefault: scale(1);
+$_scaleUp: scale(1.2);
 
-$_opacityTime: 1000ms;
-$_transformTime: 500ms;
+$_opacityTime: 3000ms;
+$_transformTime: 1000ms;
+
+.view {
+  transition-duration: .4s;
+}
 
 .view.enter {
   opacity: 0;
+  transform: $_top;
 }
 
 .view.enter-active {
   opacity: 1;
   transform: $_middle;
-  transition: opacity $_opacityTime, transform $_transformTime;
 }
+
+.view.enter-done {
+  transform: $_middle;
+}
+
 
 .view.exit {
   opacity: 1;
@@ -25,44 +36,51 @@ $_transformTime: 500ms;
 
 .view.exit-active {
   opacity: 0;
-  transform: $_scaleDown;
-  transition: opacity 350ms, transform $_transformTime;
-  
-}
-
-.Music.enter {
-  transform: $_left;
-}
-
-.Music.enter-active {
-  transform: $_middle;
-}
-
-.Story.enter {
   transform: $_top;
 }
 
-.Story.enter-active {
+.view.exit-done {
+  transform: $_top;
+}
+
+
+
+
+
+/* 
+.MusicView.enter {
+  transform: $_left;
+}
+
+.MusicView.enter-active {
   transform: $_middle;
 }
 
-.Work.enter {
+.StoryView.enter {
+  transform: $_top;
+}
+
+.StoryView.enter-active {
+  transform: $_middle;
+}
+
+.WorkView.enter {
   transform: $_bottom;
 }
 
-.Work.enter-active {
+.WorkView.enter-active {
   transform: $_middle;
 }
 
-.Contact.enter {
+.ContactView.enter {
   transform: $_right;
 }
 
-.Contact.enter-active {
+.ContactView.enter-active {
   transform: $_middle;
 }
 
-
+ */
 
 
 

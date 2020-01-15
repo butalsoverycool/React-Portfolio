@@ -1,0 +1,69 @@
+$_left: translate3d(-50vw, 0px, 0px); 
+$_top: translate3d(0px, -50px, 0px); 
+$_right: translate3d(50vw, 0px, 0px); 
+$_bottom: translate3d(0px, 50vh, 0px); 
+$_middle: translate3d(0px, 0px, 0px); 
+$_scaleDown: scale(.8);
+$_scaleDefault: scale(1);
+$_scaleUp: scale(3);
+
+$_opacityFast: 1000ms;
+$_transformFast: 400ms;
+
+$_opacitySlow: 3000ms;
+$_transformSlow: 1500ms;
+
+@keyframes hover {
+    0%{
+        transform: $_middle;
+    }100%{
+        transform: translate3d(0,-5px,0);
+    }
+}
+
+
+.Title.enter {
+    opacity: 0;
+    filter: blur(50px);
+}
+
+.Title.enter-active {
+    opacity: 1;
+    filter: blur(0px);
+}
+
+/* .Title.enter-done {
+    opacity: 1;
+    /* animation: hover 2s linear alternate infinite; 
+} */
+
+
+
+.Title.exit {
+    opacity: 1;
+    transform: $_middle $_scaleDefault;
+}
+
+.Title.exit-active {
+    opacity: 1;
+    transform: $_middle $_scaleDefault;
+}
+
+.Title.exit-done {
+    opacity: 1;
+    transform: $_middle $_scaleDefault;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

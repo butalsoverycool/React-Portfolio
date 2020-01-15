@@ -1,34 +1,43 @@
-import styled, { css } from 'styled-components';
-
-const customBreakPoint = (valAndUnit) => valAndUnit || '300px';
+import { css } from 'styled-components';
 
 const breakPoints = {
     narrow: '420px',
     veryNarrow: '350px',
     short: '700px',
     veryShort: '650px',
-    portrait: 'portrait',
-    landscape: 'landscape',
-    navH: '950px',
-    navW: '680px',
     narrowSongCard: '320px'
 }
 
-
-
 // media queries helper for styled components
-const responsive = (condition) => {
-    // return obj
-    // with each prop accessible as media query 
-    // in css-format for a styled-component
-    return Object.keys(breakPoints).reduce((acc, label) => {
-        acc[label] = (...args) => css`
-      @media (${condition}: ${breakPoints[label]}) {
-         ${css(...args)};
-      }
-   `
-        return acc;
-    }, {});
+const atMedia = (conditions) => {
+
+    // join conditions to media string
+    const lastIteration = conditions.length - 1
+    const args = (conditions.map(
+        (condition, iteration) => {
+            // seperate conditions with 'and', unless on last iteration
+            let and = iteration < lastIteration
+                ? 'and' : '';
+
+            // use breakPoint if matching val
+            for (let breakPoint in breakPoints) {
+                if (condition.val === breakPoint) {
+                    condition.val = breakPoints[breakPoint];
+                }
+            }
+
+            // each arg as
+            return `(${condition.key}: ${condition.val}) ${and} `
+        }
+    )).join('');
+
+    // return media query with conditions and vals
+    // (style = stuff in css``)
+    return (...style) => css`
+        @media ${args} {
+            ${css(...style)};
+        }
+    `;
 }
 
-export default responsive;
+export default atMedia;

@@ -13,11 +13,8 @@ import ViewTemplate, { Content, ContentContainer } from '../ViewTemplate';
 const StoryView = props => {
     return (
         <>
-            <ViewTemplate className='Story view'>
-                <ContentContainer className='content default'>
-                    <Title title='story' align='left' />
-                    <Content />
-                </ContentContainer>
+            <ViewTemplate printLorem>
+                <Title title='story' align='left' />
             </ViewTemplate>
         </>
     )

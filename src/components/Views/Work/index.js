@@ -6,11 +6,9 @@ import CaseCards from '../../CaseCard';
 const WorkView = props => {
     return (
         <React.Fragment>
-            <ViewTemplate className='Work view'>
-                <ContentContainer className='content default'>
-                    <Title title='work' align='left' />
-                    <CaseCards />
-                </ContentContainer>
+            <ViewTemplate>
+                <Title title='work' align='left' />
+                <CaseCards />
             </ViewTemplate>
         </React.Fragment>
     );

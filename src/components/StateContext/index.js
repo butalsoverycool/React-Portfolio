@@ -1,51 +1,111 @@
 import React from 'react';
+import { withRouter } from 'react-router';
+
+
+export const initialState = {
+    freshState: true,
+    winSize: { w: window.innerWidth, h: window.innerHeight },
+    historyStack: { prev: [{ path: window.location.pathname, action: 'POP' }], next: [], history: {} },
+    activeView: window.location.pathname.substring(1),
+    intro: {
+        a: { play: false, ended: false },
+        b: { play: false, ended: false }
+    },
+    displayNav: false,
+    navAnimation: window.location.pathname === '/'
+        ? { in: 'navFadeIn', out: 'navFadeOut' }
+        : { in: 'navRise', out: 'navFall' }
+};
 
 // State updater
 const stateReducer = (state, action) => {
+    console.log('CALLING REDUCER');
+
     // default = prev state
     let newState = {};
     for (let prop in state) {
-        newState[prop] = prop;
+        newState[prop] = state[prop];
     }
+
+    newState.freshState = false;
 
     // update state according to given action type/payload
     switch (action.type) {
-        case 'activeView':
-            newState.activeView = action.payload;
+        case 'resetState':
+            console.log(`Reset state (${action.type}): ${newState}`);
+
+            return initialState;
+
+        case 'freshState':
+            newState.freshState = action.payload;
+
+            console.log(`Updated state (${action.type}): ${newState.freshState}`);
+
+            return newState;
+
+        case 'winSize':
+            newState.winSize = action.payload;
+
+            console.log(`Updated state (${action.type}): ${newState.winSize.w} x ${newState.winSize.h}`);
+
+            return newState;
+
+        case 'historyStack':
+            newState.historyStack.prev.push(action.payload);
+
+            console.log(`Updated state (${action.type}): path = ${action.payload.path}, action = ${action.payload.action}`);
+
+            return newState;
+
+        case 'routeHistory':
+            newState.historyStack.history = action.payload;
+
             console.log(`Updated state (${action.type}): ${action.payload}`);
 
-            // also update displayNav
-            if (newState.activeView === ''
-                || newState.activeView === '/') {
-                newState.displayNav = true;
-            } else {
-                newState.displayNav = false;
+            return newState;
+
+        case 'activeView':
+            newState.activeView = action.payload;
+
+            console.log(`Updated state (${action.type}): ${action.payload}`);
+
+            return newState;
+
+        case 'intro':
+            let reducerMsg = `Updated state (${action.type}): `;
+            for (let video in action.payload) {
+                reducerMsg += `video ${video}: `;
+                for (let status in action.payload[video]) {
+                    newState.intro[video][status] = action.payload[video][status];
+                    reducerMsg += `${status} = ${action.payload[video][status]}, `;
+                }
             }
 
-            console.log(`Also updated state (displayNav): ${newState.displayNav}`);
+            console.log(reducerMsg);
 
             return newState;
 
-        case 'displayNav':
+        case 'toggleDisplayNav':
+
             newState.displayNav = action.payload;
+
             console.log(`Updated state (${action.type}): ${newState.displayNav}`);
 
-            // also activate fadeNav
-            newState.fadeAwayNav = true;
-            console.log(`Also updated state (fadeAwayNav): ${newState.fadeAwayNav}`);
+            return newState;
+
+        case 'navAnimation':
+            newState.navAnimation = action.payload;
+
+            console.log(`Updated state (${action.type}): IN: ${newState.navAnimation.in} OUT: ${newState.navAnimation.out}`);
 
             return newState;
+
         default:
             console.log('Action type undefined. Keeping prev state.');
-            return newState;
+
+            return state;
     }
 }
-
-const initialState = {
-    activeView: window.location.pathname.substring(1),
-    displayNav: window.location.pathname === '' || window.location.pathname === '/',
-    fadeAwayNav: false
-};
 
 const StateContext = React.createContext(initialState);
 

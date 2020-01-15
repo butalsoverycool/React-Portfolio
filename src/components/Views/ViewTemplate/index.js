@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { StateContext } from '../../StateContext'
 import styled, { css } from 'styled-components';
-import responsive from '../../../AtMedia/index';
-import NavToggleLink from '../../NavToggleLink';
+import atMedia from '../../../AtMedia';
+import NavToggle from '../../NavToggle';
 
-const LorIps = [
+const txt = [
     `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
     incididunt ut labore et dolore magna aliqua. Sem integer vitae justo eget magna 
     fermentum iaculis eu. Tellus orci ac auctor augue mauris augue neque gravida. 
@@ -59,12 +60,12 @@ const Paragraph = styled.p`
     padding: 10px 0px;
 `;
 
-export const Content = () => {
-    return (
-        <Paragraph>
-            {LorIps}
-        </Paragraph>
-    );
+export const Lorem = props => {
+    return props.printLorem
+        ? (
+            txt.map((part, nth) => <Paragraph key={nth}>{part}</Paragraph>)
+        )
+        : null;
 }
 
 
@@ -74,29 +75,48 @@ export const ContentContainer = styled.div`
     padding: 10px;
     height: auto;
     margin: auto;
-    ${responsive('max-width').narrowSongCard`
+    ${atMedia([{ key: 'max-width', val: '420px' }])`
         width: 100vw;
         padding: 0;
         margin: 0;
+        margin-bottom: 100px;
     `}
 `;
 
 // export to apply on all views
 const Template = styled.main`
     width: 100vw;
-    height: 100vh;
     position: relative;
     left: 0;
     top: 0;
+    margin-bottom: 100px;
 `;
 
 const ViewTemplate = props => {
+    const { printLorem, children } = props;
+
+    const { state, dispatch } = useContext(StateContext);
+    const { activeView, displayNav } = state;
+
+    const capitalize = (word) => {
+        if (typeof word !== 'string') return ''
+        return word.charAt(0).toUpperCase() + word.slice(1)
+    }
+
+    const view = capitalize(activeView);
+
+    /* const visibility = activeView === 'music' && displayNav
+        ? 'hide' : 'appear'; */
+
     return (
         <>
-            <Template className={props.className}>
-                {props.children}
+            <Template className={`${view}View view`}>
+                <ContentContainer className='ContentContainer'>
+                    {children}
+                    <Lorem printLorem={printLorem} />
+                </ContentContainer>
             </Template>
-            <NavToggleLink />
+            <NavToggle />
         </>
     );
 }

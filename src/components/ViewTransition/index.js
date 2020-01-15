@@ -2,11 +2,12 @@ import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import './index.scss';
 
-const TransitionTemplate = props => {
+const ViewTransition = props => {
+
     return (
         <CSSTransition
             in={props.match != null}
-            timeout={1000}
+            timeout={0}
             unmountOnExit
         >
             {props.children}
@@ -14,4 +15,4 @@ const TransitionTemplate = props => {
     );
 }
 
-export default TransitionTemplate;
+export default ViewTransition;

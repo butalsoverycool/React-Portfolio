@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 // Context
 import { StateContext } from '../StateContext/index';
@@ -9,9 +9,9 @@ import * as ROUTES from '../../constants/routes';
 
 // style
 import styled from 'styled-components';
-import responsive from '../../AtMedia/index';
+import atMedia from '../../AtMedia';
 
-const Card = styled.div`
+const NavCard = styled.div`
     text-align: center;
     width: 50%;
     height: 50%;
@@ -24,7 +24,7 @@ const LinkBtn = styled(Link)`
     height: 100%;
     margin: 0;
     font-size: 6vw;
-    ${responsive('orientation').landscape`
+    ${atMedia([{ key: 'orientation', val: 'landscape' }])`
         font-size: 5vh;
     `};
     font-style: italic;
@@ -70,28 +70,46 @@ clickHandler = () => {
 //render() {
 
 const NavLink = props => {
+    // destructure props
+    const { name, navKey, content } = props;
+
     // global state/updater
-    const { state, dispatch } = React.useContext(StateContext);
+    const { state, dispatch } = useContext(StateContext);
+    const { activeView, navAnimation } = state;
+
+    // determine if link is active
+    const isActive = view => activeView === view ? 'active' : '';
 
     // set active view in state
     const handleClick = (e) => {
-        dispatch({ type: 'activeView', payload: props.name });
+        /*         state.historyStack.prev.push({path: '/' + name, action: });
+                state.historyStack */
+
+        // update active view
+        if (name !== activeView) {
+            dispatch({ type: 'activeView', payload: name });
+        }
+
+        // set navAnim to rise/fall versions
+        if (navAnimation.in !== 'navRise') {
+            dispatch({ type: 'navAnimation', payload: { in: 'navRise', out: 'navFall' } });
+        }
     }
 
+
     return (
-        <React.Fragment>
-            <Card className={`Card ${props.name} ${props.isActive ? 'active' : ''}`}>
+        <>
+            <NavCard className={`NavCard ${name} ${isActive(name)}`}>
                 <LinkBtn
-                    data-nav-key={String(props.navKey)}
-                    active={String(props.isActive)}
-                    to={ROUTES[props.name.toUpperCase()]}
-                    className={`NavLink ${props.name} ${props.isActive ? 'active' : ''}`}
+                    data-nav-key={navKey}
+                    to={ROUTES[name.toUpperCase()]}
+                    className={`NavLink ${name} ${isActive(name)}`}
                     onClick={handleClick}
                 >
-                    {props.content || props.name}
+                    {content || name}
                 </LinkBtn>
-            </Card>
-        </React.Fragment >
+            </NavCard>
+        </>
     );
     // }
 }

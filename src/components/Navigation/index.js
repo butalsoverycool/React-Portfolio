@@ -1,4 +1,5 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
+import * as FUNCS from '../../logic/functions';
 
 // threejs/gsap
 /* import * as THREE from 'three';
@@ -11,144 +12,68 @@ import { TweenMax, Power2, TimelineLite, TweenLite, Elastic } from "gsap"; */
 import { StateContext } from '../StateContext/index';
 
 // style 
-import styled, { css, keyframes } from 'styled-components';
-import responsive from '../../AtMedia/index';
+import styled, { keyframes } from 'styled-components';
+import * as KEYFRAMES from '../Keyframes';
+import atMedia from '../../AtMedia';
 import './index.css';
+import '../NavTransition/index.scss';
 
 //children
+import NavTransition from '../NavTransition';
 import HiddenNav from './HiddenNav';
 import NavLink from './NavLink';
 
-/* const Navigation_styled = styled.nav`
-    position: fixed;
-    z-index: 1;
-    display: flex;
-    justify-content: space-evenly;
-    left: 0;
-    top: 0;
-    width: inherit;
-    height: 100px;
-    margin: 0;
-    padding: 10px 0;
-    text-align: center;
-`; */
-
-/**
- *
- * display: ${props => props.activeView === '' || props.activeView === '/' ? 'block' : 'none'}
- */
 
 
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-    transform: translate3d(0px, 50px, 0px) scale(1.5);
-  }100% {
-    z-index: 1;
-    opacity: 1;
-    transform: translate3d(0px, 0px, 0px) scale(1);
-  }
-`;
-
-const riseUp = keyframes`
-  0% {
-    z-index: 1;
-    opacity: 1;
-    transform: translate3d(0px, 100%, 0px);
-  }100% {
-    z-index: 1;
-    opacity: 1;
-    transform: translate3d(0px, -50px, 0px);
-  }
-`;
-
-const goDown = keyframes`
-  0% {
-    z-index: 1;
-    opacity: 1;
-    transform: translate3d(0px, -50px, 0px);
-  }100% {
-    z-index: 1;
-    opacity: 1;
-    transform: translate3d(0px, 100%, 0px);
-  }
-`;
-
-const fadeOut = view => {
-    let power = '';
-
-    if (view === 'work' || view === 'contact') {
-        power = '-'
-    }
-
-    let xyz = [
-        0,
-        0,
-        0
-    ];
-
-    if (view === 'music' || view === 'contact') {
-        xyz[0] = power + 200;
-    } else {
-        xyz[1] = power + 200;
-    }
-
-    let values = String(xyz.map(val => val + 'px'));
-
-    return keyframes`
-        0%{
-            opacity: 1;
-            transform: translate3d(0px, 0px, 0px);
-        }100% {
-            z-index: -1;
-            opacity: 0;
-            transform: translate3d(${values});
-        }
-    `;
-}
-
-// display nav
-const display = (view) => {
-    switch (view) {
-        case 'music':
-        case 'story':
-        case 'work':
-        case 'contact':
-            return false;
-        default:
-            return true;
-    }
-};
-
-
-const NavContainer = styled.div`
-    position: absolute;
-    bottom: 0;
-    z-index: 1;
-   
-    text-align: center;
-    width: 100vw;
-    height: 50vw;
-
-    opacity: ${ props => props.displayNav
-        ? '0'
-        : props.fadeAwayNav
-            ? '1'
-            : '0'
-    };
-
-    animation: ${props => props.displayNav
-        ? (props.activeView === '' || props.activeView === '/'
+/***
+ * (props.activeView === '' || props.activeView === '/'
             ? css`.4s ${fadeIn} ease-out .3s forwards;`
-            : css`.4s ${riseUp} ease-out .3s forwards;`)
+            : css`.4s ${riseNarrow} ease-out .3s forwards;`)
         : (props.fadeAwayNav
             ? (props.activeView === ''
                 ? css`.4s ${fadeOut(props.activeView)} ease-out forwards;`
                 : css`.4s ${goDown} ease-out forwards;`)
-            : 'none')
+ */
+
+
+/**
+ * opacity: ${ props => props.displayNav
+        ? '1'
+        : '1'
     };
 
-    ${responsive('orientation').landscape`
+    animation: ${props => props.displayNav
+        ? `${navRise} 1s ease-out forwards 1`
+        : `${navFall} 1s ease-out forwards 1`
+    };
+
+
+     transform: ${props => props.displayNav
+        ? 'none'
+        : 'translate3d(0,50vh,0)'
+    };
+ */
+
+const NavigationStyled = styled.div`
+    position: fixed;
+    bottom: 0;
+    background: white;
+    
+   
+
+    text-align: center;
+    width: 100vw;
+    overflow: hidden;
+    height: 50vw;
+
+    transition: ${props => props.activeView === ''
+        ? 'opacity 3s, transform 1.5s cubic-bezier(.2,.1,0,1)'
+        : 'opacity .4s, transform .4s ease-out'
+    };
+
+   
+
+    ${atMedia([{ key: 'orientation', val: 'landscape' }])`
         max-height: 50vh;
     `};
 `;
@@ -158,40 +83,50 @@ const NavContainer = styled.div`
 
 
 const Navigation = (props) => {
-    //console.log(props.activeView)
     // global state/updater
     const { state, dispatch } = useContext(StateContext);
 
-    const { activeView, displayNav, fadeAwayNav } = state;
+    const { activeView, displayNav } = state;
 
     // check if link is active
     const isActive = (name) => name === activeView;
 
+
+
+
+
+    // determine transitionSpeed
+    const speed = activeView === '' ? 'slow' : '';
+
     return (
-        <NavContainer className={`Nav`} activeView={activeView} displayNav={displayNav} fadeAwayNav={fadeAwayNav}>
-            <HiddenNav>
-                <NavLink
-                    navKey={0}
-                    name='music'
-                    isActive={isActive('music')}
-                />
-                <NavLink
-                    navKey={2}
-                    name='story'
-                    isActive={isActive('story')}
-                />
-                <NavLink
-                    navKey={1}
-                    name='work'
-                    isActive={isActive('work')}
-                />
-                <NavLink
-                    navKey={3}
-                    name='contact'
-                    isActive={isActive('contact')}
-                />
-            </HiddenNav>
-        </NavContainer >
+        <NavTransition displayNav={displayNav}>
+            <NavigationStyled className='Navigation' {...state}>
+                <HiddenNav>
+                    <NavLink
+                        navKey={0}
+                        name='music'
+                        isActive={isActive('music')}
+                    />
+                    <NavLink
+                        navKey={2}
+                        name='story'
+                        isActive={isActive('story')}
+                    />
+                    <NavLink
+                        navKey={1}
+                        name='work'
+                        isActive={isActive('work')}
+                    />
+                    <NavLink
+                        navKey={3}
+                        name='contact'
+                        isActive={isActive('contact')}
+                    />
+                </HiddenNav>
+
+                {/* The canvas-animation appears here after compilation... */}
+            </NavigationStyled>
+        </NavTransition>
     );
 
 }

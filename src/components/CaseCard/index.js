@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import styled from 'styled-components';
+import responsive from '../../AtMedia';
 
 import { caseData } from './data';
 
@@ -25,46 +26,34 @@ class CaseProvider extends Component {
 const CaseCardStyled = styled.a`
     display: flex;
     justify-content: space-evenly;
+
+    
+    justify-content: stretch;
+    flex-direction: column;
+    
     margin: 20px auto;
-    height: auto;
-    min-height: 250px;
-    border: solid black 2px;
-    border-radius: 10px;
-    padding: 20px;
-    text-decoration: none;
-`;
-
-export default class CaseCards extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <CaseProvider>
-                <CardList />
-            </CaseProvider >
-        );
-    }
-}
-
-const CaseTitle = styled.h2`
-    font-size: 1.2em;
-    font-weight: 700;
     padding: 10px;
-    color: black;
-`;
+    text-decoration: none;
 
-const CaseContent = styled.div`
     font-size: 1.2em;
     color: white;
-    width: 100%;
+    width: inherit;
+    min-height: 300px;
     background: hotpink url(${props => props.img});
-    padding: 10px;
+    
     border-radius: 10px;
     text-shadow: 2px 2px 5px black;
 `;
 
+const CaseTitle = styled.h2`
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-right: 10px;
+    color: white;
+`;
+
 const CardList = (props) => {
+    // linking to external page
     const openExternal = (e, url) => {
         // dont go just yet
         e.preventDefault();
@@ -85,13 +74,27 @@ const CardList = (props) => {
         <CaseCardContext.Consumer>
             {context =>
                 context.caseData.map((item, nth) =>
-                    <CaseCardStyled id={`case-${nth}`} className="CaseCard" key={`case-${nth}`} href={item.link} onClick={(e) => openExternal(e, item.link)}>
-                        <CaseTitle>{item.title}</CaseTitle>
-                        <CaseContent className="content" img={item.img}>
-                            <p className="CaseContent">{item.content}</p>
-                        </CaseContent>
+                    <CaseCardStyled id={`case-${nth}`} img={item.img} className="CaseCard" key={`case-${nth}`} href={item.link} onClick={(e) => openExternal(e, item.link)}>
+
+                        {/* <ContentCard className="ContentCard" img={item.img}> */}
+                        <CaseTitle className='CaseTitle'>{item.title}</CaseTitle>
+                        <p className="CaseContent">{item.content}</p>
+                        {/* </ContentCard> */}
                     </CaseCardStyled>)}
         </CaseCardContext.Consumer>
     );
 
+}
+
+export default class CaseCards extends Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <CaseProvider>
+                <CardList />
+            </CaseProvider >
+        );
+    }
 }

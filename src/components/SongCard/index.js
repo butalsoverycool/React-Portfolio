@@ -1,6 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import responsive from '../../AtMedia/index';
+import React, { useContext } from 'react';
+import styled, { keyframes, css } from 'styled-components';
+import atMedia from '../../AtMedia';
+import { StateContext } from '../StateContext';
 
 export const songs = [
     {
@@ -47,37 +48,59 @@ export const songs = [
     }
 ];
 
-
+const appear = keyframes`{
+    0 % {
+        opacity: 0;
+        
+    }
+    100 % {
+        opactiy: 1;
+        
+    }
+}`;
 
 const SongCard = props => {
+    // state
+    const { state, dispatch } = useContext(StateContext);
+    const { displayNav } = state;
+
+    // props
+    const key = props.num;
     props = props.song;
-
-    console.log(props);
-
     const tagType = props.tag;
-
-    //console.log(attrs);
 
     const Frame = styled(tagType)`
         width: ${props => props.with || '300px'};
-        height: ${props => props.height || '380px'};
+        height: 0;
         margin: 0;
         flex-grow: 1;
         border: none;
-        ${responsive('max-width').narrowSongCard`
+        opacity: 0;
+
+        ${atMedia([{ key: 'max-width', val: '320px' }])`
             margin: 0;
             width: 100vw;
         `}
     `;
 
+    // smoothing spotify's ugly iframe render glitch
+    const loadHandler = (e) => {
+        if (!displayNav) {
+            e.target.classList.add('appear');
+        }
+        document.querySelector('.loading').style.display = 'none';
+    }
+
     return (
         <>
             <Frame
-                className='SongCard'
+                className={`SongCard ${props.meta.title}`}
+                data-key={key}
                 src={props.src}
                 frameborder={props.attrs.frameborder}
                 allowtransparency={props.attrs.allowtransparency}
                 allow={props.attrs.allow}
+                onLoad={loadHandler}
             />
         </>
     );

@@ -1,0 +1,73 @@
+$_left: translate3d(-50vw, 0px, 0px); 
+$_top: translate3d(0px, -50vh, 0px); 
+$_right: translate3d(50vw, 0px, 0px); 
+$_bottom: translate3d(0px, 150vh, 0px); 
+$_middle: translate3d(0px, 0px, 0px); 
+$_scaleDown: scale(.8);
+$_scaleDefault: scale(1);
+$_scaleUp: scale(6);
+
+$fat: rotateZ(29deg) skewX(-31deg) translate3d(5px, 5px, 0px);
+$narrow: rotateZ(423deg) skewX(42deg) translate3d(0px, 5px, 0px) scale(.4);
+
+$_opacityFast: 1000ms;
+$_transformFast: 400ms;
+
+$_opacitySlow: 3000ms;
+$_transformSlow: 1500ms;
+
+
+.NavToggleIcon,
+.NavToggleIcon.exit-done {
+    font-size: 2em;
+    transition: 1s;
+    transform: $fat;
+    transition: .2s;
+}
+
+.NavToggleIcon:hover,
+.NavToggleIcon.exit-done:hover {
+    transform: $fat scale(1.1);
+    transition: .2s;
+}
+
+
+
+
+.NavToggleIcon.enter {
+    transform: $fat;
+}
+
+.NavToggleIcon.enter-active {
+    transform: $narrow;
+    transition: transform .2s;
+}
+
+.NavToggleIcon.enter-done {
+    transform: $narrow;
+}
+
+
+.NavToggleIcon.exit {
+    transform: $narrow;
+}
+
+.NavToggleIcon.exit-active {
+    transform: $fat;
+    transition: .2s;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

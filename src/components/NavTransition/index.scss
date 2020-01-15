@@ -1,0 +1,66 @@
+$_left: translate3d(-50vw, 0px, 0px); 
+$_top: translate3d(0px, -50vh, 0px); 
+$_right: translate3d(50vw, 0px, 0px); 
+$_bottom: translate3d(0px, 180vh, 0px); 
+$_middle: translate3d(0px, 0px, 0px); 
+$_scaleDown: scale(.8);
+$_scaleDefault: scale(1);
+$_scaleUp: scale(6);
+
+$_opacityFast: 1000ms;
+$_transformFast: 400ms;
+
+$_opacitySlow: 3000ms;
+$_transformSlow: 1500ms;
+
+
+.Navigation{
+   opacity: 0;
+  transform: $_bottom $_scaleUp;
+}
+
+.Navigation.enter {
+  opacity: 0;
+  transform: $_bottom $_scaleUp;
+}
+
+.Navigation.enter-active {
+  opacity: 1;
+  transform: $_middle $_scaleDefault;
+}
+
+.Navigation.enter-done {
+  transform: $_middle $_scaleDefault;
+  opacity: 1;
+}
+
+
+
+.Navigation.exit {
+  opacity: 1;
+  transform: $_middle $_scaleDefault;
+}
+
+.Navigation.exit-active {
+  opacity: 0;
+  transform: $_bottom;
+}
+
+.Navigation.exit-done {
+  /* transform: translate3d(-100vw,0,0); */
+  /* z-index: -1; */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

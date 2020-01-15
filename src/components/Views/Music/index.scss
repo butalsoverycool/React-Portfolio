@@ -1,0 +1,19 @@
+@keyframes riseUp {
+    0%{
+        transform: translate3d(0, 150vh, 0);
+    }
+    100%{
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+
+
+.appear {
+    transition: opacity .4s .4s, height 0s;
+    opacity: 1;
+}
+
+.SongCard.appear {
+    height: 380px;
+}
