@@ -1,0 +1,64 @@
+/* .Logo.mini {
+    position: relative;
+    width: 200px;
+    transition: 2s;
+} */
+
+
+/* .Logo{
+   
+} */
+
+$titleW: 160px;
+
+.Logo {
+    transform: rotate(-20deg);
+    transition: 1.5s ease-in-out;
+
+}
+
+.Logo.enter {
+    position: relative;
+    width: 100%;
+    opacity: 1;
+    transform: rotate(-20deg);
+    
+}
+
+.Logo.enter-active {
+    position: relative;
+    width: $titleW;
+    opacity: 1;
+    transform: rotate(0deg);
+}
+
+.Logo.enter-done,
+.Logo.exit,
+.Logo.exit-done {
+    position: relative;
+    width: $titleW;
+    opacity: 1;
+    transform: rotate(-20deg);
+    transition: .4s;
+}
+
+.Logo.enter-done {
+    transform: rotate(0deg);
+}
+
+
+
+/* .Logo.exit {
+  opacity: 1;
+  transform: $_middle $_scaleDefault;
+}
+
+.Logo.exit-active {
+  opacity: 0;
+  transform: $_bottom;
+}
+
+.Logo.exit-done {
+  transform: translate3d(-100vw,0,0);
+  z-index: -1;
+} */

@@ -3,12 +3,9 @@ import styled from 'styled-components';
 
 import atMedia from '../../AtMedia';
 
-/**
- * display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
- */
+
 const HiddenNavStyled = styled.div`
+    outline: none;
     opacity: 0;
     background: red;
     width: 100vw;
@@ -25,6 +22,7 @@ const setBottom = () => {
 }
 
 const BoardContainer = styled.div`
+    outline: none;
     margin: 0 auto;
     padding: 0;
 
@@ -58,33 +56,10 @@ const BoardContainer = styled.div`
 `;
 
 
-/**
- * position: relative;
-    left: 0;
-    top: 0;
 
-
-    ${atMedia('max-width').narrow`
-        max-width: 250px;
-        max-height: 250px;
-    `}
-    ${atMedia('max-width').veryNarrow`
-        max-width: 200px;
-        max-height: 200px;
-    `}
-
-
-    -webkit-transform: rotateX(58deg) rotateZ(-52deg);
-    -ms-transform: rotateX(58deg) rotateZ(-52deg);
-    -webkit-transform: rotateX(43deg) rotateZ(-46deg);
-    -ms-transform: rotateX(43deg) rotateZ(-46deg);
-    -webkit-transform: rotateX(44deg) rotateZ(-45deg);
-    -ms-transform: rotateX(44deg) rotateZ(-45deg);
-    transform: rotateX(44deg) rotateZ(-45deg);
- */
 
 const Board = styled.div`
-    
+    outline: none;
     z-index: 1;
 
     margin: 0 auto;
@@ -110,13 +85,6 @@ const Board = styled.div`
     `}
 `;
 
-// landscape: w: winH, h: winH / 2
-// portrait: w: winW, h: winW / 2
-
-// width: (100vw)
-// height: 50vw;
-// portrait: max-height: 300px;
-// landscape: max-height: 50vh;
 
 const HiddenNav = props => {
     return (

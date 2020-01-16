@@ -18,7 +18,7 @@ import { StateContext } from '../StateContext';
 
 // shared
 import Navigation from '../Navigation';
-import MainTitle from '../MainTitle';
+import Intro from '../Intro';
 import Title from '../Title';
 import HandWrittenTitle from '../Intro';
 import NavToggleLink from '../NavToggle';
@@ -95,21 +95,23 @@ const App = () => {
         {/* <Switch> */}
         {/* <Route exact path={ROUTES.HOME}> */}
 
-        <MainTitle title='Kim Nkoubou' align='center' />
+        <Intro />
 
 
         {/* VIEWS */}
 
         {/* Work view */}
         <Route exact path={ROUTES.WORK}>
-          {({ match, location, history }) => (
-            <>
-              <Location match={match} location={location} history={history} />
-              <ViewTransition match={match}>
-                <WorkView />
-              </ViewTransition>
-            </>
-          )}
+          {
+            ({ match, location, history }) => (
+              <>
+                <Location match={match} location={location} history={history} />
+                <ViewTransition match={match}>
+                  <WorkView />
+                </ViewTransition>
+              </>
+            )
+          }
         </Route>
 
         {/* Story view */}

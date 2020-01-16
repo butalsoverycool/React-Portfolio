@@ -26,39 +26,6 @@ const artist = {
 }
 
 
-
-
-
-/* const FollowBtn = props => {
-    props = props.artist;
-    
-
-    
-
-
-    return (
-        <Btn
-        /* src={src}
-        frameBorder={frameBorder}
-        allowtransparency={allowtransparency}
-        allow={allow}
-        width={width}
-        height={height}
-        scrolling={scrolling}
-        overflow={overflow} 
-        />
-    );
-}
-
-const ArtistList = artists.map((artist, nth) =>
-    <>
-        <FollowBtn
-            key={nth}
-            artist={artist}
-        />
-    </>
-); */
-
 const FollowContainer = styled.div`
     width: 100%;
     text-align: left;
@@ -106,7 +73,6 @@ const Follow = () => {
         </FollowContainer>
     );
 }
-
 
 
 export default Follow;

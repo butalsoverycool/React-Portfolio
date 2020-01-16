@@ -58,7 +58,7 @@ const MainTitle = props => {
     const isActive = (name) => name === activeView;
 
     const ConditionalTitle = (() =>
-        !intro.a.play
+        !intro.a.play && !intro.b.play
             ? <Link
                 to={ROUTES.HOME}
                 className={`HomeLink ${isActive('')}`}
@@ -79,7 +79,7 @@ const MainTitle = props => {
     return (
         <>
             <Intro />
-            {ConditionalTitle}
+            {/* {ConditionalTitle} */}
         </>
     );
 

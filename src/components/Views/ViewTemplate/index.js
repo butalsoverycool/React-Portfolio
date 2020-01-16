@@ -105,9 +105,6 @@ const ViewTemplate = props => {
 
     const view = capitalize(activeView);
 
-    /* const visibility = activeView === 'music' && displayNav
-        ? 'hide' : 'appear'; */
-
     return (
         <>
             <Template className={`${view}View view`}>

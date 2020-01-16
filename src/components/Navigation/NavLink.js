@@ -12,6 +12,8 @@ import styled from 'styled-components';
 import atMedia from '../../AtMedia';
 
 const NavCard = styled.div`
+    outline: none;
+
     text-align: center;
     width: 50%;
     height: 50%;
@@ -19,6 +21,7 @@ const NavCard = styled.div`
 `;
 
 const LinkBtn = styled(Link)`
+    outline: none;
     display: block;
     width: 100%;
     height: 100%;
@@ -36,38 +39,6 @@ const LinkBtn = styled(Link)`
     cursor: pointer;
 `;
 
-//export default class NavLink extends Component {
-/* constructor(props) {
-    super(props);
-
-    this.clickHandler = this.clickHandler.bind(this);
-
-    this.state = {
-        isActive: false
-    }
-} */
-
-/* componentDidMount() {
-    this.setState({
-        isActive: this.props.isActive
-    });
-}
-
-// if isActive-prop was updated, update local state
-componentDidUpdate(nextProps) {
-    if (this.props.isActive !== this.state.isActive) {
-        this.setState({
-            isActive: this.props.isActive
-        }, () => console.log('updated props', this.props));
-    }
-}
-
-// active: true, update both app- and local state 
-clickHandler = () => {
-    this.props.setActiveView(this.props.name);
-} */
-
-//render() {
 
 const NavLink = props => {
     // destructure props
@@ -75,7 +46,7 @@ const NavLink = props => {
 
     // global state/updater
     const { state, dispatch } = useContext(StateContext);
-    const { activeView, navAnimation } = state;
+    const { activeView, displayNav, navAnimation } = state;
 
     // determine if link is active
     const isActive = view => activeView === view ? 'active' : '';
@@ -94,6 +65,14 @@ const NavLink = props => {
         if (navAnimation.in !== 'navRise') {
             dispatch({ type: 'navAnimation', payload: { in: 'navRise', out: 'navFall' } });
         }
+
+        // set navAnim to rise/fall versions
+        if (displayNav) {
+            dispatch({
+                type: 'toggleDisplayNav',
+                payload: false
+            });
+        }
     }
 
 
@@ -111,7 +90,6 @@ const NavLink = props => {
             </NavCard>
         </>
     );
-    // }
 }
 
 export default NavLink;

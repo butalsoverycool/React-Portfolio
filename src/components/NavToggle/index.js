@@ -32,13 +32,7 @@ const toLeft = keyframes`
 `;
 
 
-/**
- * LINKSTYLED
- * 
- * 
- */
-
-const LinkStyled = styled.div`
+const Btn = styled.div`
     z-index: 2;
     cursor: pointer;
     position: fixed;
@@ -93,14 +87,9 @@ const NavToggle = props => {
     // global state/updater
     const { state, dispatch } = useContext(StateContext);
 
-    const { displayNav, historyStack, navAnimation } = state;
+    const { displayNav, historyStack, history, navAnimation } = state;
 
-    /* const lastIndex = historyStack.prev[historyStack.length - 2] || null;
 
-    console.log('navtoggle lastIndex', lastIndex)
-    if (lastIndex) {
-        console.log('navtoggle last path', historyStack.prev[lastIndex].path);
-    } */
 
     // toggle displayNav
     const handleClick = () => {
@@ -111,21 +100,9 @@ const NavToggle = props => {
                 payload: true
             });
         }
-
-
-        // nav anim to rise/fall versions
-        /* if (navAnimation.in !== 'navRise') {
-            dispatch({
-                type: 'navAnimation',
-                payload: {
-                    in: 'navRise',
-                    out: 'navFall'
-                }
-            });
-        } */
     }
 
-    const IconStyled = styled(FontAwesomeIcon)``;
+    const Icon = styled(FontAwesomeIcon)``;
 
     // animate icon: displayNav = enter, !displayNav = exit
     const iconAnim = (() =>
@@ -149,7 +126,7 @@ const NavToggle = props => {
 
     return (
         <>
-            <LinkStyled
+            <Btn
                 className='NavToggle'
                 onClick={handleClick}
                 navToggleAnim={navToggleAnim}
@@ -158,9 +135,9 @@ const NavToggle = props => {
                     in={iconAnim}
                     timeout={500}
                 >
-                    <IconStyled icon={ICONS.faThLarge} className='NavToggleIcon' />
+                    <Icon icon={ICONS.faThLarge} className='NavToggleIcon' />
                 </CSSTransition>
-            </LinkStyled>
+            </Btn>
         </>
     );
 }

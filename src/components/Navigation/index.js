@@ -24,36 +24,6 @@ import HiddenNav from './HiddenNav';
 import NavLink from './NavLink';
 
 
-
-/***
- * (props.activeView === '' || props.activeView === '/'
-            ? css`.4s ${fadeIn} ease-out .3s forwards;`
-            : css`.4s ${riseNarrow} ease-out .3s forwards;`)
-        : (props.fadeAwayNav
-            ? (props.activeView === ''
-                ? css`.4s ${fadeOut(props.activeView)} ease-out forwards;`
-                : css`.4s ${goDown} ease-out forwards;`)
- */
-
-
-/**
- * opacity: ${ props => props.displayNav
-        ? '1'
-        : '1'
-    };
-
-    animation: ${props => props.displayNav
-        ? `${navRise} 1s ease-out forwards 1`
-        : `${navFall} 1s ease-out forwards 1`
-    };
-
-
-     transform: ${props => props.displayNav
-        ? 'none'
-        : 'translate3d(0,50vh,0)'
-    };
- */
-
 const NavigationStyled = styled.div`
     position: fixed;
     bottom: 0;

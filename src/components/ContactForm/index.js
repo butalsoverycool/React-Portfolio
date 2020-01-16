@@ -3,17 +3,17 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Form = styled.form`
-    background: #111;
-    color: white;
+    /* background: #111;
+    color: white; */
+
+    background: white;
+    color: black;
+
     border-radius: 10px;
 
     width: 100%;
     max-width: 450px;
-    font-size: 1.5em;
-
-    
-
-    
+    font-size: 1.5em;   
 `;
 
 const FormGroup = styled.div`
@@ -40,7 +40,7 @@ const Label = styled.label`
 const Input = styled.input`
     font-size: 1em;
     padding: 5px;
-    border: solid black 2px;
+    border: solid black 1px;
     border-radius: 10px;
     outline: none;
     color: black;
@@ -50,9 +50,10 @@ const Input = styled.input`
 `;
 
 const Textarea = styled.textarea`
-    font-size: 1.1em;
+    font-size: .8em;
     padding: 5px;
 
+    border: solid black 1px;
     border-radius: 10px;
     outline: none;
 
@@ -62,9 +63,35 @@ const Textarea = styled.textarea`
     width: 50px;
 `;
 
+const SubmitContainer = styled.div`
+    width: 100%;
+    height 50px;
+    text-align: center;
+    padding: 50px 0;
+`;
+
+const Submit = styled.button`
+    outline: none;
+    cursor: pointer;
+
+    width: 200px;
+    height: 70px;
+    margin: auto;
+    font-size: 1.5em;
+    border-radius: 10px;
+
+    background: #111;
+    color: whitesmoke;
+
+`;
+
 const ContactForm = (props) => {
     const handleSubmit = () => {
         console.log('Submitted!');
+    }
+
+    const submitHandler = e => {
+        e.preventDefault();
     }
 
     return (
@@ -79,18 +106,11 @@ const ContactForm = (props) => {
             </FormGroup>
             <FormGroup className="form-group">
                 <Label htmlFor="message">message</Label>
-                <Textarea className="form-control" rows="5"></Textarea>
+                <Textarea className="form-control" rows="8"></Textarea>
             </FormGroup>
-            <button type="submit" className="btn btn-primary">Submit</button>
-
-            {/* <Fieldset>
-                <Label htmlFor="email">Email</Label>
-                <Input type="text" id="email" />
-            </Fieldset>
-            <Fieldset>
-                <Label htmlFor="msg">Message</Label>
-                <Textarea type="text" id="msg" rows={5} />
-            </Fieldset> */}
+            <SubmitContainer>
+                <Submit type="submit" className="btn btn-primary" onClick={submitHandler}>Send</Submit>
+            </SubmitContainer>
         </Form>
     );
 }

@@ -7,10 +7,7 @@ export const initialState = {
     winSize: { w: window.innerWidth, h: window.innerHeight },
     historyStack: { prev: [{ path: window.location.pathname, action: 'POP' }], next: [], history: {} },
     activeView: window.location.pathname.substring(1),
-    intro: {
-        a: { play: false, ended: false },
-        b: { play: false, ended: false }
-    },
+    intro: { play: false, ended: false },
     displayNav: false,
     navAnimation: window.location.pathname === '/'
         ? { in: 'navFadeIn', out: 'navFadeOut' }
@@ -73,12 +70,10 @@ const stateReducer = (state, action) => {
 
         case 'intro':
             let reducerMsg = `Updated state (${action.type}): `;
-            for (let video in action.payload) {
-                reducerMsg += `video ${video}: `;
-                for (let status in action.payload[video]) {
-                    newState.intro[video][status] = action.payload[video][status];
-                    reducerMsg += `${status} = ${action.payload[video][status]}, `;
-                }
+
+            for (let status in action.payload) {
+                newState.intro[status] = action.payload[status];
+                reducerMsg += `${status} = ${action.payload[status]}, `;
             }
 
             console.log(reducerMsg);
