@@ -1,64 +1,48 @@
-/* .Logo.mini {
-    position: relative;
+/* .LogoContainer.mini {
     width: 200px;
     transition: 2s;
 } */
 
 
-/* .Logo{
+/* .LogoContainer{
    
 } */
 
-$titleW: 160px;
+$smallDefault: 160px;
 
-.Logo {
-    transform: rotate(-20deg);
-    transition: 1.5s ease-in-out;
 
-}
-
-.Logo.enter {
-    position: relative;
+.LogoContainer.enter {
     width: 100%;
-    opacity: 1;
-    transform: rotate(-20deg);
-    
 }
 
-.Logo.enter-active {
-    position: relative;
-    width: $titleW;
-    opacity: 1;
-    transform: rotate(0deg);
+.LogoContainer.enter-active {
+    width: $smallDefault;
 }
 
-.Logo.enter-done,
-.Logo.exit,
-.Logo.exit-done {
-    position: relative;
-    width: $titleW;
-    opacity: 1;
-    transform: rotate(-20deg);
-    transition: .4s;
+.LogoContainer.enter-done,
+.LogoContainer.exit,
+.LogoContainer.exit-done {
+    width: $smallDefault;
 }
 
-.Logo.enter-done {
-    transform: rotate(0deg);
+.LogoContainer.enter-done {
+    width: $smallDefault;
+    right: -40px;
+    top: -20px;
 }
 
 
 
-/* .Logo.exit {
-  opacity: 1;
+/* .LogoContainer.exit 
   transform: $_middle $_scaleDefault;
 }
 
-.Logo.exit-active {
+.LogoContainer.exit-active {
   opacity: 0;
   transform: $_bottom;
 }
 
-.Logo.exit-done {
+.LogoContainer.exit-done {
   transform: translate3d(-100vw,0,0);
   z-index: -1;
 } */

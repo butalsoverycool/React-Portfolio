@@ -23,7 +23,12 @@ import NavTransition from '../NavTransition';
 import HiddenNav from './HiddenNav';
 import NavLink from './NavLink';
 
-
+/**
+ * transition: ${props => props.activeView === ''
+        ? 'opacity 3s, transform 1.5s cubic-bezier(.2,.1,0,1)'
+        : 'opacity .4s, transform .4s cubic-bezier(.2,.1,0,1)'
+    };
+ */
 const NavigationStyled = styled.div`
     position: fixed;
     bottom: 0;
@@ -38,10 +43,8 @@ const NavigationStyled = styled.div`
 
     transition: ${props => props.activeView === ''
         ? 'opacity 3s, transform 1.5s cubic-bezier(.2,.1,0,1)'
-        : 'opacity .4s, transform .4s ease-out'
+        : 'opacity .4s, transform .4s cubic-bezier(.2,.1,0,1)'
     };
-
-   
 
     ${atMedia([{ key: 'orientation', val: 'landscape' }])`
         max-height: 50vh;
@@ -56,21 +59,49 @@ const Navigation = (props) => {
     // global state/updater
     const { state, dispatch } = useContext(StateContext);
 
-    const { activeView, displayNav } = state;
+    const { activeView, displayNav, delayDisplayNav } = state;
 
     // check if link is active
     const isActive = (name) => name === activeView;
 
 
+    /* if (delayDisplayNav) {
+        dispatch({
+            type: 'delayDisplayNav',
+            payload: false
+        });
+
+        dispatch({
+            type: 'toggleDisplayNav',
+            payload: true
+        });
+
+        setTimeout(() => {
+            dispatch({
+                type: 'toggleDisplayNav',
+                payload: false
+            });
+        }, 100);
+    } */
 
 
-
-    // determine transitionSpeed
+    /* // determine transitionSpeed
     const speed = activeView === '' ? 'slow' : '';
+
+    let delayClass = delayDisplayNav ? 'delay' : 'none';
+
+    if (delayDisplayNav) {
+        setTimeout(() => {
+            dispatch({
+                type: 'delayDisplayNav',
+                payload: false
+            });
+        }, 400);
+    } */
 
     return (
         <NavTransition displayNav={displayNav}>
-            <NavigationStyled className='Navigation' {...state}>
+            <NavigationStyled className={`Navigation`} {...state}>
                 <HiddenNav>
                     <NavLink
                         navKey={0}

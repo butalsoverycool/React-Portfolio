@@ -5,7 +5,11 @@ import { withRouter } from 'react-router';
 export const initialState = {
     freshState: true,
     winSize: { w: window.innerWidth, h: window.innerHeight },
-    historyStack: { prev: [{ path: window.location.pathname, action: 'POP' }], next: [], history: {} },
+    historyStack: {
+        prev: [{ path: window.location.pathname, action: 'POP' }],
+        next: [],
+        history: null
+    },
     activeView: window.location.pathname.substring(1),
     intro: { play: false, ended: false },
     displayNav: false,
@@ -50,12 +54,19 @@ const stateReducer = (state, action) => {
         case 'historyStack':
             newState.historyStack.prev.push(action.payload);
 
-            console.log(`Updated state (${action.type}): path = ${action.payload.path}, action = ${action.payload.action}`);
+            console.log(`Updated state (${action.type}): path = ${action.payload.path}, action = ${action.payload.action}, scrollTop = ${action.payload.scrollTop}`);
 
             return newState;
 
         case 'routeHistory':
             newState.historyStack.history = action.payload;
+
+            console.log(`Updated state (${action.type}): ${action.payload}`);
+
+            return newState;
+
+        case 'lastScrollPos':
+            newState.historyStack.lastScrollPos = action.payload;
 
             console.log(`Updated state (${action.type}): ${action.payload}`);
 

@@ -42,7 +42,7 @@ const Btn = styled.div`
     line-height: 50px;
     text-decoration: none;
     color: black;
-    box-shadow: -2px -2px 100px black; 
+    box-shadow: -2px 6px 10px black;
     font-weight: 700;
 
     background: white;
@@ -62,9 +62,8 @@ const Btn = styled.div`
     
     ${atMedia([{ key: 'orientation', val: 'landscape' }])`
         left: unset;
-        bottom: unset;
         right: 0;
-        top: 0;
+        bottom: 0;
 
         width: 100px;
 
@@ -102,27 +101,22 @@ const NavToggle = props => {
         }
     }
 
-    const Icon = styled(FontAwesomeIcon)``;
-
-    // animate icon: displayNav = enter, !displayNav = exit
-    const iconAnim = (() =>
-        displayNav
-            ? true : false
-    )();
-
     // previous path in state
-    const prevPage = (() =>
-        historyStack.prev.length > 1
-            ? historyStack.prev[historyStack.prev.length - 2].path
-            : null
-    )();
+    const prevPage = historyStack.prev.length > 1
+        ? historyStack.prev[historyStack.prev.length - 2].path
+        : null;
 
     // animate navToggle only if no history or coming from landing
-    const navToggleAnim = (() =>
+    const navToggleAnim =
         historyStack.prev.length <= 1 || prevPage === '/'
-            ? true : false
-    )();
+            ? true : false;
 
+
+    // animate icon: displayNav = enter, !displayNav = exit
+    const iconTransition = displayNav ? true : false;
+
+
+    const Icon = styled(FontAwesomeIcon)``;
 
     return (
         <>
@@ -132,7 +126,7 @@ const NavToggle = props => {
                 navToggleAnim={navToggleAnim}
             >
                 <CSSTransition
-                    in={iconAnim}
+                    in={displayNav}
                     timeout={500}
                 >
                     <Icon icon={ICONS.faThLarge} className='NavToggleIcon' />

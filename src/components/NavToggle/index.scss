@@ -16,19 +16,32 @@ $_transformFast: 400ms;
 $_opacitySlow: 3000ms;
 $_transformSlow: 1500ms;
 
+@keyframes makeFat {
+    to{
+        color: red;
+    }
+}
 
 .NavToggleIcon,
 .NavToggleIcon.exit-done {
     font-size: 2em;
-    transition: 1s;
     transform: $fat;
-    transition: .2s;
+    transition: 2s;
+}
+
+.NavToggleIcon.exit-done {
+    transform: $fat;
 }
 
 .NavToggleIcon:hover,
 .NavToggleIcon.exit-done:hover {
     transform: $fat scale(1.1);
     transition: .2s;
+}
+
+.NavToggleIcon.anim {
+    transform: $narrow;
+    animation: makeFat 1s .4s forwards 1;
 }
 
 
@@ -39,6 +52,7 @@ $_transformSlow: 1500ms;
 }
 
 .NavToggleIcon.enter-active {
+  
     transform: $narrow;
     transition: transform .2s;
 }

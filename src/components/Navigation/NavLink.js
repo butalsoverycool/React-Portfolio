@@ -46,15 +46,13 @@ const NavLink = props => {
 
     // global state/updater
     const { state, dispatch } = useContext(StateContext);
-    const { activeView, displayNav, navAnimation } = state;
+    const { activeView, displayNav, delayDisplayNav, navAnimation } = state;
 
     // determine if link is active
     const isActive = view => activeView === view ? 'active' : '';
 
     // set active view in state
     const handleClick = (e) => {
-        /*         state.historyStack.prev.push({path: '/' + name, action: });
-                state.historyStack */
 
         // update active view
         if (name !== activeView) {
@@ -66,12 +64,18 @@ const NavLink = props => {
             dispatch({ type: 'navAnimation', payload: { in: 'navRise', out: 'navFall' } });
         }
 
-        // set navAnim to rise/fall versions
-        if (displayNav) {
+        // hide nav, (doc click handles navClose in app.js)
+        if (displayNav && activeView === '') {
             dispatch({
                 type: 'toggleDisplayNav',
                 payload: false
             });
+        }
+
+        // save scrollPos
+        if (name !== activeView) {
+            const elem = document.querySelector('.App');
+            dispatch({ type: 'lastScrollPos', payload: elem.scrollTop });
         }
     }
 

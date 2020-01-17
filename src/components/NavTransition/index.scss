@@ -15,7 +15,7 @@ $_transformSlow: 1500ms;
 
 
 .Navigation{
-   opacity: 0;
+  opacity: 0;
   transform: $_bottom $_scaleUp;
 }
 
@@ -27,11 +27,13 @@ $_transformSlow: 1500ms;
 .Navigation.enter-active {
   opacity: 1;
   transform: $_middle $_scaleDefault;
+  
 }
 
 .Navigation.enter-done {
   transform: $_middle $_scaleDefault;
   opacity: 1;
+  
 }
 
 
@@ -39,16 +41,24 @@ $_transformSlow: 1500ms;
 .Navigation.exit {
   opacity: 1;
   transform: $_middle $_scaleDefault;
+  transition-duration: 2s;
 }
 
 .Navigation.exit-active {
   opacity: 0;
   transform: $_bottom;
+  transition-duration: 2s;
 }
 
 .Navigation.exit-done {
   /* transform: translate3d(-100vw,0,0); */
   /* z-index: -1; */
+  transition: opacity .4s,transform 2s cubic-bezier(.2,.1,0,1);
+  
+}
+
+.Navigation.delay {
+  transition-duration: 2.5s;
 }
 
 

@@ -7,7 +7,7 @@ const ViewTransition = props => {
     return (
         <CSSTransition
             in={props.match != null}
-            timeout={0}
+            timeout={400}
             unmountOnExit
         >
             {props.children}

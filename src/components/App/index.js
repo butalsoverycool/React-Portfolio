@@ -35,10 +35,10 @@ import styled from 'styled-components';
 import '../ViewTransition/index.scss';
 
 const AppContainer = styled.div`
-  width: 100%;
+  position: relative;
+  width: 100vw;
   height: 100vh;
   overflow-x: hidden;
-  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   justify-content:flex-start; /* space-between; */
@@ -63,6 +63,9 @@ const App = () => {
 
       // if no resizing happend the last 500ms, do doWhenDone :)
       doWhenDone = setTimeout(() => {
+
+
+
         dispatch({
           type: 'winSize',
           payload: {

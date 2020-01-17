@@ -8,13 +8,9 @@ import './index.scss';
 import atMedia from '../../AtMedia';
 import IntroSrc from '../../media/Intro.mp4';
 import LogoSrc from '../../media/IntroEndFrame.png';
+import { interpolate } from 'gsap';
 
-const Container = styled.div`
-    margin: 0;
-    width: 100%;
-    height: auto;
-    text-align: center;
-`;
+
 
 const appear = keyframes`
     0%{
@@ -40,40 +36,59 @@ const minimize = keyframes`
     }
 `;
 
+
+
+const Container = styled.div`
+    z-index: 2;
+    margin: 0;
+    width: ${props => props.condition ? '100%' : '160px'};
+    height: auto;
+    text-align: center;
+    position: relative;
+    
+    right: ${props => props.condition ? '0' : '-40px'};
+    top: ${props => props.condition ? '0' : '-20px'};
+    height: auto;
+    position: absolute;
+    /* transform: rotate(20deg); */
+
+    
+    transition-duration: 1.5s;
+    transition-timing-function: cubic-bezier(.2,.1,.1,1);
+`;
+
 const Video = styled.video`
     width: 100%;
+    height: 100%;
     position: absolute;
-    left: 0;
-    top: 0;
     opacity: 1;  
-    z-index: 2;  
-    transform: rotate(-20deg);
+    z-index: 1;  
 `;
 
 const LogoLink = styled(Link)`
-    z-index: 2;
-
-    &:hover {
-        .Logo {
-            width: 170px;
-        }
-    }
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    transform: rotate(-20deg); 
 `;
 
+/**
+ * animation: ${appear} 1s 3s linear forwards 1;
+ */
+
 const EndFrame = styled.img`
-    left: 0;
-    top: 0;
     width: 100%;
     height: auto;
-    position: absolute;
-    opacity: 0;
-    z-index: 0;
-    margin: auto;
-    transform: rotate(-20deg);
+    transition: .4s;
 
-    animation: ${appear} 1s 3s linear forwards 1;
-    
-    
+    &:hover {
+        
+            transform: scale(1.1);
+        
+    }
+
+    opacity: ${props => props.condition ? '0' : '1'};
+    animation: ${props => props.condition ? css(['', ' 1s 3s linear forwards 1'], appear) : 'none'};
 `;
 
 
@@ -118,30 +133,31 @@ const Intro = props => {
     }
 
     const Logo = () => {
-        return activeView === ''
-            ? <EndFrame src={LogoSrc} className='Logo' />
-            : ('')
+        return (
+            <EndFrame src={LogoSrc} className='Logo' condition={intro.play} />
+        );
     }
 
 
     return (
-        <Container className='IntroContainer'>
-            <Intro />
+        <CSSTransition
+            in={intro.ended || activeView !== ''}
+            timeout={0}
+        >
+            <Container className='LogoContainer' condition={activeView === ''}>
+                <Intro />
 
-            <LogoLink
-                to={ROUTES.HOME}
-                className={`LogoLink ${isActive('')}`}
-                onClick={goHome}
-            >
-                <CSSTransition
-                    in={intro.ended}
-                    timeout={0}
+
+                <LogoLink
+                    to={ROUTES.HOME}
+                    className={`LogoLink ${isActive('')}`}
+                    onClick={goHome}
                 >
-                    <Logo />
-                </CSSTransition>
-            </LogoLink>
 
-        </Container >
+                    <Logo />
+                </LogoLink>
+            </Container>
+        </CSSTransition>
     );
 }
 

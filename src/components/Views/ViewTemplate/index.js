@@ -68,28 +68,27 @@ export const Lorem = props => {
         : null;
 }
 
-
 export const ContentContainer = styled.div`
     width: 95%;
     max-width: 650px;
     padding: 10px;
     height: auto;
     margin: auto;
+    margin-bottom: 200px;
     ${atMedia([{ key: 'max-width', val: '420px' }])`
-        width: 100vw;
+        width: 90%;
         padding: 0;
-        margin: 0;
-        margin-bottom: 100px;
     `}
 `;
 
 // export to apply on all views
 const Template = styled.main`
     width: 100vw;
-    position: relative;
+    position: absolute;
     left: 0;
-    top: 0;
-    margin-bottom: 100px;
+    top: ${props => props.displayNav && props.activeView !== 'music' ? '-50px' : '0'};
+    filter: ${props => props.displayNav ? 'blur(5px)' : 'none'};
+    transition: .4s;
 `;
 
 const ViewTemplate = props => {
@@ -107,7 +106,7 @@ const ViewTemplate = props => {
 
     return (
         <>
-            <Template className={`${view}View view`}>
+            <Template className={`${view}View view`} activeView={activeView} displayNav={displayNav}>
                 <ContentContainer className='ContentContainer'>
                     {children}
                     <Lorem printLorem={printLorem} />

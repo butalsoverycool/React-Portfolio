@@ -1,46 +1,46 @@
 $_left: translate3d(-50vw, 0px, 0px); 
-$_top: translate3d(0px, -50vh, 0px); 
-$_right: translate3d(50vw, 0px, 0px); 
-$_bottom: translate3d(0px, 50vh, 0px); 
-$_middle: translate3d(0px, 0px, 0px); 
-$_scaleDown: scale(.8);
-$_scaleDefault: scale(1);
-$_scaleUp: scale(1.2);
+$top: translate3d(0px, -50vh, 0px); 
+$right: translate3d(50vw, 0px, 0px); 
+$bottom: translate3d(0px, 50vh, 0px); 
+$middle: translate3d(0px, 0px, 0px); 
+$scaleDown: scale(.8);
+$scaleDefault: scale(1);
+$scaleUp: scale(1.2);
 
-$_opacityTime: 3000ms;
-$_transformTime: 1000ms;
-
-.view {
-  transition-duration: .4s;
-}
+$opacityTime: 3000ms;
+$transformTime: 1000ms;
+$transitionDur: 2000ms;
 
 .view.enter {
   opacity: 0;
-  transform: $_top;
+  transform: $top;
 }
 
 .view.enter-active {
   opacity: 1;
-  transform: $_middle;
+  transform: $middle;
+  transition: 1000ms;
 }
 
 .view.enter-done {
-  transform: $_middle;
+  transform: $middle;
+  opacity: 1;
 }
 
 
 .view.exit {
   opacity: 1;
-  transform: $_middle;
+  transform: $middle;
 }
 
 .view.exit-active {
   opacity: 0;
-  transform: $_top;
+  transform: $bottom;
 }
 
 .view.exit-done {
-  transform: $_top;
+  opacity: 0;
+  transform: $bottom;
 }
 
 
@@ -49,35 +49,35 @@ $_transformTime: 1000ms;
 
 /* 
 .MusicView.enter {
-  transform: $_left;
+  transform: $left;
 }
 
 .MusicView.enter-active {
-  transform: $_middle;
+  transform: $middle;
 }
 
 .StoryView.enter {
-  transform: $_top;
+  transform: $top;
 }
 
 .StoryView.enter-active {
-  transform: $_middle;
+  transform: $middle;
 }
 
 .WorkView.enter {
-  transform: $_bottom;
+  transform: $bottom;
 }
 
 .WorkView.enter-active {
-  transform: $_middle;
+  transform: $middle;
 }
 
 .ContactView.enter {
-  transform: $_right;
+  transform: $right;
 }
 
 .ContactView.enter-active {
-  transform: $_middle;
+  transform: $middle;
 }
 
  */
