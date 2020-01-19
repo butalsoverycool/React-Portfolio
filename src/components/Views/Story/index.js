@@ -14,7 +14,7 @@ const StoryView = props => {
     return (
         <>
             <ViewTemplate printLorem>
-                <Title title='story' align='left' />
+                {/* <Title title='story' align='left' /> */}
             </ViewTemplate>
         </>
     )

@@ -4,6 +4,8 @@ import styled, { css } from 'styled-components';
 import atMedia from '../../../AtMedia';
 import NavToggle from '../../NavToggle';
 
+import ViewTitle from '../../ViewTitle';
+
 const txt = [
     `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
     incididunt ut labore et dolore magna aliqua. Sem integer vitae justo eget magna 
@@ -92,7 +94,7 @@ const Template = styled.main`
 `;
 
 const ViewTemplate = props => {
-    const { printLorem, children } = props;
+    const { printLorem, children, view } = props;
 
     const { state, dispatch } = useContext(StateContext);
     const { activeView, displayNav } = state;
@@ -102,12 +104,13 @@ const ViewTemplate = props => {
         return word.charAt(0).toUpperCase() + word.slice(1)
     }
 
-    const view = capitalize(activeView);
+    const viewCap = capitalize(activeView);
 
     return (
         <>
-            <Template className={`${view}View view`} activeView={activeView} displayNav={displayNav}>
+            <Template className={`${viewCap}View view`} activeView={activeView} displayNav={displayNav}>
                 <ContentContainer className='ContentContainer'>
+                    <ViewTitle view={props.view} />
                     {children}
                     <Lorem printLorem={printLorem} />
                 </ContentContainer>

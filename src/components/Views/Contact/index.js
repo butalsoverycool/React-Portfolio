@@ -18,7 +18,7 @@ const ContactView = props => {
     return (
         <>
             <ViewTemplate>
-                <Title title='music' align='left' />
+                {/* <Title title='music' align='left' /> */}
                 <ContactForm />
             </ViewTemplate>
         </>

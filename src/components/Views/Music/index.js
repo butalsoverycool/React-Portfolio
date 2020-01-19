@@ -50,7 +50,7 @@ const MusicView = props => {
     return (
         <>
             <ViewTemplate>
-                <Title title='music' align='left' />
+                {/* <Title title='music' align='left' /> */}
                 <UserMsg msg='Loading...' msgClass='loading' containerClass='LoadingContainer' anim={true} />
                 <Follow />
                 <ListContainer>
