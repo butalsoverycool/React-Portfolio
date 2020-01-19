@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 
 
 export const initialState = {
+    stateWasReset: false,
     freshState: true,
     winSize: { w: window.innerWidth, h: window.innerHeight },
     historyStack: {
@@ -28,14 +29,31 @@ const stateReducer = (state, action) => {
         newState[prop] = state[prop];
     }
 
-    newState.freshState = false;
+    if (newState.freshState) {
+        newState.freshState = false;
+        console.log(`Updated state (freshState): false`);
+    }
+
 
     // update state according to given action type/payload
     switch (action.type) {
         case 'resetState':
-            console.log(`Reset state (${action.type}): ${newState}`);
+            for (let prop in initialState) {
+                if (prop != 'historyStack') {
+                    newState[prop] = initialState[prop];
+                }
+            }
 
-            return initialState;
+            console.log(`Resetting state...(except history)`);
+
+            return newState;
+
+        case 'stateWasReset':
+            newState.stateWasReset = action.payload;
+
+            console.log(`Updated state (${action.type}): ${newState[action.payload]}`);
+
+            return newState;
 
         case 'freshState':
             newState.freshState = action.payload;

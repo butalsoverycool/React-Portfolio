@@ -9,17 +9,32 @@ const Location = props => {
 
     const { match, location, history, children } = props;
 
-    const { freshState, historyStack, activeView, displayNav } = state;
+    const { stateWasReset, resetState, freshState, historyStack, activeView, displayNav } = state;
 
-    const latest = historyStack.prev.length > 0
-        ? historyStack.prev[historyStack.prev.length - 1].path
+    const latest = historyStack.prev.length > 1
+        ? historyStack.prev[historyStack.prev.length - 2].path
         : null;
     const current = window.location.pathname;
 
 
-    const App = document.querySelector('.App');
+    const App = document.querySelector('.App') || null;
     const currentScrollTop = App ? App.scrollTop : null;
     const lastScr = historyStack.prev[historyStack.prev.length - 1].scrollTop;
+
+    console.log('laaatest', latest)
+
+    // if on home, for now, reset state (except history)
+    if (window.location.pathname === '/' && !stateWasReset) {
+        /* dispatch({ type: 'resetState' }); */
+    }
+
+    if (window.location.pathname !== '/') {
+        /* dispatch({
+            type: 'stateWasReset',
+            payload: false
+        }); */
+    }
+
 
     if (historyStack.history) {
         if (history.location.pathname !== historyStack.history.location.pathname) {
@@ -41,17 +56,10 @@ const Location = props => {
     if (latest !== current) {
         dispatch({
             type: 'historyStack',
-            payload: { path: history.location.pathname, action: history.action, scrollTop: App.scrollTop || 0 }
+            payload: { path: history.location.pathname, action: history.action, scrollTop: currentScrollTop || 0 }
         });
         //console.log('latest', latest, 'curr', current, 'location pathname', window.location.pathname);
     }
-
-
-
-
-
-    //console.log('PROPS match', match, 'location', location, 'history', history);
-
 
     return (
         <>

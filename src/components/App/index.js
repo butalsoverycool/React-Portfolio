@@ -64,8 +64,6 @@ const App = () => {
       // if no resizing happend the last 500ms, do doWhenDone :)
       doWhenDone = setTimeout(() => {
 
-
-
         dispatch({
           type: 'winSize',
           payload: {

@@ -46,7 +46,7 @@ const NavLink = props => {
 
     // global state/updater
     const { state, dispatch } = useContext(StateContext);
-    const { activeView, displayNav, delayDisplayNav, navAnimation } = state;
+    const { activeView, displayNav, delayDisplayNav, intro, navAnimation } = state;
 
     // determine if link is active
     const isActive = view => activeView === view ? 'active' : '';
@@ -57,6 +57,14 @@ const NavLink = props => {
         // update active view
         if (name !== activeView) {
             dispatch({ type: 'activeView', payload: name });
+        }
+
+        // reset intro-status
+        if (intro.play || intro.ended) {
+            dispatch({
+                type: 'intro',
+                payload: { play: false, ended: false }
+            });
         }
 
         // set navAnim to rise/fall versions

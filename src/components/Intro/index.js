@@ -99,6 +99,7 @@ const Intro = props => {
     // check if link is active
     const isActive = (name) => name === activeView;
 
+
     const goHome = () => {
         if (activeView !== '') {
             window.location.pathname = '/';
