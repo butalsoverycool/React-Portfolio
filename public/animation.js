@@ -392,10 +392,10 @@ animInit = () => {
 		let imgs = [];
 
 		const imgSources = [
-			'media/Music_bg.png',
-			'media/Work_bg.png',
-			'media/Story_bg.png',
-			'media/Contact_bg.png'
+			'media/musicEndframe.png',
+			'media/workEndframe.png',
+			'media/storyEndframe.png',
+			'media/contactEndframe.png'
 		];
 
 		/////
