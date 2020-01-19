@@ -404,128 +404,148 @@ animInit = () => {
 
 
 
-		const loadImgs = items => {
-			loader = new THREE.ImageLoader();
-			return new Promise((resolve, rej) =>
-				resolve(
-					items.map(item =>
-						loader.load(
-							item,
-							(img) => img,
-							undefined,
-							() => console.log('load err'))
-					)
-				)
-			);
+		const loadImgs = async items => {
+			try {
+				return await items.map(item => {
+					loader = new THREE.ImageLoader();
+
+					return loader.load(
+						item,
+						(img) => img,
+						undefined,
+						() => console.log('load err')
+					);
+				});
+			}
+
+			catch (err) {
+				console.log('Error when loading imgs:', err);
+			}
+
 		}
 
-		const applyTexture = items =>
-			new Promise((resolve, rej) =>
-				resolve(
-					items.map(item => {
-						const res = new THREE.Texture(item);
-						res.needsUpdate = true;
-						return res;
-					})
+		const applyTexture = async items => {
+			try {
+				return await items.map(item => {
+					const res = new THREE.Texture(item);
+					res.needsUpdate = true;
+					return res;
+				});
+			}
+
+			catch (err) {
+				console.log('Error when applying texture:', err);
+			}
+		}
+
+
+		const applyMaterial = async items => {
+			try {
+				return await items.map(item =>
+					new THREE.MeshBasicMaterial({ map: item })
 				)
-			);
+			}
+
+			catch (err) {
+				console.log('Error when applying material:', err);
+			}
+		}
 
 
-		const applyMaterial = items =>
-			new Promise((resolve, rej) =>
-				resolve(
-					items.map(item =>
-						new THREE.MeshBasicMaterial({ map: item })
-					)
-				)
-			);
-
-
-		const applyGeometry = items => {
+		const applyGeometry = async items => {
 			const geometry = new THREE.PlaneBufferGeometry(card_SIZE, card_SIZE, 1);
 
-			return new Promise((resolve, rej) =>
-				resolve(
-					items.map((item, nth) => {
-						const navCard = new THREE.Mesh(geometry, item);
+			try {
+				return await items.map((item, nth) => {
+					const navCard = new THREE.Mesh(geometry, item);
 
-						if (nth % GRID === 0) {
-							col = 1;
-							row++;
-						} else col++;
+					if (nth % GRID === 0) {
+						col = 1;
+						row++;
+					} else col++;
 
-						x = -(GRID * card_SIZE / 2 - card_SIZE * col + card_SIZE / 2);
-						y = -(GRID * card_SIZE / 2 - card_SIZE * row + card_SIZE / 2);
-						z = 0;
+					x = -(GRID * card_SIZE / 2 - card_SIZE * col + card_SIZE / 2);
+					y = -(GRID * card_SIZE / 2 - card_SIZE * row + card_SIZE / 2);
+					z = 0;
 
-						navCard.FaceColors;
+					navCard.FaceColors;
 
-						// pos of flip-roofs
-						// 0 = on floor
-						navCard.position.set(x, y, 0);
-						// set text orientation
-						navCard.rotation.z = nth === 1 || nth === 2 ? Math.PI / 2 : 0
+					// pos of flip-roofs
+					// 0 = on floor
+					navCard.position.set(x, y, 0);
+					// set text orientation
+					navCard.rotation.z = nth === 1 || nth === 2 ? Math.PI / 2 : 0
 
 
-						navCard.memo = {};
-						navCard.memo.positionX = x;
-						navCard.memo.positionY = y;
-						navCard.memo.positionZ = z;
-						navCard.memo.rotationZ = navCard.rotation.z;
-						navCard.memo.loopAnim = true;
+					navCard.memo = {};
+					navCard.memo.positionX = x;
+					navCard.memo.positionY = y;
+					navCard.memo.positionZ = z;
+					navCard.memo.rotationZ = navCard.rotation.z;
+					navCard.memo.loopAnim = true;
 
-						return navCard;
-					})
-				)
-			);
+					return navCard;
+				});
+			}
+
+			catch (err) {
+				console.log('Error when applying geometry:', err);
+			}
 
 		}
 
-		const applyShadow = items =>
-			new Promise((resolve, rej) =>
-				resolve(
-					items.map((item, nth) => {
-						item.castShadow = true;
-						item.receiveShadow = true;
+		const applyShadow = async items => {
+			try {
+				return await items.map((item, nth) => {
+					item.castShadow = true;
+					item.receiveShadow = true;
 
-						if (debug) {
-							item.rotation.x = 0;
-							return;
-						} else {
-
-							const awaitIntro = false;
-							// if on landing, do animation after title intro
-							if (window.location.pathname === '/') {
-								await = true;
-							}
-
-							return {
-								item,
-								index: nth,
-								awaitIntro
-							};
-						}
-					})
-				)
-			);
-
-
-
-		const doAnim = items =>
-			new Promise((resolve, rej) =>
-				resolve(
-					items.map(item => {
-						if (item.awaitIntro) {
-							document.querySelector('.Intro').addEventListener('ended', () => {
-								animateNavCard(parent, item.item, item.index);
-							});
-						} else {
-							animateNavCard(parent, item.item, item.index);
-						}
+					if (debug) {
+						item.rotation.x = 0;
 						return;
-					})
-				)
-			)
+					} else {
+
+						const awaitIntro = false;
+						// if on landing, do animation after title intro
+						if (window.location.pathname === '/') {
+							await = true;
+						}
+
+						return {
+							item,
+							index: nth,
+							awaitIntro
+						};
+					}
+				});
+			}
+
+			catch (err) {
+				console.log('Error when applying shadow:', err);
+			}
+		}
+
+
+
+
+		const doAnim = async items => {
+			try {
+				return await items.map(item => {
+					if (item.awaitIntro) {
+						document.querySelector('.Intro').addEventListener('ended', () => {
+							animateNavCard(parent, item.item, item.index);
+						});
+					} else {
+						animateNavCard(parent, item.item, item.index);
+					}
+				})
+			}
+
+			catch (err) {
+				console.log('Error at doAnim():', err);
+			}
+		}
+
 
 
 		// LOAD IMGS TO NAVCARDS
@@ -533,22 +553,22 @@ animInit = () => {
 			const imgs = await loadImgs(imgSources);
 			//console.log('1: imgs loaded', imgs);
 
-			const texture = await applyTexture(imgs);
+			const texture = await applyTexture(await imgs);
 			//console.log('2: texture loaded', texture);
 
-			const material = await applyMaterial(texture);
+			const material = await applyMaterial(await texture);
 			//console.log('3: material loaded', material);
 
-			const geometry = await applyGeometry(material);
+			const geometry = await applyGeometry(await material);
 			//console.log('4: geometry loaded', geometry);
 
-			const withShadow = await applyShadow(geometry);
+			const withShadow = await applyShadow(await geometry);
 			//console.log('5: shadows loaded', withShadow);
 
-			Promise.all([imgs, texture, material, geometry, withShadow]).then(function (values) {
-				navCards = withShadow.map(item => item.item);
+			navCards = await withShadow.map(item => item.item);
 
-				console.log('(', 'navCards', navCards, ')');
+			Promise.all([imgs, texture, material, geometry, withShadow]).then(function (values) {
+				console.log('(NAVCARDS:', navCards);
 
 				doAnim(values[values.length - 1]);
 			});
