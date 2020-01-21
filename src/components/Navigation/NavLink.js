@@ -46,7 +46,7 @@ const NavLink = props => {
 
     // global state/updater
     const { state, dispatch } = useContext(StateContext);
-    const { activeView, displayNav, delayDisplayNav, intro, navAnimation } = state;
+    const { activeView, displayNav, delayDisplayNav, intro, navAnimation, scrolling } = state;
 
     // determine if link is active
     const isActive = view => activeView === view ? 'active' : '';
@@ -84,6 +84,14 @@ const NavLink = props => {
         if (name !== activeView) {
             const elem = document.querySelector('.App');
             dispatch({ type: 'lastScrollPos', payload: elem.scrollTop });
+        }
+
+        // scroll to top on next page
+        if (!scrolling.scrollUp) {
+            dispatch({
+                type: 'scrolling',
+                payload: { scrollUp: true }
+            });
         }
     }
 

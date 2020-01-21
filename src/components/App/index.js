@@ -1,5 +1,5 @@
 // react
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 //import ReactDOMServer from 'react-dom/server';
 
 // router
@@ -63,6 +63,7 @@ const App = () => {
   const { state, dispatch } = useContext(StateContext);
   const { activeView, displayNav, scrolling } = state;
 
+  const elem = useRef(null);
 
 
   // temp* POST FUNC
@@ -149,11 +150,18 @@ const App = () => {
 
     }
 
-    if (FUNCS.scrollingDown()) {
-      console.log('going down...');
-    } else {
-      console.log('going up...');
-    }
+  }
+
+  // Scroll up on page load?
+  if (scrolling.scrollUp) {
+    dispatch({
+      type: 'scrolling',
+      payload: { scrollUp: false }
+    });
+
+    if (!elem.current) return;
+
+    elem.current.scrollTop = 0;
   }
 
 
@@ -169,6 +177,7 @@ const App = () => {
 
   return (
     <AppContainer
+      ref={elem}
       data-active-view={state.activeView}
       className="App"
       onClick={clickHandler}

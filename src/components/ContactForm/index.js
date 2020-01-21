@@ -1,4 +1,5 @@
-import React, { Component, useEffect, useRef } from 'react';
+import React, { Component, useContext, useEffect, useRef } from 'react';
+import { StateContext } from '../StateContext';
 import ReactDOM from 'react-dom';
 import { SocialIcon } from 'react-social-icons';
 import atMedia from '../../AtMedia';
@@ -165,6 +166,14 @@ const Icon = styled(FontAwesomeIcon)`
 
 
 const ContactLinks = props => {
+    const { state } = useContext(StateContext);
+    const { displayNav } = state;
+
+    const clickHandler = e => {
+        if (displayNav) {
+            return e.preventDefault();
+        }
+    }
 
     return (
         // create contact-cards from data
@@ -184,6 +193,7 @@ const ContactLinks = props => {
                     className={`ContactLinkCard-${item.title || item.network} 
                 ContactLinkCard`}
                     bg={cardBg}
+                    onClick={clickHandler}
                 >
                     <ContactLinkTitle>{item.title || item.network}</ContactLinkTitle>
                     <Icon icon={BRANDS[item.icon] || REGULAR[item.icon]} className={`ContactLink-${item.network} ContactLink`} />

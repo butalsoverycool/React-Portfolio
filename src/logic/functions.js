@@ -15,7 +15,9 @@ export const reachedTop = () => {
 
 export const reachedBottom = () => {
     const res = document.querySelector('.ContentContainer').getBoundingClientRect().bottom;
-    return res < 500;
+    const docHeight = document.querySelector('.ContentContainer').clientHeight;
+    console.log(res, 'doc-height', docHeight);
+    return res < 500 && docHeight > 500;
 }
 
 export const scrollingDown = (elem) => {

@@ -44,19 +44,19 @@ const Location = props => {
 
     // Determine scroll-top
     // if action POP, go to latest scrolltop if possible
-    if (historyStack.prev[historyStack.prev.length - 1].scrollTop && history.action === 'POP' && currentScrollTop) {
+    /* if (historyStack.prev[historyStack.prev.length - 1].scrollTop && history.action === 'POP' && currentScrollTop) {
         App.scrollTop = lastScr;
         console.log('Went to last scr-top', lastScr);
         // if PUSH, go to top if possible
     } else if (currentScrollTop && history.action === 'PUSH') {
         App.scrollTop = 0;
-    }
+    } */
 
 
     if (latest !== current) {
         dispatch({
             type: 'historyStack',
-            payload: { path: history.location.pathname, action: history.action, scrollTop: currentScrollTop || 0 }
+            payload: { path: history.location.pathname, action: history.action }
         });
         //console.log('latest', latest, 'curr', current, 'location pathname', window.location.pathname);
     }

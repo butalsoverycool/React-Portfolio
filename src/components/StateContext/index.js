@@ -19,8 +19,7 @@ export const initialState = {
         : { in: 'navRise', out: 'navFall' },
     scrolling: {
         bottom: false,
-        top: true,
-        down: false
+        scrollUp: false
     }
 };
 

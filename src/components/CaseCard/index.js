@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
+import { StateContext } from '../StateContext';
 
 import styled from 'styled-components';
 import responsive from '../../AtMedia';
@@ -32,31 +33,41 @@ const CaseCardStyled = styled.a`
     flex-direction: column;
     
     margin: 20px auto;
-    padding: 10px;
+    padding: 0px;
     text-decoration: none;
 
     font-size: 1.2em;
     color: white;
-    width: inherit;
+    width: 100%;
     min-height: 300px;
     background: hotpink url(${props => props.img});
     
-    border-radius: 10px;
     text-shadow: 2px 2px 5px black;
 `;
 
 const CaseTitle = styled.h2`
     font-size: 1.2em;
     font-weight: 700;
-    margin-right: 10px;
+    padding: 20px;
+    margin: 0;
     color: white;
 `;
 
+const CaseContent = styled.p`
+    margin: 0;
+    padding: 20px;
+`;
+
 const CardList = (props) => {
+    const { state, dispatch } = useContext(StateContext);
+    const { displayNav } = state;
+
     // linking to external page
     const openExternal = (e, url) => {
         // dont go just yet
         e.preventDefault();
+
+        if (displayNav) return;
 
         // open new semi-functional broswer window
         let features = "menubar=no,location=no,resizable=yes,scrollbars=yes,status=yes";
@@ -78,7 +89,7 @@ const CardList = (props) => {
 
                         {/* <ContentCard className="ContentCard" img={item.img}> */}
                         <CaseTitle className='CaseTitle'>{item.title}</CaseTitle>
-                        <p className="CaseContent">{item.content}</p>
+                        <CaseContent className="CaseContent">{item.content}</CaseContent>
                         {/* </ContentCard> */}
                     </CaseCardStyled>)}
         </CaseCardContext.Consumer>
