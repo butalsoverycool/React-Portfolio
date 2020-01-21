@@ -1,10 +1,12 @@
 // react
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 //import ReactDOMServer from 'react-dom/server';
 
 // router
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Location from '../Location';
+
+import axios from 'axios';
 
 // url/route-list
 import * as ROUTES from '../../constants/routes';
@@ -45,10 +47,32 @@ const AppContainer = styled.div`
   background: white;
 `;
 
+
+
 const App = () => {
   // app state/updater
   const { state, dispatch } = useContext(StateContext);
   const { activeView, displayNav } = state;
+
+
+
+  // temp* POST FUNC
+  const testPost = async input =>
+    axios.post(
+      '/backend',
+      input)
+      .then(res => res.data)
+      .catch(err => err);
+
+
+  const testInput = {
+    name: 'Lord Voldemort',
+    work: 'Wizard',
+    birthyear: '19..'
+  };
+
+  //testPost(testInput);
+
 
   // update winSize in state on win resize
   (() => {

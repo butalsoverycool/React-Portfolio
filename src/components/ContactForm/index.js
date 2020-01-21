@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { Component, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
+import { SocialIcon } from 'react-social-icons';
+import atMedia from '../../AtMedia';
 
 import styled from 'styled-components';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import * as BRANDS from '@fortawesome/free-brands-svg-icons';
+import * as REGULAR from '@fortawesome/fontawesome-free-solid';
 
 const Form = styled.form`
     /* background: #111;
@@ -70,6 +77,122 @@ const Submit = styled.button`
 
 `;
 
+const contactData = [
+    {
+        network: 'mailto',
+        url: 'mailto:kiiim@kiiim.se?&subject=I visited%20kiiim.se&body=Hello Kim...',
+        icon: 'faPaperPlane',
+        title: 'Send me an email'
+    },
+    {
+        network: 'github',
+        url: 'https://github.com/butalsoverycool/',
+        icon: 'faGithub'
+    },
+    {
+        network: 'linkedin',
+        url: 'https://www.linkedin.com/in/kim-nkoubou-218012175/',
+        icon: 'faLinkedin',
+    },
+    {
+        network: 'facebook',
+        url: 'https://www.facebook.com/kim.nkoubou/',
+        icon: 'faFacebook',
+    },
+    {
+        network: 'facebook',
+        url: 'https://www.facebook.com/kimkoubou/',
+        icon: 'faFacebook',
+        title: 'facebook (artist)'
+    },
+    {
+        network: 'instagram',
+        url: 'https://www.instagram.com/kimkoubou/',
+        icon: 'faInstagram'
+    }
+];
+
+const Container = styled.div`
+    max-width: 100%;
+    display: flex;
+    justify-content: stretch;
+    flex-wrap: wrap;
+`;
+
+const Card = styled.a`
+    padding: 10px;
+    text-align: left;
+    width: 300px;
+    max-width: 340px;
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+    background: ${props => props.bg};
+    text-decoration: none;
+    color: black;
+
+
+    ${atMedia([{ key: 'max-width', val: '673px' }])`
+        margin: 0;
+        width: 100vw;
+        max-width: 100vw;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    `}
+
+    &:hover > svg{
+        opacity: 1;
+    }
+`;
+
+const ContactLinkTitle = styled.p`
+    height: 100%;
+    line-height: 100px;
+    margin: 0;
+
+    ${atMedia([{ key: 'max-width', val: '673px' }])`
+        margin: 0;
+    `}
+`;
+
+const Icon = styled(FontAwesomeIcon)`
+    font-size: 100px;
+    margin-right: 30px;
+    opacity: .6;
+    transition: .5s;
+    
+`;
+
+
+const ContactLinks = props => {
+
+    return (
+        // create contact-cards from data
+        props.data.map((item, nth) => {
+
+            // color-differ, range of 3
+            const cardBg = (nth === 0 || nth % 3 === 0
+                ? '#f7f7f7'
+                : (nth === 1 || nth % 4 === 0
+                    ? '#f0f0f0' : '#e6e6e6'
+                ));
+
+            return (
+                <Card
+                    key={nth}
+                    href={item.url}
+                    className={`ContactLinkCard-${item.title || item.network} 
+                ContactLinkCard`}
+                    bg={cardBg}
+                >
+                    <ContactLinkTitle>{item.title || item.network}</ContactLinkTitle>
+                    <Icon icon={BRANDS[item.icon] || REGULAR[item.icon]} className={`ContactLink-${item.network} ContactLink`} />
+                </Card>
+            )
+        })
+    );
+}
+
 const ContactForm = (props) => {
     const handleSubmit = () => {
         console.log('Submitted!');
@@ -79,24 +202,32 @@ const ContactForm = (props) => {
         e.preventDefault();
     }
 
+
+    /* let icons = document.querySelectorAll('a.social-icon');
+
+    for (let nth = 0; nth < icons.length; ++nth) {
+        let div = document.createElement('div');
+
+        div.className = icons[nth].className;
+        div.setAttribute('aria-label', icons[nth].getAttribute('aria-label'));
+        div.setAttribute('style', icons[nth].getAttribute('style'));
+        div.innerHTML = icons[nth].innerHTML;
+
+        icons[nth].parentNode.replaceChild(div, icons[nth]);
+    } */
+
+
+
+
+
+
+
     return (
-        <Form className="ContactForm" onSubmit={() => handleSubmit.bind(this)} method="POST">
-            <FormGroup className="form-group">
-                {/* <Label htmlFor="name">name</Label> */}
-                <Input type="text" className="form-control" placeholder="name" />
-            </FormGroup>
-            <FormGroup className="form-group">
-                {/* <Label htmlFor="exampleInputEmail1">email</Label> */}
-                <Input type="email" className="form-control" aria-describedby="emailHelp" placeholder="email" />
-            </FormGroup>
-            <FormGroup className="form-group">
-                {/*  <Label htmlFor="message">message</Label> */}
-                <Textarea className="form-control" rows="8" placeholder="message"></Textarea>
-            </FormGroup>
-            <SubmitContainer>
-                <Submit type="submit" className="btn btn-primary" onClick={submitHandler}>Send</Submit>
-            </SubmitContainer>
-        </Form>
+        <>
+            <Container className={`ContactLinkContainer`}>
+                <ContactLinks data={contactData} />
+            </Container>
+        </>
     );
 }
 

@@ -16,7 +16,8 @@ export const initialState = {
     displayNav: false,
     navAnimation: window.location.pathname === '/'
         ? { in: 'navFadeIn', out: 'navFadeOut' }
-        : { in: 'navRise', out: 'navFall' }
+        : { in: 'navRise', out: 'navFall' },
+    backend: null
 };
 
 // State updater
@@ -121,6 +122,12 @@ const stateReducer = (state, action) => {
             newState.navAnimation = action.payload;
 
             console.log(`Updated state (${action.type}): IN: ${newState.navAnimation.in} OUT: ${newState.navAnimation.out}`);
+
+            return newState;
+        case 'backend':
+            newState.backend = action.payload;
+
+            console.log(`Updated state (${action.type}): ${action.payload}`);
 
             return newState;
 

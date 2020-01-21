@@ -5,8 +5,8 @@ import styled, { keyframes, css } from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import './index.scss';
 import atMedia from '../../AtMedia';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import * as ICONS from '@fortawesome/fontawesome-free-solid'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import * as ICONS from '@fortawesome/fontawesome-free-solid';
 
 
 // Context
