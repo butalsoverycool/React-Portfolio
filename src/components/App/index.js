@@ -6,6 +6,15 @@ import React, { useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Location from '../Location';
 
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile
+} from "react-device-detect";
+
+
+// temp*
 import axios from 'axios';
 
 // url/route-list
@@ -52,7 +61,7 @@ const AppContainer = styled.div`
 const App = () => {
   // app state/updater
   const { state, dispatch } = useContext(StateContext);
-  const { activeView, displayNav } = state;
+  const { activeView, displayNav, scrolling } = state;
 
 
 
@@ -99,6 +108,55 @@ const App = () => {
     };
   })();
 
+  console.log('mobile:', isMobile);
+
+  const scrollHandler = e => {
+
+    if (FUNCS.reachedBottom() && activeView !== '' && !isMobile) {
+
+      if (!scrolling.bottom) {
+
+        dispatch({
+          type: 'scrolling',
+          payload: { bottom: true }
+        })
+
+        if (!displayNav) {
+          dispatch({
+            type: 'toggleDisplayNav',
+            payload: true
+          })
+        }
+
+      }
+
+    } else {
+
+      if (scrolling.bottom) {
+        dispatch({
+          type: 'scrolling',
+          payload: { bottom: false }
+        })
+
+        if (displayNav) {
+          dispatch({
+            type: 'toggleDisplayNav',
+            payload: false
+          })
+        }
+
+      }
+
+    }
+
+    if (FUNCS.scrollingDown()) {
+      console.log('going down...');
+    } else {
+      console.log('going up...');
+    }
+  }
+
+
   // hide nav if click on App
   const clickHandler = () => {
     if (activeView !== '' && displayNav) {
@@ -114,6 +172,7 @@ const App = () => {
       data-active-view={state.activeView}
       className="App"
       onClick={clickHandler}
+      onScroll={scrollHandler}
     >
 
       <Router>

@@ -17,7 +17,11 @@ export const initialState = {
     navAnimation: window.location.pathname === '/'
         ? { in: 'navFadeIn', out: 'navFadeOut' }
         : { in: 'navRise', out: 'navFall' },
-    backend: null
+    scrolling: {
+        bottom: false,
+        top: true,
+        down: false
+    }
 };
 
 // State updater
@@ -35,6 +39,8 @@ const stateReducer = (state, action) => {
         console.log(`Updated state (freshState): false`);
     }
 
+
+    let reducerMsg = '';
 
     // update state according to given action type/payload
     switch (action.type) {
@@ -99,7 +105,7 @@ const stateReducer = (state, action) => {
             return newState;
 
         case 'intro':
-            let reducerMsg = `Updated state (${action.type}): `;
+            reducerMsg = `Updated state (${action.type}): `;
 
             for (let status in action.payload) {
                 newState.intro[status] = action.payload[status];
@@ -124,10 +130,15 @@ const stateReducer = (state, action) => {
             console.log(`Updated state (${action.type}): IN: ${newState.navAnimation.in} OUT: ${newState.navAnimation.out}`);
 
             return newState;
-        case 'backend':
-            newState.backend = action.payload;
+        case 'scrolling':
+            reducerMsg = `Updated state (${action.type}): `;
 
-            console.log(`Updated state (${action.type}): ${action.payload}`);
+            for (let prop in action.payload) {
+                newState.scrolling[prop] = action.payload[prop];
+                reducerMsg += `${prop} = ${action.payload[prop]}, `;
+            }
+
+            console.log(reducerMsg);
 
             return newState;
 

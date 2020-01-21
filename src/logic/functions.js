@@ -7,9 +7,16 @@ export const addClass = (classList, nameToAdd) => {
     let updated = classList.push(nameToAdd);
 }
 
-export const reachedTop = elem => document.documentElement.scrollTop <= 0;// <= window.innerHeight;
+export const reachedTop = () => {
+    const res = document.querySelector('.ContentContainer').getBoundingClientRect().top; // <= window.innerHeight;
 
-export const reachedBottom = elem => elem.getBoundingClientRect().bottom <= window.innerHeight;
+    return res >= 0;
+}
+
+export const reachedBottom = () => {
+    const res = document.querySelector('.ContentContainer').getBoundingClientRect().bottom;
+    return res < 500;
+}
 
 export const scrollingDown = (elem) => {
     // scroll direction
@@ -44,3 +51,5 @@ export const getCurrentView = () =>
 
 
 export const getLinkElem = (view) => document.querySelector(`.NavLink.${view}`);
+
+
