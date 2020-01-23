@@ -1,14 +1,12 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
-import { StateContext, initialState } from '../StateContext';
+import { StateContext } from '../StateContext';
 import styled, { keyframes, css } from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import './index.scss';
-import atMedia from '../../AtMedia';
 import IntroSrc from '../../media/Intro.mp4';
 import LogoSrc from '../../media/IntroEndFrame.png';
-import { interpolate } from 'gsap';
 
 
 

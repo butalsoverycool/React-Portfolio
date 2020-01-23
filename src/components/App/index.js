@@ -1,5 +1,5 @@
 // react
-import React, { useContext, useRef, useEffect } from 'react';
+import React, { forwardRef, useContext, useRef, useEffect } from 'react';
 //import ReactDOMServer from 'react-dom/server';
 
 // router
@@ -13,27 +13,18 @@ import {
   isMobile
 } from "react-device-detect";
 
-
-// temp*
-import axios from 'axios';
-
 // url/route-list
 import * as ROUTES from '../../constants/routes';
 
 // global funcs (leave for now)
-import * as FUNCS from '../../logic/functions';
+import { reachedBottom } from '../../logic/functions';
 
 // Context Provider
 import { StateContext } from '../StateContext';
 
-
 // shared
 import Navigation from '../Navigation';
 import Intro from '../Intro';
-import Title from '../Title';
-import HandWrittenTitle from '../Intro';
-import NavToggleLink from '../NavToggle';
-import NavLink from '../Navigation/NavLink';
 import WorkView from '../Views/Work';
 import StoryView from '../Views/Story';
 import MusicView from '../Views/Music';
@@ -57,35 +48,19 @@ const AppContainer = styled.div`
 `;
 
 
-
-const App = () => {
+const App = forwardRef((props, AppRef) => {
   // app state/updater
   const { state, dispatch } = useContext(StateContext);
-  const { activeView, displayNav, scrolling } = state;
-
-  const elem = useRef(null);
+  const { activeView, nav, scrolling, user } = state;
 
 
-  // temp* POST FUNC
-  const testPost = async input =>
-    axios.post(
-      '/backend',
-      input)
-      .then(res => res.data)
-      .catch(err => err);
+  /**
+   * WINDOW SIZE
+   **************/
 
+  // Sync winSize with state (on winresize)
+  const syncWinSize = (timeout = 500) => {
 
-  const testInput = {
-    name: 'Lord Voldemort',
-    work: 'Wizard',
-    birthyear: '19..'
-  };
-
-  //testPost(testInput);
-
-
-  // update winSize in state on win resize
-  (() => {
     let doWhenDone;
 
     window.onresize = () => {
@@ -105,15 +80,36 @@ const App = () => {
             h: window.innerHeight
           }
         });
-      }, 500);
+
+      }, timeout);
+
     };
-  })();
 
-  console.log('mobile:', isMobile);
+  }
+  syncWinSize();
 
-  const scrollHandler = e => {
+  // determine user.mobile
+  if (user.mobile !== isMobile) {
+    dispatch({
+      type: 'user',
+      payload: { mobile: isMobile }
+    })
+  }
 
-    if (FUNCS.reachedBottom() && activeView !== '' && !isMobile) {
+
+  /**
+   * SCROLL
+   *********/
+
+  // Display nav if scrolled to bottom
+  const displayNavAtBottom = elem => {
+    console.log('so displaying or nor?', nav.display);
+    // if at bottom + conditions... display nav
+    if (
+      reachedBottom(elem)
+      && activeView !== ''
+      && !isMobile
+    ) {
 
       if (!scrolling.bottom) {
 
@@ -122,15 +118,14 @@ const App = () => {
           payload: { bottom: true }
         })
 
-        if (!displayNav) {
-          dispatch({
-            type: 'toggleDisplayNav',
-            payload: true
-          })
-        }
+        dispatch({
+          type: 'nav',
+          payload: { display: true }
+        })
 
       }
 
+      // if not at bottom or conditions... hide nav
     } else {
 
       if (scrolling.bottom) {
@@ -138,54 +133,56 @@ const App = () => {
           type: 'scrolling',
           payload: { bottom: false }
         })
+        console.log('should remove nav', nav.display);
 
-        if (displayNav) {
-          dispatch({
-            type: 'toggleDisplayNav',
-            payload: false
-          })
-        }
+        dispatch({
+          type: 'nav',
+          payload: { display: false }
+        })
 
       }
 
     }
-
-  }
-
-  // Scroll up on page load?
-  if (scrolling.scrollUp) {
-    dispatch({
-      type: 'scrolling',
-      payload: { scrollUp: false }
-    });
-
-    if (!elem.current) return;
-
-    elem.current.scrollTop = 0;
   }
 
 
-  // hide nav if click on App
-  const clickHandler = () => {
-    if (activeView !== '' && displayNav) {
-      dispatch({
-        type: 'toggleDisplayNav',
-        payload: false
-      });
-    }
+  // Handle App-scroll
+  const scrollHandler = (elem, timeout = 500) => {
+
+    let doWhenDone;
+
+    elem.onscroll = () => {
+      console.log('Waiting for scroll to finish...');
+
+      // clear the doWhenDone that was set in previous resize-handler-run
+      //...(if not more than 500ms ago)
+      clearTimeout(doWhenDone);
+
+      // if no resizing happend the last 500ms, do doWhenDone :)
+      doWhenDone = setTimeout(() => {
+
+        displayNavAtBottom(elem);
+
+      }, timeout);
+
+    };
+
   }
+
+  // Ears on App-scroll
+  useEffect(() => {
+    scrollHandler(AppRef.current)
+  }, [AppRef.current]);
+
 
   return (
     <AppContainer
-      ref={elem}
+      ref={AppRef}
       data-active-view={state.activeView}
       className="App"
-      onClick={clickHandler}
-      onScroll={scrollHandler}
     >
 
       <Router>
-        {/* <Switch> */}
         {/* <Route exact path={ROUTES.HOME}> */}
 
         <Intro />
@@ -233,15 +230,14 @@ const App = () => {
             </ViewTransition>
           )}
         </Route>
-        {/* </Switch> */}
 
         {/* NAV */}
         <Navigation />
-        {/*  </Route> */}
+
       </Router>
 
     </AppContainer >
   );
-}
+});
 
 export default App;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, createRef } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App/index';
@@ -6,9 +6,11 @@ import * as serviceWorker from './serviceWorker';
 
 import { StateProvider } from './components/StateContext/index';
 
+const AppRef = createRef();
+
 ReactDOM.render(
     <StateProvider> {/* glooooobal state */}
-        <App />
+        <App ref={AppRef} />
     </StateProvider>,
     document.getElementById('root')
 );

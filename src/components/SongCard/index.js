@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import styled, { keyframes, css } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import atMedia from '../../AtMedia';
 import { StateContext } from '../StateContext';
 
@@ -48,21 +48,11 @@ export const songs = [
     }
 ];
 
-const appear = keyframes`{
-    0 % {
-        opacity: 0;
-        
-    }
-    100 % {
-        opactiy: 1;
-        
-    }
-}`;
 
 const SongCard = props => {
     // state
-    const { state, dispatch } = useContext(StateContext);
-    const { displayNav } = state;
+    const { state } = useContext(StateContext);
+    const { nav } = state;
 
     // props
     const key = props.num;
@@ -85,7 +75,7 @@ const SongCard = props => {
 
     // smoothing spotify's ugly iframe render glitch
     const loadHandler = (e) => {
-        if (!displayNav) {
+        if (!nav.display) {
             e.target.classList.add('appear');
         }
         document.querySelector('.loading').style.display = 'none';

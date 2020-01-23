@@ -2,17 +2,15 @@ import React, { useContext } from 'react';
 import { StateContext } from '../../StateContext';
 
 // shared
-import Title from '../../Title/index';
 import Follow from '../../Follow';
 import SongCard, { songs } from '../../SongCard/index';
 import UserMsg from '../../UserMsg';
 
 // funcs
-import * as FUNCS from '../../../logic/functions';
 
 // style
-import styled, { keyframes } from 'styled-components';
-import ViewTemplate, { Content, ContentContainer } from '../ViewTemplate';
+import styled from 'styled-components';
+import ViewTemplate from '../ViewTemplate';
 import './index.scss';
 
 const ListContainer = styled.div`
@@ -27,25 +25,17 @@ const SongList = () =>
         <SongCard song={song} key={nth} num={nth} />
     );
 
-const Loading = styled.p`
-    display: ${props => props.displayNav
-        ? 'block'
-        : 'block'
-    };
-`;
-
-
 
 const MusicView = props => {
     const { state } = useContext(StateContext);
-    const { displayNav } = state;
+    const { nav } = state;
 
     // always display loadingMsg before iframe load
     React.useEffect(() => {
-        if (!displayNav) {
+        if (!nav.display) {
             document.querySelector('.loading').style.display = 'block';
         }
-    }, [displayNav]);
+    }, [nav.display]);
 
     return (
         <>

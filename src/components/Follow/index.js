@@ -36,10 +36,10 @@ const FollowContainer = styled.div`
 
 const Follow = () => {
     const { state } = useContext(StateContext);
-    const { displayNav } = state;
+    const { nav } = state;
 
     const { tag, src, style } = artist;
-    const { frameBorder, allowtransparency, allow, width, height, scrolling, overflow } = artist.attrs;
+    const { frameBorder, allowtransparency, allow, width, height, scrolling } = artist.attrs;
 
     const FollowBtn = styled(tag)`
         width: ${props => props.width};
@@ -49,7 +49,7 @@ const Follow = () => {
 
     // smoothing spotify's ugly iframe render glitch
     const loadHandler = (e) => {
-        if (!displayNav) {
+        if (!nav.display) {
             e.target.classList.add('appear');
         }
     }

@@ -1,22 +1,22 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { StateContext } from '../StateContext';
 import { CSSTransition } from 'react-transition-group';
 import './index.scss';
 
 const NavTransition = props => {
     const { state, dispatch } = useContext(StateContext);
-    const { intro, activeView, displayNav } = state;
+    const { intro, activeView, nav } = state;
 
 
     const inProp = (() =>
-        displayNav && !intro.play
+        nav.display && !intro.play
             ? true : false
     )();
 
-    if (activeView === '' && !intro.play && !displayNav) {
+    if (activeView === '' && !intro.play && !nav.display) {
         dispatch({
-            type: 'toggleDisplayNav',
-            payload: true
+            type: 'nav',
+            payload: { display: true }
         });
     }
 

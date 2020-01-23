@@ -1,6 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import * as ROUTES from '../../constants/routes';
+import React, { useContext } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { CSSTransition } from 'react-transition-group';
 import './index.scss';
@@ -86,19 +84,19 @@ const NavToggle = props => {
     // global state/updater
     const { state, dispatch } = useContext(StateContext);
 
-    const { displayNav, historyStack, history, navAnimation } = state;
+    const { nav, historyStack } = state;
 
 
+    const toggleNav = () => {
+        dispatch({
+            type: 'nav',
+            payload: { display: !nav.display }
+        });
+    }
 
-    // toggle displayNav
-    const handleClick = () => {
-        // displayNav true (false is set on doc-click in app.js)
-        if (!displayNav) {
-            dispatch({
-                type: 'toggleDisplayNav',
-                payload: true
-            });
-        }
+    // toggle nav.display
+    const clickHandler = () => {
+        toggleNav();
     }
 
     // previous path in state
@@ -111,22 +109,17 @@ const NavToggle = props => {
         historyStack.prev.length <= 1 || prevPage === '/'
             ? true : false;
 
-
-    // animate icon: displayNav = enter, !displayNav = exit
-    const iconTransition = displayNav ? true : false;
-
-
     const Icon = styled(FontAwesomeIcon)``;
 
     return (
         <>
             <Btn
                 className='NavToggle'
-                onClick={handleClick}
+                onClick={clickHandler}
                 navToggleAnim={navToggleAnim}
             >
                 <CSSTransition
-                    in={displayNav}
+                    in={nav.display}
                     timeout={500}
                 >
                     <Icon icon={ICONS.faThLarge} className='NavToggleIcon' />

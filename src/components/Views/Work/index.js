@@ -1,13 +1,11 @@
 import React from 'react';
-import Title from '../../Title';
-import ViewTemplate, { Content, ContentContainer } from '../ViewTemplate';
+import ViewTemplate from '../ViewTemplate';
 import CaseCards from '../../CaseCard';
 
 const WorkView = props => {
     return (
         <React.Fragment>
             <ViewTemplate view='work'>
-                {/* <Title title='work' align='left' /> */}
                 <CaseCards />
             </ViewTemplate>
         </React.Fragment>

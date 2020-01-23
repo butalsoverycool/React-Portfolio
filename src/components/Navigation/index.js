@@ -1,19 +1,10 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import * as FUNCS from '../../logic/functions';
-
-// threejs/gsap
-/* import * as THREE from 'three';
-import { TweenMax, Power2, TimelineLite, TweenLite, Elastic } from "gsap"; */
-
-//import { Tween, Timeline } from 'react-gsap';
-//import gsap, { TweenMax, Utils } from "gsap";
+import React, { useContext } from 'react';
 
 //Context
 import { StateContext } from '../StateContext/index';
 
 // style 
-import styled, { keyframes } from 'styled-components';
-import * as KEYFRAMES from '../Keyframes';
+import styled from 'styled-components';
 import atMedia from '../../AtMedia';
 import './index.css';
 import '../NavTransition/index.scss';
@@ -23,12 +14,7 @@ import NavTransition from '../NavTransition';
 import HiddenNav from './HiddenNav';
 import NavLink from './NavLink';
 
-/**
- * transition: ${props => props.activeView === ''
-        ? 'opacity 3s, transform 1.5s cubic-bezier(.2,.1,0,1)'
-        : 'opacity .4s, transform .4s cubic-bezier(.2,.1,0,1)'
-    };
- */
+
 const NavigationStyled = styled.div`
     position: fixed;
     bottom: 0;
@@ -55,52 +41,18 @@ const NavigationStyled = styled.div`
 
 
 
-const Navigation = (props) => {
+const Navigation = () => {
     // global state/updater
-    const { state, dispatch } = useContext(StateContext);
+    const { state } = useContext(StateContext);
 
-    const { activeView, displayNav, delayDisplayNav } = state;
+    const { activeView, nav } = state;
 
     // check if link is active
     const isActive = (name) => name === activeView;
 
 
-    /* if (delayDisplayNav) {
-        dispatch({
-            type: 'delayDisplayNav',
-            payload: false
-        });
-
-        dispatch({
-            type: 'toggleDisplayNav',
-            payload: true
-        });
-
-        setTimeout(() => {
-            dispatch({
-                type: 'toggleDisplayNav',
-                payload: false
-            });
-        }, 100);
-    } */
-
-
-    /* // determine transitionSpeed
-    const speed = activeView === '' ? 'slow' : '';
-
-    let delayClass = delayDisplayNav ? 'delay' : 'none';
-
-    if (delayDisplayNav) {
-        setTimeout(() => {
-            dispatch({
-                type: 'delayDisplayNav',
-                payload: false
-            });
-        }, 400);
-    } */
-
     return (
-        <NavTransition displayNav={displayNav}>
+        <NavTransition>
             <NavigationStyled className={`Navigation`} {...state}>
                 <HiddenNav>
                     <NavLink

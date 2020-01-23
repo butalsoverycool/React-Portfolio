@@ -1,22 +1,25 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-
 
 export const initialState = {
     stateWasReset: false,
     freshState: true,
+    user: {
+        mobile: undefined,
+    },
     winSize: { w: window.innerWidth, h: window.innerHeight },
     historyStack: {
-        prev: [{ path: window.location.pathname, action: 'POP' }],
+        prev: [],
         next: [],
-        history: null
+        history: undefined
     },
     activeView: window.location.pathname.substring(1),
     intro: { play: false, ended: false },
-    displayNav: false,
-    navAnimation: window.location.pathname === '/'
-        ? { in: 'navFadeIn', out: 'navFadeOut' }
-        : { in: 'navRise', out: 'navFall' },
+    nav: {
+        display: false,
+        animation: window.location.pathname === '/'
+            ? { in: 'navFadeIn', out: 'navFadeOut' }
+            : { in: 'navRise', out: 'navFall' },
+    },
     scrolling: {
         bottom: false,
         scrollUp: false
@@ -68,6 +71,18 @@ const stateReducer = (state, action) => {
 
             return newState;
 
+        case 'user':
+            reducerMsg = `Updated state (${action.type}): `;
+
+            for (let prop in action.payload) {
+                newState.user[prop] = action.payload[prop];
+                reducerMsg += `${prop} = ${action.payload[prop]}, `;
+            }
+
+            console.log(reducerMsg);
+
+            return newState;
+
         case 'winSize':
             newState.winSize = action.payload;
 
@@ -75,10 +90,18 @@ const stateReducer = (state, action) => {
 
             return newState;
 
-        case 'historyStack':
+        case 'historyPush':
             newState.historyStack.prev.push(action.payload);
 
             console.log(`Updated state (${action.type}): path = ${action.payload.path}, action = ${action.payload.action}, scrollTop = ${action.payload.scrollTop}`);
+
+            console.log('HISTORY-STACK prev', newState.historyStack.prev);
+            return newState;
+
+        case 'historyPop':
+            newState.historyStack.prev.pop();
+
+            console.log(`Updated state (${action.type}): HISTORY: ${newState.historyStack.prev}`);
 
             return newState;
 
@@ -115,20 +138,19 @@ const stateReducer = (state, action) => {
 
             return newState;
 
-        case 'toggleDisplayNav':
+        case 'nav':
 
-            newState.displayNav = action.payload;
+            reducerMsg = `Updated state (${action.type}): `;
 
-            console.log(`Updated state (${action.type}): ${newState.displayNav}`);
+            for (let prop in action.payload) {
+                newState.nav[prop] = action.payload[prop];
+                reducerMsg += `${prop} = ${action.payload[prop]}, `;
+            }
 
-            return newState;
-
-        case 'navAnimation':
-            newState.navAnimation = action.payload;
-
-            console.log(`Updated state (${action.type}): IN: ${newState.navAnimation.in} OUT: ${newState.navAnimation.out}`);
+            console.log(reducerMsg);
 
             return newState;
+
         case 'scrolling':
             reducerMsg = `Updated state (${action.type}): `;
 

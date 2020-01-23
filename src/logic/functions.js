@@ -1,4 +1,5 @@
-import React from 'react';
+// temp*
+import axios from 'axios';
 
 // FUNC-GLOBALS
 let lastScrollTop = 0;
@@ -13,11 +14,11 @@ export const reachedTop = () => {
     return res >= 0;
 }
 
-export const reachedBottom = () => {
-    const res = document.querySelector('.ContentContainer').getBoundingClientRect().bottom;
-    const docHeight = document.querySelector('.ContentContainer').clientHeight;
-    console.log(res, 'doc-height', docHeight);
-    return res < 500 && docHeight > 500;
+export const reachedBottom = elem => {
+    const pos = elem.scrollTop;
+    const docHeight = elem.scrollHeight;
+    console.log('bottom', pos, 'height', docHeight);
+    return pos > docHeight - 700;
 }
 
 export const scrollingDown = (elem) => {
@@ -55,3 +56,19 @@ export const getCurrentView = () =>
 export const getLinkElem = (view) => document.querySelector(`.NavLink.${view}`);
 
 
+
+// temp* test POST-func with Axios
+const testPost = async input =>
+    axios.post(
+        '/backend',
+        input)
+        .then(res => res.data)
+        .catch(err => err);
+
+
+const testInput = {
+    name: 'Lord Voldemort',
+    work: 'Wizard',
+    birthyear: '19..'
+};
+//testPost(testInput);

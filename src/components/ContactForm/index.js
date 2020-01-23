@@ -1,11 +1,7 @@
 import React, { Component, useContext, useEffect, useRef } from 'react';
 import { StateContext } from '../StateContext';
-import ReactDOM from 'react-dom';
-import { SocialIcon } from 'react-social-icons';
 import atMedia from '../../AtMedia';
-
 import styled from 'styled-components';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as BRANDS from '@fortawesome/free-brands-svg-icons';
 import * as REGULAR from '@fortawesome/fontawesome-free-solid';
@@ -167,10 +163,10 @@ const Icon = styled(FontAwesomeIcon)`
 
 const ContactLinks = props => {
     const { state } = useContext(StateContext);
-    const { displayNav } = state;
+    const { nav } = state;
 
     const clickHandler = e => {
-        if (displayNav) {
+        if (nav.display) {
             return e.preventDefault();
         }
     }
@@ -211,25 +207,6 @@ const ContactForm = (props) => {
     const submitHandler = e => {
         e.preventDefault();
     }
-
-
-    /* let icons = document.querySelectorAll('a.social-icon');
-
-    for (let nth = 0; nth < icons.length; ++nth) {
-        let div = document.createElement('div');
-
-        div.className = icons[nth].className;
-        div.setAttribute('aria-label', icons[nth].getAttribute('aria-label'));
-        div.setAttribute('style', icons[nth].getAttribute('style'));
-        div.innerHTML = icons[nth].innerHTML;
-
-        icons[nth].parentNode.replaceChild(div, icons[nth]);
-    } */
-
-
-
-
-
 
 
     return (

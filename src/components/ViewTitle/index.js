@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { StateContext } from '../StateContext';
-//import { CSSTransition } from 'react-transition-group';
-//import './index.scss';
 
 // endframes
 import musicEndframe from '../../media/musicEndframe.png';
@@ -22,19 +20,13 @@ const TitleContainer = styled.div`
     position: relative;
 `;
 
-/* const TitleStyled = styled.img`
-    width: 100%;
-    position: absolute;
-    z-index: ${props => props.intro ? '-1' : '1'};
-`; */
-
 const Video = styled.video`
     width: 100%;
 `;
 
 
 const ViewTitle = (props) => {
-    const { state, dispatch } = useContext(StateContext);
+    const { state } = useContext(StateContext);
 
     const { activeView } = state;
 
@@ -65,16 +57,11 @@ const ViewTitle = (props) => {
         }
     })();
 
-
-
     let fakeProp = true;
 
     const toggleProp = () => {
         fakeProp = false;
     }
-
-
-
 
     return (
         <TitleContainer>
@@ -87,7 +74,6 @@ const ViewTitle = (props) => {
                 onEnded={toggleProp}
                 intro={fakeProp}
             />
-            {/* <TitleStyled src={src.endframe} className={`${view}Title Title`} intro={fakeProp} /> */}
         </TitleContainer>
     );
 }

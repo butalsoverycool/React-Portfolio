@@ -60,14 +60,14 @@ const CaseContent = styled.p`
 
 const CardList = (props) => {
     const { state, dispatch } = useContext(StateContext);
-    const { displayNav } = state;
+    const { nav } = state;
 
     // linking to external page
     const openExternal = (e, url) => {
         // dont go just yet
         e.preventDefault();
 
-        if (displayNav) return;
+        if (nav.display) return;
 
         // open new semi-functional broswer window
         let features = "menubar=no,location=no,resizable=yes,scrollbars=yes,status=yes";
@@ -97,15 +97,12 @@ const CardList = (props) => {
 
 }
 
-export default class CaseCards extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <CaseProvider>
-                <CardList />
-            </CaseProvider >
-        );
-    }
+const CaseCards = props => {
+    return (
+        <CaseProvider>
+            <CardList />
+        </CaseProvider >
+    );
 }
+
+export default CaseCards;

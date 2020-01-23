@@ -46,13 +46,13 @@ const NavLink = props => {
 
     // global state/updater
     const { state, dispatch } = useContext(StateContext);
-    const { activeView, displayNav, delayDisplayNav, intro, navAnimation, scrolling } = state;
+    const { activeView, intro, nav, scrolling } = state;
 
     // determine if link is active
     const isActive = view => activeView === view ? 'active' : '';
 
     // set active view in state
-    const handleClick = (e) => {
+    const clickHandler = e => {
 
         // update active view
         if (name !== activeView) {
@@ -68,15 +68,22 @@ const NavLink = props => {
         }
 
         // set navAnim to rise/fall versions
-        if (navAnimation.in !== 'navRise') {
-            dispatch({ type: 'navAnimation', payload: { in: 'navRise', out: 'navFall' } });
+        if (nav.animation.in !== 'navRise') {
+            dispatch({
+                type: 'nav', payload: {
+                    animation: {
+                        in: 'navRise',
+                        out: 'navFall'
+                    }
+                }
+            });
         }
 
-        // hide nav, (doc click handles navClose in app.js)
-        if (displayNav && activeView === '') {
+        // hide nav
+        if (nav.display) {
             dispatch({
-                type: 'toggleDisplayNav',
-                payload: false
+                type: 'nav',
+                payload: { display: false }
             });
         }
 
@@ -103,7 +110,7 @@ const NavLink = props => {
                     data-nav-key={navKey}
                     to={ROUTES[name.toUpperCase()]}
                     className={`NavLink ${name} ${isActive(name)}`}
-                    onClick={handleClick}
+                    onClick={clickHandler}
                 >
                     {content || name}
                 </LinkBtn>
