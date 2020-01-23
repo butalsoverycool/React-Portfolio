@@ -644,7 +644,11 @@ animInit = () => {
 	}
 
 	function render() {
-		renderer.render(scene, camera);
+		try {
+			renderer.render(scene, camera);
+		} catch (err) {
+			console.log('RENDER ERROR', err)
+		}
 	}
 
 
