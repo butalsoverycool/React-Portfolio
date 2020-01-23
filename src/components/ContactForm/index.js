@@ -146,18 +146,35 @@ const ContactLinkTitle = styled.p`
     height: 100%;
     line-height: 100px;
     margin: 0;
+    font-size: 1.4em;
 
     ${atMedia([{ key: 'max-width', val: '673px' }])`
         margin: 0;
     `}
+
+    ${atMedia([{ key: 'max-width', val: '450px' }])`
+        font-size: 1.2em;
+    `}
+
+    ${atMedia([{ key: 'max-width', val: '350px' }])`
+        font-size: 1em;
+    `}
 `;
 
 const Icon = styled(FontAwesomeIcon)`
-    font-size: 100px;
+    height: 100%; 
+    font-size: 5em;
     margin-right: 30px;
     opacity: .6;
     transition: .5s;
-    
+
+    ${atMedia([{ key: 'max-width', val: '450px' }])`
+        font-size: 3em;
+    `}
+
+    ${atMedia([{ key: 'max-width', val: '350px' }])`
+        font-size: 2em;
+    `}
 `;
 
 

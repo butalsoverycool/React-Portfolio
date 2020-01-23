@@ -1,5 +1,11 @@
 export const someTxt = [
-    `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+    `Allt började en gång för många år sedan. I en liten liten by långt ifrån Stockholm 
+    som hette Lund. Där växte en ung pojke upp. Pojken var speciell på så sätt
+    att han hade tålamod likt en vuxen. Han sparade det mesta utav sin veckopeng
+    och var noga med att lägga sig i tid och äta nyttigt. På andra sidan gatan bodde
+    en annan pojke som var helt annorlunda. Det var jag. 
+    
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
     incididunt ut labore et dolore magna aliqua. Sem integer vitae justo eget magna 
     fermentum iaculis eu. Tellus orci ac auctor augue mauris augue neque gravida. 
     Egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam nulla. 

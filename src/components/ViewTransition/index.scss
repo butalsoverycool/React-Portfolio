@@ -1,5 +1,5 @@
 $_left: translate3d(-50vw, 0px, 0px); 
-$top: translate3d(0px, -50vh, 0px); 
+$top: translate3d(0px, -100px, 0px); 
 $right: translate3d(50vw, 0px, 0px); 
 $bottom: translate3d(0px, 50vh, 0px); 
 $middle: translate3d(0px, 0px, 0px); 
@@ -12,11 +12,13 @@ $transformTime: 1000ms;
 $transitionDur: 2000ms;
 
 .view.enter {
+  filter: blur(10px);
   opacity: 0;
   transform: $top;
 }
 
 .view.enter-active {
+  filter: blur(0px);
   opacity: 1;
   transform: $middle;
   transition: 1000ms;

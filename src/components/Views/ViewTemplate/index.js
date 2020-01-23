@@ -8,7 +8,7 @@ import { someTxt } from './Lorem';
 
 
 const Paragraph = styled.p`
-    font-size: 1em;
+    font-size: 1.2em;
     text-align: left;
     line-height: 2em;
     padding: 10px 0px;
@@ -63,6 +63,7 @@ const ContentContainer = forwardRef((props, ref) => {
         hideNav();
     }
 
+
     return (
         <StyledContainer
             className='ContentContainer'
@@ -88,9 +89,9 @@ const ViewTemplate = props => {
     const viewCap = capitalize(activeView);
 
 
+
+
     const ContainerRef = createRef();
-
-
 
     return (
         <>
@@ -99,7 +100,7 @@ const ViewTemplate = props => {
                 activeView={activeView}
                 displayNav={nav.display}
             >
-                <ContentContainer ref={ContainerRef}>
+                <ContentContainer ref={ContainerRef} >
                     <ViewTitle view={props.view} />
                     {children}
                     <Lorem printLorem={printLorem} />

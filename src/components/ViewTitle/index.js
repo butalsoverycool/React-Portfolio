@@ -18,9 +18,10 @@ const TitleContainer = styled.div`
     width: 180px;
     height: 100px;
     position: relative;
+    margin: 70px 0;
 `;
 
-const Video = styled.video`
+const TitleIntro = styled.video`
     width: 100%;
 `;
 
@@ -65,7 +66,7 @@ const ViewTitle = (props) => {
 
     return (
         <TitleContainer>
-            <Video
+            <TitleIntro
                 src={src.intro}
                 type='video/mp4'
                 muted={true} autoPlay

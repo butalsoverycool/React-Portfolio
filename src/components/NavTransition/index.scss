@@ -41,13 +41,12 @@ $_transformSlow: 1500ms;
 .Navigation.exit {
   opacity: 1;
   transform: $_middle $_scaleDefault;
-  transition-duration: 2s;
 }
 
 .Navigation.exit-active {
   opacity: 0;
   transform: $_bottom;
-  transition-duration: 2s;
+  transition: 4s;
 }
 
 .Navigation.exit-done {

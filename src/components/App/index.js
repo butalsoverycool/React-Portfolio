@@ -31,10 +31,47 @@ import MusicView from '../Views/Music';
 import ContactView from '../Views/Contact';
 import ViewTransition from '../ViewTransition';
 
-
 // style
-import styled from 'styled-components';
 import '../ViewTransition/index.scss';
+import styled, { css, createGlobalStyle } from 'styled-components';
+import GlobalFont from '../../fonts';
+
+const GlobalStyle = () => {
+
+  const Style = createGlobalStyle`
+    .App {
+      font-family: 'JosefinSans-Bold', sans-serif;
+      font-size: 1.2em;
+    }
+  `;
+
+  return (
+    <>
+      <Style />
+      <GlobalFont />
+    </>
+  );
+
+}
+
+/**
+ * JosefinSans-Regular
+ * JosefinSans-Thin
+ * BoldItalic
+ * Italic
+ * Light
+ * LightItalic
+ * SemiBold
+ * SemiBoldItalic
+ * ThinItalic
+ */
+
+const fontFace = css`
+  
+`;
+
+
+
 
 const AppContainer = styled.div`
   position: relative;
@@ -100,6 +137,8 @@ const App = forwardRef((props, AppRef) => {
   /**
    * SCROLL
    *********/
+
+
 
   // Display nav if scrolled to bottom
   const displayNavAtBottom = elem => {
@@ -169,8 +208,9 @@ const App = forwardRef((props, AppRef) => {
 
   }
 
-  // Ears on App-scroll
+  // Ears on AppRef
   useEffect(() => {
+    // on scroll
     scrollHandler(AppRef.current)
   }, [AppRef.current]);
 
@@ -181,11 +221,15 @@ const App = forwardRef((props, AppRef) => {
       data-active-view={state.activeView}
       className="App"
     >
+      <GlobalStyle />
+
 
       <Router>
+        {/* <Switch> */}
         {/* <Route exact path={ROUTES.HOME}> */}
 
         <Intro />
+        {/* </Route> */}
 
 
         {/* VIEWS */}
@@ -231,9 +275,10 @@ const App = forwardRef((props, AppRef) => {
           )}
         </Route>
 
+
+        {/* </Switch> */}
         {/* NAV */}
         <Navigation />
-
       </Router>
 
     </AppContainer >
