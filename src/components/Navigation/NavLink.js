@@ -46,7 +46,7 @@ const NavLink = props => {
 
     // global state/updater
     const { state, dispatch } = useContext(StateContext);
-    const { activeView, intro, nav, scrolling } = state;
+    const { activeView, nav, scrolling } = state;
 
     // determine if link is active
     const isActive = view => activeView === view ? 'active' : '';
@@ -57,14 +57,6 @@ const NavLink = props => {
         // update active view
         if (name !== activeView) {
             dispatch({ type: 'activeView', payload: name });
-        }
-
-        // reset intro-status
-        if (intro.play || intro.ended) {
-            dispatch({
-                type: 'intro',
-                payload: { play: false, ended: false }
-            });
         }
 
         // set navAnim to rise/fall versions
@@ -87,7 +79,7 @@ const NavLink = props => {
             });
         }
 
-        // save scrollPos
+        /* // save scrollPos
         if (name !== activeView) {
             const elem = document.querySelector('.App');
             dispatch({ type: 'lastScrollPos', payload: elem.scrollTop });
@@ -99,7 +91,7 @@ const NavLink = props => {
                 type: 'scrolling',
                 payload: { scrollUp: true }
             });
-        }
+        } */
     }
 
 

@@ -140,7 +140,7 @@ const Intro = props => {
 
     return (
         <CSSTransition
-            in={intro.ended || activeView !== ''}
+            in={intro.ended}
             timeout={0}
         >
             <Container className='LogoContainer' condition={activeView === ''}>

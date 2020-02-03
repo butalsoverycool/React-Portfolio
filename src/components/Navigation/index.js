@@ -6,7 +6,6 @@ import { StateContext } from '../StateContext/index';
 // style 
 import styled from 'styled-components';
 import atMedia from '../../AtMedia';
-import './index.css';
 import '../NavTransition/index.scss';
 
 //children
@@ -19,8 +18,6 @@ const NavigationStyled = styled.div`
     position: fixed;
     bottom: 0;
     background: white;
-    
-   
 
     text-align: center;
     width: 100vw;

@@ -92,6 +92,7 @@ const ViewTemplate = props => {
 
 
     const ContainerRef = createRef();
+    const TitleRef = createRef();
 
     return (
         <>
@@ -101,7 +102,7 @@ const ViewTemplate = props => {
                 displayNav={nav.display}
             >
                 <ContentContainer ref={ContainerRef} >
-                    <ViewTitle view={props.view} />
+                    <ViewTitle ref={TitleRef} />
                     {children}
                     <Lorem printLorem={printLorem} />
                 </ContentContainer>

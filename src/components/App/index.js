@@ -22,6 +22,10 @@ import { reachedBottom } from '../../logic/functions';
 // Context Provider
 import { StateContext } from '../StateContext';
 
+//smoothscroll polyfill
+import smoothscroll from 'smoothscroll-polyfill';
+
+
 // shared
 import Navigation from '../Navigation';
 import Intro from '../Intro';
@@ -31,10 +35,19 @@ import MusicView from '../Views/Music';
 import ContactView from '../Views/Contact';
 import ViewTransition from '../ViewTransition';
 
+// temp
+import AjaxAxios from '../AjaxAxios';
+
 // style
 import '../ViewTransition/index.scss';
 import styled, { css, createGlobalStyle } from 'styled-components';
 import GlobalFont from '../../fonts';
+
+
+smoothscroll.polyfill();
+
+
+
 
 const GlobalStyle = () => {
 
@@ -54,25 +67,6 @@ const GlobalStyle = () => {
 
 }
 
-/**
- * JosefinSans-Regular
- * JosefinSans-Thin
- * BoldItalic
- * Italic
- * Light
- * LightItalic
- * SemiBold
- * SemiBoldItalic
- * ThinItalic
- */
-
-const fontFace = css`
-  
-`;
-
-
-
-
 const AppContainer = styled.div`
   position: relative;
   width: 100vw;
@@ -88,7 +82,7 @@ const AppContainer = styled.div`
 const App = forwardRef((props, AppRef) => {
   // app state/updater
   const { state, dispatch } = useContext(StateContext);
-  const { activeView, nav, scrolling, user } = state;
+  const { user, appRef } = state;
 
 
   /**
@@ -140,79 +134,92 @@ const App = forwardRef((props, AppRef) => {
 
 
 
-  // Display nav if scrolled to bottom
-  const displayNavAtBottom = elem => {
-    console.log('so displaying or nor?', nav.display);
-    // if at bottom + conditions... display nav
-    if (
-      reachedBottom(elem)
-      && activeView !== ''
-      && !isMobile
-    ) {
-
-      if (!scrolling.bottom) {
-
-        dispatch({
-          type: 'scrolling',
-          payload: { bottom: true }
-        })
-
-        dispatch({
-          type: 'nav',
-          payload: { display: true }
-        })
-
+  /*   // Display nav if scrolled to bottom
+    const displayNavAtBottom = elem => {
+      // if at bottom + conditions... display nav
+      if (
+        reachedBottom(elem)
+        && activeView !== ''
+        && !isMobile
+      ) {
+  
+        if (!scrolling.bottom) {
+  
+          dispatch({
+            type: 'scrolling',
+            payload: { bottom: true }
+          })
+  
+          dispatch({
+            type: 'nav',
+            payload: { display: true }
+          })
+  
+        }
+  
+        // if not at bottom or conditions... hide nav
+      } else {
+  
+        if (scrolling.bottom) {
+          dispatch({
+            type: 'scrolling',
+            payload: { bottom: false }
+          })
+  
+          dispatch({
+            type: 'nav',
+            payload: { display: false }
+          })
+  
+        }
+  
       }
+    }
+  
+  
+    // Handle App-scroll
+    const scrollHandler = (elem, timeout = 500) => {
+  
+      let doWhenDone;
+  
+      elem.onscroll = () => {
+        console.log('Waiting for scroll to finish...');
+  
+        // clear the doWhenDone that was set in previous resize-handler-run
+        //...(if not more than 500ms ago)
+        clearTimeout(doWhenDone);
+  
+        // if no resizing happend the last 500ms, do doWhenDone :)
+        doWhenDone = setTimeout(() => {
+  
+          displayNavAtBottom(elem);
+  
+        }, timeout);
+  
+      };
+  
+    }
 
-      // if not at bottom or conditions... hide nav
-    } else {
+    */
 
-      if (scrolling.bottom) {
-        dispatch({
-          type: 'scrolling',
-          payload: { bottom: false }
-        })
-        console.log('should remove nav', nav.display);
+  // AppRef in state
+  useEffect(() => {
+    if (appRef.ref === undefined) {
+      dispatch({
+        type: 'appRef',
+        payload: {
+          ref: AppRef.current
+        }
+      });
+    }
+  }, [AppRef.current]);
 
-        dispatch({
-          type: 'nav',
-          payload: { display: false }
-        })
-
-      }
+  if (appRef.ref && AppRef.current) {
+    if (appRef.ref.scrollTop !== appRef.setScrollY) {
 
     }
   }
 
-
-  // Handle App-scroll
-  const scrollHandler = (elem, timeout = 500) => {
-
-    let doWhenDone;
-
-    elem.onscroll = () => {
-      console.log('Waiting for scroll to finish...');
-
-      // clear the doWhenDone that was set in previous resize-handler-run
-      //...(if not more than 500ms ago)
-      clearTimeout(doWhenDone);
-
-      // if no resizing happend the last 500ms, do doWhenDone :)
-      doWhenDone = setTimeout(() => {
-
-        displayNavAtBottom(elem);
-
-      }, timeout);
-
-    };
-
-  }
-
-  // Ears on AppRef
-  useEffect(() => {
-    // on scroll
-    scrollHandler(AppRef.current)
-  }, [AppRef.current]);
 
 
   return (
@@ -225,12 +232,7 @@ const App = forwardRef((props, AppRef) => {
 
 
       <Router>
-        {/* <Switch> */}
-        {/* <Route exact path={ROUTES.HOME}> */}
-
         <Intro />
-        {/* </Route> */}
-
 
         {/* VIEWS */}
 
@@ -275,12 +277,11 @@ const App = forwardRef((props, AppRef) => {
           )}
         </Route>
 
-
-        {/* </Switch> */}
-        {/* NAV */}
         <Navigation />
-      </Router>
 
+        {/* TEMP AJAX-view */}
+        <Route exact path={'/ajax'} component={AjaxAxios} />
+      </Router>
     </AppContainer >
   );
 });

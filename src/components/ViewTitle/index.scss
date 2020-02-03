@@ -1,0 +1,15 @@
+.TitleIntro.enter {
+    opacity: 0;
+}
+
+.TitleIntro.enter-active {
+    opacity: 1;
+}
+
+.TitleIntro.exit,
+.TitleIntro.exit-active,
+.TitleIntro.exit-done,
+.TitleIntro.enter-done {
+    opacity: 1;
+}
+

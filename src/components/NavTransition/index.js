@@ -8,10 +8,8 @@ const NavTransition = props => {
     const { intro, activeView, nav } = state;
 
 
-    const inProp = (() =>
-        nav.display && !intro.play
-            ? true : false
-    )();
+    const inProp = nav.display && (!intro.play || activeView !== '')
+        ? true : false;
 
     if (activeView === '' && !intro.play && !nav.display) {
         dispatch({

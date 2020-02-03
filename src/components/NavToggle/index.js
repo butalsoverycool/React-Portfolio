@@ -6,10 +6,8 @@ import atMedia from '../../AtMedia';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as ICONS from '@fortawesome/fontawesome-free-solid';
 
-
 // Context
 import { StateContext } from '../StateContext/index';
-
 
 const riseUp = keyframes`
     0%{
@@ -28,7 +26,6 @@ const toLeft = keyframes`
         transform: translate3d(0, 0, 0);
     }
 `;
-
 
 const Btn = styled.div`
     z-index: 2;
@@ -78,7 +75,6 @@ const Btn = styled.div`
         };
     `}; 
 `;
-
 
 const NavToggle = props => {
     // global state/updater

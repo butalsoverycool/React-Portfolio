@@ -3,6 +3,10 @@ import React from 'react';
 export const initialState = {
     stateWasReset: false,
     freshState: true,
+    appRef: {
+        ref: undefined,
+        setScrollY: 0
+    },
     user: {
         mobile: undefined,
     },
@@ -14,6 +18,7 @@ export const initialState = {
     },
     activeView: window.location.pathname.substring(1),
     intro: { play: false, ended: false },
+    titleIntro: { play: false, ended: false },
     nav: {
         display: false,
         animation: window.location.pathname === '/'
@@ -28,7 +33,7 @@ export const initialState = {
 
 // State updater
 const stateReducer = (state, action) => {
-    console.log('CALLING REDUCER');
+    console.log('REDUCER...');
 
     // default = prev state
     let newState = {};
@@ -38,7 +43,7 @@ const stateReducer = (state, action) => {
 
     if (newState.freshState) {
         newState.freshState = false;
-        console.log(`Updated state (freshState): false`);
+        console.log(`(FreshState is now false)`);
     }
 
 
@@ -71,6 +76,18 @@ const stateReducer = (state, action) => {
 
             return newState;
 
+        case 'appRef':
+            reducerMsg = `Updated state (${action.type}): `;
+
+            for (let prop in action.payload) {
+                newState.appRef[prop] = action.payload[prop];
+                reducerMsg += `${prop} = ${action.payload[prop]}, `;
+            }
+
+            console.log(reducerMsg);
+
+            return newState;
+
         case 'user':
             reducerMsg = `Updated state (${action.type}): `;
 
@@ -95,7 +112,6 @@ const stateReducer = (state, action) => {
 
             console.log(`Updated state (${action.type}): path = ${action.payload.path}, action = ${action.payload.action}, scrollTop = ${action.payload.scrollTop}`);
 
-            console.log('HISTORY-STACK prev', newState.historyStack.prev);
             return newState;
 
         case 'historyPop':
@@ -131,6 +147,18 @@ const stateReducer = (state, action) => {
 
             for (let status in action.payload) {
                 newState.intro[status] = action.payload[status];
+                reducerMsg += `${status} = ${action.payload[status]}, `;
+            }
+
+            console.log(reducerMsg);
+
+            return newState;
+
+        case 'titleIntro':
+            reducerMsg = `Updated state (${action.type}): `;
+
+            for (let status in action.payload) {
+                newState.titleIntro[status] = action.payload[status];
                 reducerMsg += `${status} = ${action.payload[status]}, `;
             }
 

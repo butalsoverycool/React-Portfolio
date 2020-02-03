@@ -1,6 +1,16 @@
 // temp*
 import axios from 'axios';
 
+// temp* test POST-func with Axios
+export const axiosPost = async input =>
+    axios.post(
+        '/backend',
+        input)
+        .then(res => res.data)
+        .catch(err => err);
+
+//axiosPost(testInput);
+
 // FUNC-GLOBALS
 let lastScrollTop = 0;
 
@@ -57,18 +67,3 @@ export const getLinkElem = (view) => document.querySelector(`.NavLink.${view}`);
 
 
 
-// temp* test POST-func with Axios
-const testPost = async input =>
-    axios.post(
-        '/backend',
-        input)
-        .then(res => res.data)
-        .catch(err => err);
-
-
-const testInput = {
-    name: 'Lord Voldemort',
-    work: 'Wizard',
-    birthyear: '19..'
-};
-//testPost(testInput);

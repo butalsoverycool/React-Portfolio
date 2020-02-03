@@ -1,5 +1,10 @@
-import React, { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { StateContext } from '../StateContext';
+
+//smoothscroll polyfill
+import smoothscroll from 'smoothscroll-polyfill';
+
+
 
 const Location = props => {
 
@@ -7,7 +12,7 @@ const Location = props => {
 
     const { match, location, history, children } = props;
 
-    const { stateWasReset, historyStack } = state;
+    const { appRef, historyStack, activeView, intro } = state;
 
     let lastPrev = historyStack.prev.length > 0
         ? historyStack.prev[historyStack.prev.length - 1].path
@@ -15,7 +20,6 @@ const Location = props => {
 
     let current = history.location.pathname;
 
-    console.log('lastPrev', lastPrev, 'current', current)
     if (lastPrev === undefined || lastPrev !== current) {
         //if pop and different and lastPrev !== undefined arr.pop() historyStack
         if (history.action === 'POP'
@@ -34,8 +38,37 @@ const Location = props => {
                     action: history.action
                 }
             });
+
+            if (appRef.ref) {
+                smoothscroll.polyfill();
+                console.log('AppRef', appRef.ref.scrollTop, 'appRef', appRef.setScrollY)
+                if (appRef.ref.scrollTop !== appRef.setScrollY) {
+                    console.log('scrolling', appRef.ref);
+                    appRef.ref.scrollBy({
+                        top: 0,
+                        behavior: 'smooth'
+                    }); // hm not working...
+                    appRef.ref.scrollTop = 0;
+
+                    console.log('AppRef', appRef.ref.scrollTop, 'appRef', appRef.setScrollY)
+                }
+            }
         }
     }
+
+    // reset intro-status
+    if ((intro.play || intro.ended) && activeView !== '') {
+        dispatch({
+            type: 'intro',
+            payload: { play: false, ended: false }
+        });
+    }
+
+    // app scroll up?
+
+
+
+
 
     return ('');
 }

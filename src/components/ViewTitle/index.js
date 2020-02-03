@@ -1,6 +1,8 @@
-import React, { useContext } from 'react';
+import React, { forwardRef, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { StateContext } from '../StateContext';
+import { CSSTransition } from 'react-transition-group';
+import './index.scss';
 
 // endframes
 import musicEndframe from '../../media/musicEndframe.png';
@@ -23,15 +25,15 @@ const TitleContainer = styled.div`
 
 const TitleIntro = styled.video`
     width: 100%;
+    opacity: 0;
+    transition: 3s;
 `;
 
 
-const ViewTitle = (props) => {
-    const { state } = useContext(StateContext);
+const ViewTitle = forwardRef((props, ref) => {
+    const { state, dispatch } = useContext(StateContext);
 
-    const { activeView } = state;
-
-    const { view } = props;
+    const { activeView, titleIntro } = state;
 
     const src = (() => {
         switch (activeView) {
@@ -58,25 +60,51 @@ const ViewTitle = (props) => {
         }
     })();
 
-    let fakeProp = true;
+    const playHandler = () => {
+        if (!titleIntro.play) {
+            dispatch({
+                type: 'titleIntro',
+                payload: {
+                    play: true,
+                    ended: false
+                }
+            })
+        }
+    }
 
-    const toggleProp = () => {
-        fakeProp = false;
+    const endHandler = () => {
+        if (titleIntro.play && !titleIntro.ended) {
+            dispatch({
+                type: 'titleIntro',
+                payload: {
+                    play: false,
+                    ended: true
+                }
+            })
+        }
     }
 
     return (
         <TitleContainer>
-            <TitleIntro
-                src={src.intro}
-                type='video/mp4'
-                muted={true} autoPlay
-                loop={false} playsInline={true}
-                className={`${view}Intro TitleIntro`}
-                onEnded={toggleProp}
-                intro={fakeProp}
-            />
+            <CSSTransition
+                in={titleIntro.play && !titleIntro.ended}
+                timeout={400}
+            >
+                <TitleIntro
+                    ref={ref}
+                    src={src.intro}
+                    type='video/mp4'
+                    muted={true}
+                    autoPlay
+                    loop={false}
+                    playsInline={true}
+                    className={`${activeView}Intro TitleIntro`}
+                    onPlay={playHandler}
+                    onEnded={endHandler}
+                />
+            </CSSTransition>
         </TitleContainer>
     );
-}
+});
 
 export default ViewTitle;
