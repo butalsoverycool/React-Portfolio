@@ -1,214 +1,213 @@
-import React from 'react';
+import React from "react";
 
 export const initialState = {
-    stateWasReset: false,
-    freshState: true,
-    appRef: {
-        ref: undefined,
-        setScrollY: 0
-    },
-    user: {
-        mobile: undefined,
-    },
-    winSize: { w: window.innerWidth, h: window.innerHeight },
-    historyStack: {
-        prev: [],
-        next: [],
-        history: undefined
-    },
-    activeView: window.location.pathname.substring(1),
-    intro: { play: false, ended: false },
-    titleIntro: { play: false, ended: false },
-    nav: {
-        display: false,
-        animation: window.location.pathname === '/'
-            ? { in: 'navFadeIn', out: 'navFadeOut' }
-            : { in: 'navRise', out: 'navFall' },
-    },
-    scrolling: {
-        bottom: false,
-        scrollUp: false
-    }
+  stateWasReset: false,
+  freshState: true,
+  appRef: {
+    ref: undefined,
+    setScrollY: 0
+  },
+  user: {
+    mobile: undefined
+  },
+  winSize: { w: window.innerWidth, h: window.innerHeight },
+  historyStack: {
+    prev: [],
+    next: [],
+    history: undefined
+  },
+  activeView: window.location.pathname.substring(1),
+  intro: { play: false, ended: false },
+  titleIntro: { play: false, ended: false },
+  nav: {
+    display: false,
+    animation:
+      window.location.pathname === "/"
+        ? { in: "navFadeIn", out: "navFadeOut" }
+        : { in: "navRise", out: "navFall" }
+  },
+  scrolling: {
+    bottom: false,
+    scrollUp: false
+  }
 };
 
 // State updater
 const stateReducer = (state, action) => {
-    console.log('REDUCER...');
+  // default = prev state
+  let newState = {};
+  for (let prop in state) {
+    newState[prop] = state[prop];
+  }
 
-    // default = prev state
-    let newState = {};
-    for (let prop in state) {
-        newState[prop] = state[prop];
-    }
+  if (newState.freshState) {
+    newState.freshState = false;
+  }
 
-    if (newState.freshState) {
-        newState.freshState = false;
-        console.log(`(FreshState is now false)`);
-    }
+  let reducerMsg = "";
 
+  // update state according to given action type/payload
+  switch (action.type) {
+    // wip/phase out
+    case "resetState":
+      for (let prop in initialState) {
+        if (prop != "historyStack") {
+          newState[prop] = initialState[prop];
+        }
+      }
 
-    let reducerMsg = '';
+      //console.log(`Resetting state...(except history)`);
 
-    // update state according to given action type/payload
-    switch (action.type) {
-        case 'resetState':
-            for (let prop in initialState) {
-                if (prop != 'historyStack') {
-                    newState[prop] = initialState[prop];
-                }
-            }
+      return newState;
 
-            console.log(`Resetting state...(except history)`);
+    case "stateWasReset":
+      // wip/phase out
+      newState.stateWasReset = action.payload;
 
-            return newState;
+      //console.log(`Updated state (${action.type}): ${newState[action.payload]}`);
 
-        case 'stateWasReset':
-            newState.stateWasReset = action.payload;
+      return newState;
 
-            console.log(`Updated state (${action.type}): ${newState[action.payload]}`);
+    case "freshState":
+      // wip/phase out
+      newState.freshState = action.payload;
 
-            return newState;
+      //console.log(`Updated state (${action.type}): ${newState.freshState}`);
 
-        case 'freshState':
-            newState.freshState = action.payload;
+      return newState;
 
-            console.log(`Updated state (${action.type}): ${newState.freshState}`);
+    case "appRef":
+      reducerMsg = `Updated state (${action.type}): `;
 
-            return newState;
+      for (let prop in action.payload) {
+        newState.appRef[prop] = action.payload[prop];
+        reducerMsg += `${prop} = ${action.payload[prop]}, `;
+      }
 
-        case 'appRef':
-            reducerMsg = `Updated state (${action.type}): `;
+      //console.log(reducerMsg);
 
-            for (let prop in action.payload) {
-                newState.appRef[prop] = action.payload[prop];
-                reducerMsg += `${prop} = ${action.payload[prop]}, `;
-            }
+      return newState;
 
-            console.log(reducerMsg);
+    case "user":
+      reducerMsg = `Updated state (${action.type}): `;
 
-            return newState;
+      for (let prop in action.payload) {
+        newState.user[prop] = action.payload[prop];
+        reducerMsg += `${prop} = ${action.payload[prop]}, `;
+      }
 
-        case 'user':
-            reducerMsg = `Updated state (${action.type}): `;
+      //console.log(reducerMsg);
 
-            for (let prop in action.payload) {
-                newState.user[prop] = action.payload[prop];
-                reducerMsg += `${prop} = ${action.payload[prop]}, `;
-            }
+      return newState;
 
-            console.log(reducerMsg);
+    case "winSize":
+      newState.winSize = action.payload;
 
-            return newState;
+      //console.log(`Updated state (${action.type}): ${newState.winSize.w} x ${newState.winSize.h}`);
 
-        case 'winSize':
-            newState.winSize = action.payload;
+      return newState;
 
-            console.log(`Updated state (${action.type}): ${newState.winSize.w} x ${newState.winSize.h}`);
+    case "historyPush":
+      newState.historyStack.prev.push(action.payload);
 
-            return newState;
+      //console.log(`Updated state (${action.type}): path = ${action.payload.path}, action = ${action.payload.action}, scrollTop = ${action.payload.scrollTop}`);
 
-        case 'historyPush':
-            newState.historyStack.prev.push(action.payload);
+      return newState;
 
-            console.log(`Updated state (${action.type}): path = ${action.payload.path}, action = ${action.payload.action}, scrollTop = ${action.payload.scrollTop}`);
+    case "historyPop":
+      newState.historyStack.prev.pop();
 
-            return newState;
+      //console.log(`Updated state (${action.type}): HISTORY: ${newState.historyStack.prev}`);
 
-        case 'historyPop':
-            newState.historyStack.prev.pop();
+      return newState;
 
-            console.log(`Updated state (${action.type}): HISTORY: ${newState.historyStack.prev}`);
+    case "routeHistory":
+      newState.historyStack.history = action.payload;
 
-            return newState;
+      //console.log(`Updated state (${action.type}): ${action.payload}`);
 
-        case 'routeHistory':
-            newState.historyStack.history = action.payload;
+      return newState;
 
-            console.log(`Updated state (${action.type}): ${action.payload}`);
+    case "lastScrollPos":
+      newState.historyStack.lastScrollPos = action.payload;
 
-            return newState;
+      //console.log(`Updated state (${action.type}): ${action.payload}`);
 
-        case 'lastScrollPos':
-            newState.historyStack.lastScrollPos = action.payload;
+      return newState;
 
-            console.log(`Updated state (${action.type}): ${action.payload}`);
+    case "activeView":
+      newState.activeView = action.payload;
 
-            return newState;
+      //console.log(`Updated state (${action.type}): ${action.payload}`);
 
-        case 'activeView':
-            newState.activeView = action.payload;
+      return newState;
 
-            console.log(`Updated state (${action.type}): ${action.payload}`);
+    case "intro":
+      reducerMsg = `Updated state (${action.type}): `;
 
-            return newState;
+      for (let status in action.payload) {
+        newState.intro[status] = action.payload[status];
+        reducerMsg += `${status} = ${action.payload[status]}, `;
+      }
 
-        case 'intro':
-            reducerMsg = `Updated state (${action.type}): `;
+      //console.log(reducerMsg);
 
-            for (let status in action.payload) {
-                newState.intro[status] = action.payload[status];
-                reducerMsg += `${status} = ${action.payload[status]}, `;
-            }
+      return newState;
 
-            console.log(reducerMsg);
+    case "titleIntro":
+      reducerMsg = `Updated state (${action.type}): `;
 
-            return newState;
+      for (let status in action.payload) {
+        newState.titleIntro[status] = action.payload[status];
+        reducerMsg += `${status} = ${action.payload[status]}, `;
+      }
 
-        case 'titleIntro':
-            reducerMsg = `Updated state (${action.type}): `;
+      //console.log(reducerMsg);
 
-            for (let status in action.payload) {
-                newState.titleIntro[status] = action.payload[status];
-                reducerMsg += `${status} = ${action.payload[status]}, `;
-            }
+      return newState;
 
-            console.log(reducerMsg);
+    case "nav":
+      reducerMsg = `Updated state (${action.type}): `;
 
-            return newState;
+      for (let prop in action.payload) {
+        newState.nav[prop] = action.payload[prop];
+        reducerMsg += `${prop} = ${action.payload[prop]}, `;
+      }
 
-        case 'nav':
+      //console.log(reducerMsg);
 
-            reducerMsg = `Updated state (${action.type}): `;
+      return newState;
 
-            for (let prop in action.payload) {
-                newState.nav[prop] = action.payload[prop];
-                reducerMsg += `${prop} = ${action.payload[prop]}, `;
-            }
+    case "scrolling":
+      reducerMsg = `Updated state (${action.type}): `;
 
-            console.log(reducerMsg);
+      for (let prop in action.payload) {
+        newState.scrolling[prop] = action.payload[prop];
+        reducerMsg += `${prop} = ${action.payload[prop]}, `;
+      }
 
-            return newState;
+      //console.log(reducerMsg);
 
-        case 'scrolling':
-            reducerMsg = `Updated state (${action.type}): `;
+      return newState;
 
-            for (let prop in action.payload) {
-                newState.scrolling[prop] = action.payload[prop];
-                reducerMsg += `${prop} = ${action.payload[prop]}, `;
-            }
+    default:
+      //console.log("Action type undefined. Keeping prev state.");
 
-            console.log(reducerMsg);
-
-            return newState;
-
-        default:
-            console.log('Action type undefined. Keeping prev state.');
-
-            return state;
-    }
-}
+      return state;
+  }
+};
 
 const StateContext = React.createContext(initialState);
 
 const StateProvider = props => {
-    const [state, dispatch] = React.useReducer(stateReducer, initialState);
+  const [state, dispatch] = React.useReducer(stateReducer, initialState);
 
-    return (
-        // sending the state and its updater-func with the provider-component wrapping App
-        <StateContext.Provider value={{ state, dispatch }}>
-            {props.children}
-        </StateContext.Provider>
-    );
-}
+  return (
+    // sending the state and its updater-func with the provider-component wrapping App
+    <StateContext.Provider value={{ state, dispatch }}>
+      {props.children}
+    </StateContext.Provider>
+  );
+};
 
 export { StateContext, StateProvider };
