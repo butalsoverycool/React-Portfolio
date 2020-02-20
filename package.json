@@ -2,6 +2,7 @@
   "name": "portfolio_kim_nkoubou",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://kiiim.se",
   "dependencies": {
     "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
